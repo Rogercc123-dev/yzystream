@@ -1,29 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YZY STREAM</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YZY STREAM</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="timer"></div>
-  <p>If you’re Ye or part of the team — this domain’s yours. Let’s talk.</p>
+    <h1>YZY STREAM</h1>
+    
+    <div id="clock">00:00:00 - 00/00/0000</div>
+    
+    <p>
+        This domain is reserved for the official YZY STREAM platform.
+    </p>
+    
+    <p>
+        If you are Ye or part of Ye's team, please reach out. 
+        I'm a student trying to pay for tuition and would appreciate your help.
+    </p>
+    
+    <p class="contact">
+        Contact: <span class="email">your-email@gmail.com</span>
+    </p>
+    
+    <p class="footer">
+        &copy; 2025 | yzystream.com
+    </p>
 
-  <script>
-    function updateTime() {
-      const now = new Date();
-      const formatted = now.toLocaleString('en-US', {
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', second: '2-digit',
-        hour12: false
-      });
-      document.getElementById('timer').textContent = formatted;
-    }
-
-    setInterval(updateTime, 1000);
-    updateTime();
-  </script>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            document.getElementById('clock').textContent = 
+                `${hours}:${minutes}:${seconds} - ${month}/${day}/${year}`;
+            
+            setTimeout(updateClock, 1000);
+        }
+        
+        updateClock();
+    </script>
 </body>
 </html>
