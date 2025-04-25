@@ -3,13 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YZY Stream</title>
+  <title>YZY STREAM</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <div class="timer" id="timer"></div>
+
   <div class="container">
     <h1>YZY STREAM</h1>
     <p>Coming soon.</p>
+    <p class="note">If you’re Ye or part of the team — this domain’s yours. Let’s talk.</p>
   </div>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const formatted = now.toLocaleString('en-US', {
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+        hour12: false
+      });
+      document.getElementById('timer').textContent = formatted;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
 </body>
 </html>
