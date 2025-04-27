@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | YZY STREAM</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Frequently Asked Questions</h1>
+    
+    <h2>What is YZY STREAM?</h2>
+    <p>
+        YZY STREAM is an independent fan-run website that helps track Kanye West (Ye) live streams across different platforms such as YouTube, Twitch, Kick, and X (Twitter).
+    </p>
+
+    <h2>Is Kanye officially involved with this site?</h2>
+    <p>
+        No, YZY STREAM is not officially affiliated with Kanye West, his management, or any related entities. If Ye or his team wishes to connect, they are welcome to reach out.
+    </p>
+
+    <h2>How does it work?</h2>
+    <p>
+        When Kanye goes live on platforms like YouTube, X, or others, we aim to quickly update and embed the stream or link it here. Our goal is to make it easier for fans to stay updated.
+    </p>
+
+    <h2>Will this site eventually host exclusive content?</h2>
+    <p>
+        Possibly! If there are developments or official partnerships in the future, the site will evolve to support new content.
+    </p>
+
+    <h2>How can I contact the owner?</h2>
+    <p>
+        For inquiries, you can email <b>yzystream1@gmail.com</b>.
+    </p>
+
+    <p class="footer">
+        &copy; 2025 | YZY STREAM
+    </p>
+
+</body>
+</html>
