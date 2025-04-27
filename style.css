@@ -1,7 +1,7 @@
 /* General */
 body {
-    background: #1a1a1a;
-    color: #ffffff;
+    background: #ffffff;
+    color: #000000;
     font-family: 'IBM Plex Sans', sans-serif;
     text-align: center;
     margin: 0;
@@ -34,7 +34,7 @@ p {
 .footer, .footer a {
     font-size: 14px;
     opacity: 0.6;
-    color: #ffffff;
+    color: #000000;
     text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ p {
 #gallery-button {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
+    color: #000000;
     background: none;
     border: none;
     text-decoration: underline;
@@ -92,8 +92,8 @@ p {
 #submission-form input[type="text"], #submission-form input[type="file"] {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
-    background: #333;
+    color: #000000;
+    background: #f0f0f0;
     border: none;
     padding: 8px;
     margin: 5px 0;
@@ -107,7 +107,7 @@ p {
 #submission-submit {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
+    color: #000000;
     background: none;
     border: none;
     text-decoration: underline;
@@ -149,8 +149,8 @@ p {
 #album-ranking select {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
-    background: #333;
+    color: #000000;
+    background: #f0f0f0;
     border: none;
     padding: 8px;
     margin: 5px 0;
@@ -161,7 +161,7 @@ p {
 #album-submit {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
+    color: #000000;
     background: none;
     border: none;
     text-decoration: underline;
@@ -213,8 +213,8 @@ p {
 #song-ranking select {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
-    background: #333;
+    color: #000000;
+    background: #f0f0f0;
     border: none;
     padding: 8px;
     margin: 5px 0;
@@ -225,7 +225,7 @@ p {
 #song-submit {
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 16px;
-    color: #ffffff;
+    color: #000000;
     background: none;
     border: none;
     text-decoration: underline;
@@ -243,7 +243,7 @@ p {
 }
 
 #song-leaderboard div {
-    font-size:N/A 16px;
+    font-size: 16px;
     margin: 5px 0;
     opacity: 0.7;
 }
