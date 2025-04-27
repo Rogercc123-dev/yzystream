@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632" crossorigin="anonymous"></script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com; style-src 'self' https://cdnjs.cloudflare.com;">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,23 +26,50 @@
         Contact: <span class="email">yzystream1@gmail.com</span>
     </p>
     
-    <!-- Video Player Section -->
-    <section id="video-player">
-        <h2>LIVE STREAM</h2>
-        <div id="player-container">
-            <p id="player-status">Checking for live streams...</p>
+    <!-- Fan Art Gallery -->
+    <section id="yzy-gallery">
+        <h2>YZY FAN ART</h2>
+        <div id="gallery-container">
+            <div id="gallery-image">
+                <img id="fan-art" src="" alt="YZY Fan Art" loading="lazy">
+            </div>
+            <button id="gallery-button">Show another random user image</button>
+            <div id="submission-form">
+                <h3>Submit Your Fan Art</h3>
+                <p id="submission-status"></p>
+                <input type="text" id="art-title" placeholder="Art Title" maxlength="50">
+                <input type="text" id="art-artist" placeholder="Artist Name (optional)" maxlength="50">
+                <input type="file" id="art-file" accept="image/jpeg,image/png">
+                <button id="submission-submit">Upload Art</button>
+            </div>
         </div>
     </section>
     
-    <!-- X Post Section -->
-    <section id="x-post">
-        <h2>LATEST X POST</h2>
-        <div id="post-container">
-            <p id="post-status">Loading latest post...</p>
-            <div id="post-content" style="display: none;">
-                <p id="post-text"></p>
-                <p id="post-date"></p>
+    <!-- Album Voting -->
+    <section id="album-voting">
+        <h2>FAVORITE KANYE ALBUM</h2>
+        <div id="album-container">
+            <div id="album-form" style="display: none;">
+                <p>Rank your top 12 Kanye albums (1 = favorite):</p>
+                <div id="album-ranking"></div>
+                <button id="album-submit">Submit Album Votes</button>
             </div>
+            <div id="album-leaderboard"></div>
+            <p id="album-status">Loading albums...</p>
+        </div>
+    </section>
+    
+    <!-- Song Voting -->
+    <section id="song-voting">
+        <h2>FAVORITE KANYE SONG</h2>
+        <div id="song-container">
+            <div id="song-form" style="display: none;">
+                <p>Rank your top 12 Kanye songs (1 = favorite):</p>
+                <div id="song-ranking"></div>
+                <button id="song-submit">Submit Song Votes</button>
+            </div>
+            <div id="song-leaderboard"></div>
+            <p id="song-status">Loading songs...</p>
         </div>
     </section>
     
