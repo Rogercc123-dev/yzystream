@@ -1,62 +1,53 @@
-// DOM Elements
-const playerContainer = document.getElementById('player-container');
-const playerStatus = document.getElementById('player-status');
+const bearerToken = 'AAAAAAAAAAAAAAAAAAAAAO7gygEAAAAAvlFqidFP2LEDedgb7L78%2Bfa2uNE%3DpWuOeRzLaGVc6DLLxo39IELbGN9vjgDOWzAI8yao20frCQ3fiF'; // Replace with your X API Bearer Token
+const username = 'kanyewest'; // Kanye West's X handle
 const postContainer = document.getElementById('post-container');
 const postStatus = document.getElementById('post-status');
+const postContent = document.getElementById('post-content');
+const postText = document.getElementById('post-text');
+const postDate = document.getElementById('post-date');
 
-// Backend API Base URL (update for production)
-const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://your-domain.com';
-
-// Fetch Latest X Post
-async function fetchXPost() {
+async function fetchLatestPost() {
     try {
-        const response = await fetch(`${API_BASE_URL}/api/x-post`);
-        const data = await response.json();
-        if (data.data && data.data.length > 0) {
-            const tweet = data.data[0];
-            let postHTML = `<p>${tweet.text}</p>`;
-            // Handle images (placeholder)
-            if (tweet.attachments && tweet.attachments.media_keys) {
-                postHTML += `<img src="https://via.placeholder.com/600x400" alt="Tweet media">`;
+        // Step 1: Get user ID from username
+        const userResponse = await fetch(`https://api.x.com/2/users/by/username/${username}`, {
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`
             }
-            // Handle URLs
-            if (tweet.entities && tweet.entities.urls) {
-                tweet.entities.urls.forEach(url => {
-                    postHTML = postHTML.replace(url.url, `<a href="${url.expanded_url}" target="_blank">${url.display_url}</a>`);
-                });
+        });
+
+        if (!userResponse.ok) {
+            throw new Error('Failed to fetch user data. Account may be deactivated.');
+        }
+
+        const userData = await userResponse.json();
+        const userId = userData.data.id;
+
+        // Step 2: Fetch the user's latest post
+        const tweetsResponse = await fetch(`https://api.x.com/2/users/${userId}/tweets?max_results=1&tweet.fields=created_at`, {
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`
             }
-            postContainer.innerHTML = `<div id="post-content">${postHTML}<small>Posted on ${new Date(tweet.created_at).toLocaleString()}</small></div>`;
+        });
+
+        if (!tweetsResponse.ok) {
+            throw new Error('Failed to fetch posts.');
+        }
+
+        const tweetsData = await tweetsResponse.json();
+        if (tweetsData.data && tweetsData.data.length > 0) {
+            const latestPost = tweetsData.data[0];
+            postStatus.style.display = 'none';
+            postContent.style.display = 'block';
+            postText.textContent = latestPost.text;
+            postDate.textContent = new Date(latestPost.created_at).toLocaleString();
         } else {
-            postContainer.innerHTML = `<p>No recent posts found.</p>`;
+            postStatus.textContent = 'No posts found.';
         }
     } catch (error) {
-        console.error('Error fetching X post:', error);
-        postContainer.innerHTML = `<p>Failed to load post. Please try again later.</p>`;
+        console.error('Error fetching post:', error);
+        postStatus.textContent = 'Unable to load post. Account may be deactivated.';
     }
 }
 
-// Check for Live Streams
-async function checkStreams() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/streams`);
-        const { streamUrl, platform } = await response.json();
-        if (streamUrl && platform) {
-            playerContainer.innerHTML = `<iframe src="${streamUrl}" allowfullscreen></iframe>`;
-            playerStatus.textContent = `Now streaming on ${platform}`;
-        } else {
-            playerContainer.innerHTML = `<p>No live streams found. Check back later!</p>`;
-            playerStatus.textContent = 'No live streams available';
-        }
-    } catch (error) {
-        console.error('Error checking streams:', error);
-        playerContainer.innerHTML = `<p>Ye is not streaming.</p>`;
-        playerStatus.textContent = 'Stream check failed';
-    }
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    fetchXPost();
-    checkStreams();
-    setInterval(checkStreams, 30000); // Check every 30 seconds
-});
+// Call the function to fetch the post when the page loads
+fetchLatestPost();
