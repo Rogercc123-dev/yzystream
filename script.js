@@ -49,7 +49,7 @@ async function checkStreams() {
         }
     } catch (error) {
         console.error('Error checking streams:', error);
-        playerContainer.innerHTML = `<p>Failed to load stream. Please try again later.</p>`;
+        playerContainer.innerHTML = `<p>Ye is not streaming.</p>`;
         playerStatus.textContent = 'Stream check failed';
     }
 }
