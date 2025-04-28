@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632" crossorigin="anonymous"></script>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com; style-src 'self' https://cdnjs.cloudflare.com;">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YZY STREAM</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -26,21 +25,26 @@
         Contact: <span class="email">yzystream1@gmail.com</span>
     </p>
     
-    <section id="ye-stream">
-        <h2>Where does Ye stream?</h2>
-        <ul>
-            <li><a href="https://x.com/kanyewest" target="_blank">X (Twitter)</a></li>
-            <li><a href="https://kick.com/" target="_blank">Kick</a></li>
-            <li><a href="https://www.twitch.tv/" target="_blank">Twitch</a></li>
-        </ul>
+    <!-- Video Player Section -->
+    <section id="video-player">
+        <h2>LIVE STREAM</h2>
+        <div id="player-container">
+            <p id="player-status">Checking for live streams...</p>
+        </div>
+    </section>
+    
+    <!-- X Post Section -->
+    <section id="x-post">
+        <h2>LATEST X POST</h2>
+        <div id="post-container">
+            <p id="post-status">Loading latest post...</p>
+        </div>
     </section>
     
     <p class="footer">
         © 2025 | yzystream.com
     </p>
-    <p>
-        <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
-    </p>
+    <p><a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a></p>
     
     <script>
         function updateClock() {
@@ -62,5 +66,6 @@
         
         updateClock();
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
