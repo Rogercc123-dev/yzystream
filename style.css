@@ -33,7 +33,7 @@ p {
 }
 
 .contact {
-    margin-bottom: 40px; /* Bigger gap before ye-stream */
+    margin-bottom: 40px; /* Bigger gap before Ye section */
 }
 
 .contact .email {
@@ -41,9 +41,10 @@ p {
     opacity: 1;
 }
 
-/* Special note under Ye stream */
+/* Ye Note under Ye Stream */
 .ye-note {
-    margin-left: 20px; /* line up with other text */
+    margin-left: 20px;
+    margin-top: 10px;
     opacity: 0.7;
 }
 
@@ -61,7 +62,7 @@ hr.separator {
     opacity: 0.6;
     color: #000000;
     text-decoration: none;
-    margin-left: 20px; /* restore alignment */
+    margin-left: 20px;
     margin-top: 40px;
     margin-bottom: 10px;
     padding-top: 20px;
@@ -71,10 +72,35 @@ hr.separator {
     color: #000000;
     text-decoration: none;
     margin: 0 5px;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.footer a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+}
+
+.footer a:hover::before {
+    left: 130%;
 }
 
 .footer a:hover {
-    opacity: 1;
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 2s linear infinite;
 }
 
 /* Ye Stream Section */
@@ -100,17 +126,33 @@ hr.separator {
     opacity: 0.7;
 }
 
-/* Links */
-a {
+/* Links inside Ye Stream */
+#ye-stream a {
     color: #000000;
     text-decoration: none;
     position: relative;
     display: inline-block;
     transition: all 0.3s ease;
-    cursor: pointer; /* pointer on hover for better UX */
+    overflow: hidden;
 }
 
-a:hover {
+#ye-stream a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+}
+
+#ye-stream a:hover::before {
+    left: 130%;
+}
+
+#ye-stream a:hover {
     transform: scale(1.05);
     background: linear-gradient(90deg, #000000, #555555, #000000);
     background-size: 200% 200%;
@@ -119,7 +161,7 @@ a:hover {
     animation: gradientMove 2s linear infinite;
 }
 
-/* Gradient animation movement */
+/* Gradient Animation */
 @keyframes gradientMove {
     0% {
         background-position: 0% 50%;
