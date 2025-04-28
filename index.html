@@ -29,12 +29,9 @@
     <section id="ye-stream">
         <h2>Where does Ye stream?</h2>
         <ul>
-            <li><a href="https://x.com/YEFANATICS" target="_blank">X (YEFANATICS)</a></li>
-            <li><a href="https://kick.com/digitalnaskick" target="_blank">Kick (digitalnas)</a></li>
-            <li><a href="https://www.twitch.tv/digitalnastwitch" target="_blank">Twitch (digitalnas)</a></li>
-    <p>
-        This list will be updated in future if Ye decides to stream elsewhere.
-    </p>
+            <li><a href="https://x.com/kanyewest" target="_blank">X (Twitter)</a></li>
+            <li><a href="https://kick.com/" target="_blank">Kick</a></li>
+            <li><a href="https://www.twitch.tv/" target="_blank">Twitch</a></li>
         </ul>
     </section>
     
@@ -47,23 +44,30 @@
     
     <script>
         function updateClock() {
-            const now = new Date();
-            
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            
-            document.getElementById('clock').textContent = 
-                `${hours}:${minutes}:${seconds} - ${month}/${day}/${year}`;
-            
-            setTimeout(updateClock, 1000);
+            try {
+                const now = new Date();
+                
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                
+                const day = String(now.getDate()).padStart(2, '0');
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const year = now.getFullYear();
+                
+                const clockElement = document.getElementById('clock');
+                if (clockElement) {
+                    clockElement.textContent = `${hours}:${minutes}:${seconds} - ${month}/${day}/${year}`;
+                }
+            } catch (error) {
+                console.error('Clock update error:', error);
+            }
         }
         
+        // Initial update
         updateClock();
+        // Update every second
+        setInterval(updateClock, 1000);
     </script>
 </body>
 </html>
