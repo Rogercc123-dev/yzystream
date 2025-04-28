@@ -41,6 +41,12 @@ p {
     opacity: 1;
 }
 
+/* Special note under Ye stream */
+.ye-note {
+    margin-left: 20px; /* line up with other text */
+    opacity: 0.7;
+}
+
 /* Separator Line */
 hr.separator {
     border: none;
@@ -55,6 +61,7 @@ hr.separator {
     opacity: 0.6;
     color: #000000;
     text-decoration: none;
+    margin-left: 20px; /* restore alignment */
     margin-top: 40px;
     margin-bottom: 10px;
     padding-top: 20px;
@@ -124,7 +131,7 @@ a:hover {
 
 /* Responsive */
 @media (max-width: 600px) {
-    h1, #clock, p, .footer, #ye-stream {
+    h1, #clock, p, .footer, #ye-stream, .ye-note {
         margin-left: 10px;
     }
 }
