@@ -33,7 +33,7 @@ p {
 }
 
 .contact {
-    margin-bottom: 40px; /* 👈 Bigger gap before Ye-stream */
+    margin-bottom: 40px; /* Bigger gap before ye-stream */
 }
 
 .contact .email {
@@ -41,13 +41,21 @@ p {
     opacity: 1;
 }
 
+/* Separator Line */
+hr.separator {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 30px 20px;
+}
+
+/* Footer */
 .footer {
     font-size: 14px;
     opacity: 0.6;
     color: #000000;
     text-decoration: none;
-    margin-left: 20px;
-    margin-top: 40px; /* 👈 slight margin above footer */
+    margin-top: 40px;
     margin-bottom: 10px;
     padding-top: 20px;
 }
@@ -85,31 +93,36 @@ p {
     opacity: 0.7;
 }
 
-#ye-stream a {
+/* Links */
+a {
     color: #000000;
     text-decoration: none;
-    opacity: 0.7;
-    transition: all 0.2s ease-in-out;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    cursor: pointer; /* pointer on hover for better UX */
 }
 
-#ye-stream a:hover {
-    opacity: 1;
-    font-weight: 700;
+a:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 2s linear infinite;
 }
 
-#ye-stream p {
-    font-size: 16px;
-    opacity: 0.7;
-    margin: 0 0 15px 0;
-}
-hr.separator {
-    border: none;
-    height: 1px;
-    background-color: #e0e0e0; /* Light gray */
-    margin: 30px 20px; /* Same side padding as text */
+/* Gradient animation movement */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 600px) {
     h1, #clock, p, .footer, #ye-stream {
         margin-left: 10px;
