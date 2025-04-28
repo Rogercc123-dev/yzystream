@@ -76,3 +76,10 @@ p {
 #ye-stream a:hover {
     opacity: 1;
 }
+
+/* New fix */
+#ye-stream p {
+    font-size: 16px;
+    opacity: 0.7;
+    margin: 0 0 15px 0;
+}
