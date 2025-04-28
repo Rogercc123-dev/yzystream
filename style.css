@@ -5,7 +5,15 @@ body {
     font-family: 'IBM Plex Mono', monospace;
     text-align: left;
     margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-wrapper {
     padding: 20px;
+    flex: 1;
 }
 
 h1 {
@@ -16,12 +24,11 @@ h1 {
 }
 
 #clock {
-    font-size: 16px; /* slightly smaller */
-    opacity: 0.5; /* more faded */
+    font-size: 16px;
+    opacity: 0.5;
     margin-bottom: 20px;
     margin-left: 20px;
 }
-
 
 p {
     font-size: 16px;
@@ -34,12 +41,20 @@ p {
     opacity: 1;
 }
 
-.footer, .footer a {
+.footer {
     font-size: 14px;
     opacity: 0.6;
     color: #000000;
     text-decoration: none;
     margin-left: 20px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+}
+
+.footer a {
+    color: #000000;
+    text-decoration: none;
+    margin: 0 5px;
 }
 
 .footer a:hover {
@@ -71,20 +86,25 @@ p {
 
 #ye-stream a {
     color: #000000;
-    text-decoration: none; /* No underline */
-    opacity: 0.7; /* Match other text */
-    transition: all 0.2s ease-in-out; /* Smooth hover */
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all 0.2s ease-in-out;
 }
 
 #ye-stream a:hover {
     opacity: 1;
-    font-weight: 700; /* Slight bold on hover */
+    font-weight: 700;
 }
 
-
-/* New fix */
 #ye-stream p {
     font-size: 16px;
     opacity: 0.7;
     margin: 0 0 15px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1, #clock, p, .footer, #ye-stream {
+        margin-left: 10px;
+    }
 }
