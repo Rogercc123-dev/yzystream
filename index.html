@@ -9,6 +9,34 @@
     <title>YZY STREAM</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <script defer>
+        function updateClock() {
+            console.log('Updating clock...'); // Debug log
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.textContent = `${hours}:${minutes}:${seconds} - ${month}/${day}/${year}`;
+            } else {
+                console.error('Clock element not found');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, starting clock'); // Debug log
+            updateClock();
+            setInterval(updateClock, 1000);
+        });
+    </script>
 </head>
 <body>
     <h1>YZY STREAM</h1>
@@ -44,33 +72,5 @@
     <p>
         <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
     </p>
-    
-    <script>
-        function updateClock() {
-            try {
-                const now = new Date();
-                
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                
-                const day = String(now.getDate()).padStart(2, '0');
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const year = now.getFullYear();
-                
-                const clockElement = document.getElementById('clock');
-                if (clockElement) {
-                    clockElement.textContent = `${hours}:${minutes}:${seconds} - ${month}/${day}/${year}`;
-                }
-            } catch (error) {
-                console.error('Clock update error:', error);
-            }
-        }
-        
-        // Initial update
-        updateClock();
-        // Update every second
-        setInterval(updateClock, 1000);
-    </script>
 </body>
 </html>
