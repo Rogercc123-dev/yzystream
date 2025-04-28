@@ -16,11 +16,12 @@ h1 {
 }
 
 #clock {
-    font-size: 18px;
-    opacity: 0.7;
+    font-size: 16px; /* slightly smaller */
+    opacity: 0.5; /* more faded */
     margin-bottom: 20px;
     margin-left: 20px;
 }
+
 
 p {
     font-size: 16px;
