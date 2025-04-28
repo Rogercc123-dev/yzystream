@@ -3,7 +3,7 @@ body {
     background: #ffffff;
     color: #000000;
     font-family: 'IBM Plex Sans', sans-serif;
-    text-align: center;
+    text-align: left;
     margin: 0;
     padding: 20px;
 }
@@ -12,18 +12,21 @@ h1 {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 #clock {
     font-size: 18px;
     opacity: 0.7;
     margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 p {
     font-size: 16px;
     opacity: 0.7;
     margin: 10px 0;
+    margin-left: 20px;
 }
 
 .contact .email {
@@ -36,219 +39,41 @@ p {
     opacity: 0.6;
     color: #000000;
     text-decoration: none;
+    margin-left: 20px;
 }
 
 .footer a:hover {
     opacity: 1;
 }
 
-/* Fan Art Gallery */
-#yzy-gallery {
+/* Ye Stream Section */
+#ye-stream {
     margin: 20px 0;
+    margin-left: 20px;
 }
 
-#yzy-gallery h2, #submission-form h3 {
+#ye-stream h2 {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 15px;
 }
 
-#gallery-container {
-    max-width: 600px;
-    margin: 0 auto;
+#ye-stream ul {
+    list-style: none;
+    padding: 0;
 }
 
-#gallery-image {
-    margin-bottom: 10px;
-}
-
-#fan-art {
-    width: 100%;
-    height: auto;
-    max-height: 400px;
-    object-fit: contain;
-}
-
-#gallery-button {
-    font-family: 'IBM Plex Sans', sans-serif;
+#ye-stream li {
     font-size: 16px;
+    margin: 5px 0;
+    opacity: 0.7;
+}
+
+#ye-stream a {
     color: #000000;
-    background: none;
-    border: none;
     text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.7;
-    margin-bottom: 20px;
 }
 
-#gallery-button:hover {
+#ye-stream a:hover {
     opacity: 1;
-}
-
-#submission-form {
-    margin-top: 20px;
-}
-
-#submission-form input[type="text"], #submission-form input[type="file"] {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: #f0f0f0;
-    border: none;
-    padding: 8px;
-    margin: 5px 0;
-    width: 100%;
-    max-width: 300px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#submission-submit {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: none;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.7;
-    margin-top: 10px;
-}
-
-#submission-submit:hover {
-    opacity: 1;
-}
-
-#submission-status {
-    font-size: 16px;
-    opacity: 0.7;
-}
-
-/* Album Voting */
-#album-voting {
-    margin: 20px 0;
-}
-
-#album-voting h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-#album-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-#album-form p {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-#album-ranking select {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: #f0f0f0;
-    border: none;
-    padding: 8px;
-    margin: 5px 0;
-    width: 100%;
-    max-width: 300px;
-}
-
-#album-submit {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: none;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.7;
-    margin-top: 10px;
-}
-
-#album-submit:hover {
-    opacity: 1;
-}
-
-#album-leaderboard {
-    margin-top: 20px;
-}
-
-#album-leaderboard div {
-    font-size: 16px;
-    margin: 5px 0;
-    opacity: 0.7;
-}
-
-#album-status {
-    font-size: 16px;
-    opacity: 0.7;
-}
-
-/* Song Voting */
-#song-voting {
-    margin: 20px 0;
-}
-
-#song-voting h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-#song-container {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-#song-form p {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-#song-ranking select {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: #f0f0f0;
-    border: none;
-    padding: 8px;
-    margin: 5px 0;
-    width: 100%;
-    max-width: 300px;
-}
-
-#song-submit {
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 16px;
-    color: #000000;
-    background: none;
-    border: none;
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.7;
-    margin-top: 10px;
-}
-
-#song-submit:hover {
-    opacity: 1;
-}
-
-#song-leaderboard {
-    margin-top: 20px;
-}
-
-#song-leaderboard div {
-    font-size: 16px;
-    margin: 5px 0;
-    opacity: 0.7;
-}
-
-#song-status {
-    font-size: 16px;
-    opacity: 0.7;
 }
