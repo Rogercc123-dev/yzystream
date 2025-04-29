@@ -204,6 +204,42 @@ hr.separator {
         background-position: 100% 50%;
     }
 }
+/* Gradient Link Style */
+.link-gradient {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    font-size: 16px;
+    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.link-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    transform: skewX(-25deg);
+    transition: all 0.5s ease;
+}
+
+.link-gradient:hover::before {
+    left: 130%;
+}
+
+.link-gradient:hover {
+    transform: scale(1.05);
+    animation: gradientMove 2s linear infinite;
+}
 
 /* Responsive */
 @media (max-width: 600px) {
