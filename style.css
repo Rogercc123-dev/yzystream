@@ -33,7 +33,7 @@ p {
 }
 
 .contact {
-    margin-bottom: 40px; /* Bigger gap before Ye section */
+    margin-bottom: 40px;
 }
 
 .contact .email {
@@ -41,7 +41,6 @@ p {
     opacity: 1;
 }
 
-/* Ye Note under Ye Stream */
 .ye-note {
     margin-left: 20px;
     margin-top: 10px;
@@ -69,13 +68,18 @@ hr.separator {
 }
 
 .footer a {
-    color: #000000;
     text-decoration: none;
     margin: 0 5px;
     position: relative;
     display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
+    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s linear infinite;
     transition: all 0.3s ease;
-    overflow: hidden;
 }
 
 .footer a::before {
@@ -85,22 +89,14 @@ hr.separator {
     left: -75%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
     transform: skewX(-25deg);
-    transition: all 0.5s ease;
-}
-
-.footer a:hover::before {
-    left: 130%;
+    animation: shineMove 3s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .footer a:hover {
     transform: scale(1.05);
-    background: linear-gradient(90deg, #000000, #555555, #000000);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 2s linear infinite;
 }
 
 /* Ye Stream Section */
@@ -126,48 +122,19 @@ hr.separator {
     opacity: 0.7;
 }
 
-/* Links inside Ye Stream */
-#ye-stream a {
-    color: #000000;
+/* Gradient Link Style (Used Everywhere) */
+.link-gradient {
     text-decoration: none;
     position: relative;
     display: inline-block;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-#ye-stream a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-    transform: skewX(-25deg);
-    transition: all 0.5s ease;
-}
-
-#ye-stream a:hover::before {
-    left: 130%;
-}
-
-#ye-stream a:hover {
-    transform: scale(1.05);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700;
     background: linear-gradient(90deg, #000000, #555555, #000000);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradientMove 2s linear infinite;
-}
-/* Reusable Gradient Link Style */
-.link-gradient {
-    color: #000000;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
+    animation: gradientMove 4s linear infinite;
     transition: all 0.3s ease;
-    overflow: hidden;
 }
 
 .link-gradient::before {
@@ -177,22 +144,14 @@ hr.separator {
     left: -75%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
     transform: skewX(-25deg);
-    transition: all 0.5s ease;
-}
-
-.link-gradient:hover::before {
-    left: 130%;
+    animation: shineMove 3s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .link-gradient:hover {
     transform: scale(1.05);
-    background: linear-gradient(90deg, #000000, #555555, #000000);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 2s linear infinite;
 }
 
 /* Gradient Animation */
@@ -205,6 +164,15 @@ hr.separator {
     }
 }
 
+/* Shine Reflection Animation */
+@keyframes shineMove {
+    0% {
+        left: -75%;
+    }
+    100% {
+        left: 130%;
+    }
+}
 
 /* Responsive */
 @media (max-width: 600px) {
