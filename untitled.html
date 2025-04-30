@@ -15,85 +15,87 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     
-    <!-- Custom Tooltip Styles -->
-    <style>
-        /* Tooltip styles */
-        .album-link {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-        
-        .tooltip {
-            visibility: hidden;
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            color: #333;
-            text-align: left;
-            padding: 12px;
-            border-radius: 6px;
-            width: 250px;
-            z-index: 100;
-            opacity: 0;
-            transition: opacity 0.2s, visibility 0.2s;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
-            font-size: 0.85em;
-            line-height: 1.4;
-            border: 1px solid #eee;
-            pointer-events: none;
-        }
-        
-        .tooltip::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #fff transparent transparent transparent;
-        }
-        
-        .album-link:hover .tooltip {
-            visibility: visible;
-            opacity: 1;
-        }
-        
-        .tooltip .year {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            padding-bottom: 3px;
-            color: #000;
-        }
-        
-        .tooltip .info {
-            color: #333;
-        }
-        
-        /* Center the footer and fix alignment */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px 0;
-            color: #666;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .footer p, .footer nav {
-            margin: 5px 0;
-            width: 100%;
-            text-align: center;
-        }
-    </style>
+  <!-- Custom Tooltip Styles -->
+<style>
+    /* Tooltip styles */
+    .album-link {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        position: absolute;
+        top: 50%;
+        left: 105%;
+        transform: translateY(-50%);
+        background: #fff;
+        color: #333;
+        text-align: left;
+        padding: 12px;
+        border-radius: 6px;
+        width: 250px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.2s, visibility 0.2s;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        font-size: 0.85em;
+        line-height: 1.4;
+        border: 1px solid #eee;
+        pointer-events: none;
+        white-space: normal;
+    }
+
+    .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -5px;
+        transform: translateY(-50%);
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent #fff transparent transparent;
+    }
+
+    .album-link:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .tooltip .year {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 3px;
+        color: #000;
+    }
+
+    .tooltip .info {
+        color: #333;
+    }
+
+    /* Center the footer and fix alignment */
+    .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding: 20px 0;
+        color: #666;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer p, .footer nav {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+</style>
+
     
     <!-- Scripts -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632" crossorigin="anonymous"></script>
