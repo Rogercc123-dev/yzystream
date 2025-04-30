@@ -1,80 +1,169 @@
-/* General */
+/* Base Styles & CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #000000;
+    --secondary-color: #555555;
+    --background-color: #ffffff;
+    --accent-color: #e0e0e0;
+    --text-color: #000000;
+    --text-muted: rgba(0, 0, 0, 0.7);
+    --text-light: rgba(0, 0, 0, 0.5);
+    --primary-font: 'IBM Plex Mono', monospace;
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 30px;
+    --spacing-xl: 40px;
+    --transition-standard: all 0.3s ease;
+}
+
+/* Dark Mode Support (for future implementation) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-color: #ffffff;
+        --secondary-color: #aaaaaa;
+        --background-color: #121212;
+        --accent-color: #333333;
+        --text-color: #ffffff;
+        --text-muted: rgba(255, 255, 255, 0.7);
+        --text-light: rgba(255, 255, 255, 0.5);
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    background: #ffffff;
-    color: #000000;
-    font-family: 'IBM Plex Mono', monospace;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--primary-font);
     text-align: left;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.content-wrapper {
-    padding: 20px;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    line-height: 1.2;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: clamp(28px, 5vw, 36px);
     font-weight: 700;
-    margin-bottom: 20px;
-    margin-left: 20px;
+    margin-bottom: var(--spacing-md);
+    margin-left: var(--spacing-md);
 }
 
-#clock {
-    font-size: 16px;
-    opacity: 0.5;
-    margin-bottom: 20px;
-    margin-left: 20px;
+h2 {
+    font-size: clamp(20px, 4vw, 24px);
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
 }
 
 p {
     font-size: 16px;
-    opacity: 0.7;
-    margin: 0 0 15px 20px;
+    color: var(--text-muted);
+    margin: 0 0 15px var(--spacing-md);
+    max-width: 65ch; /* Optimizes readability */
 }
 
+/* Layout */
+.content-wrapper {
+    padding: var(--spacing-md);
+    flex: 1; /* Makes content fill available space */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header, footer {
+    padding: var(--spacing-md);
+    width: 100%;
+}
+
+main {
+    flex: 1;
+}
+
+section {
+    margin: var(--spacing-md) 0;
+}
+
+.intro {
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Clock */
+#clock {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+    margin-left: var(--spacing-md);
+}
+
+/* Contact */
 .contact {
-    margin-bottom: 40px; /* Bigger gap before Ye section */
+    margin-bottom: var(--spacing-xl);
 }
 
 .contact .email {
     font-weight: 700;
-    opacity: 1;
+    color: var(--text-color);
+    text-decoration: none;
+    transition: var(--transition-standard);
 }
 
-/* Ye Note under Ye Stream */
+.contact .email:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* Ye Note */
 .ye-note {
-    margin-left: 20px;
-    margin-top: 10px;
-    opacity: 0.7;
+    margin-left: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+    color: var(--text-muted);
+    font-size: 14px;
 }
 
-/* Separator Line */
+/* Separator */
 hr.separator {
     border: none;
     height: 1px;
-    background-color: #e0e0e0;
-    margin: 30px 20px;
+    background-color: var(--accent-color);
+    margin: var(--spacing-lg) var(--spacing-md);
 }
 
 /* Footer */
 .footer {
     font-size: 14px;
-    opacity: 0.6;
-    color: #000000;
-    text-decoration: none;
-    margin-left: 20px;
-    margin-top: 40px;
-    margin-bottom: 10px;
-    padding-top: 20px;
+    color: var(--text-light);
+    margin-left: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-md);
+    text-align: center;
+}
+
+.footer p {
+    margin-bottom: var(--spacing-sm);
+    margin-left: 0;
 }
 
 .footer a {
-    color: #000000;
+    color: var(--text-color);
     text-decoration: none;
     margin: 0 5px;
     position: relative;
     display: inline-block;
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
     overflow: hidden;
 }
 
@@ -96,78 +185,36 @@ hr.separator {
 
 .footer a:hover {
     transform: scale(1.05);
-    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
     background-size: 200% 200%;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientMove 2s linear infinite;
 }
 
-/* Ye Stream Section */
-#ye-stream {
-    margin: 20px 0;
-    margin-left: 20px;
-}
-
-#ye-stream h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-#ye-stream ul {
+/* Lists & Link Styles */
+ul {
     list-style: none;
     padding: 0;
+    margin-left: var(--spacing-md);
 }
 
-#ye-stream li {
+li {
     font-size: 16px;
-    margin: 5px 0;
-    opacity: 0.7;
+    margin: var(--spacing-sm) 0;
+    color: var(--text-muted);
 }
 
-/* Links inside Ye Stream */
-#ye-stream a {
-    color: #000000;
-    text-decoration: none;
-    position: relative;
-    display: inline-block;
-    transition: all 0.3s ease;
-    overflow: hidden;
-}
-
-#ye-stream a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
-    transform: skewX(-25deg);
-    transition: all 0.5s ease;
-}
-
-#ye-stream a:hover::before {
-    left: 130%;
-}
-
-#ye-stream a:hover {
-    transform: scale(1.05);
-    background: linear-gradient(90deg, #000000, #555555, #000000);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 2s linear infinite;
-}
-/* Reusable Gradient Link Style */
+/* Link Gradient Style */
 .link-gradient {
-    color: #000000;
+    color: var(--text-color);
     text-decoration: none;
     position: relative;
     display: inline-block;
-    transition: all 0.3s ease;
+    transition: var(--transition-standard);
     overflow: hidden;
+    padding: 2px 4px;
 }
 
 .link-gradient::before {
@@ -180,6 +227,7 @@ hr.separator {
     background: linear-gradient(120deg, transparent, rgba(255,255,255,0.6), transparent);
     transform: skewX(-25deg);
     transition: all 0.5s ease;
+    z-index: -1;
 }
 
 .link-gradient:hover::before {
@@ -188,11 +236,62 @@ hr.separator {
 
 .link-gradient:hover {
     transform: scale(1.05);
-    background: linear-gradient(90deg, #000000, #555555, #000000);
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--primary-color));
     background-size: 200% 200%;
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradientMove 2s linear infinite;
+}
+
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    border-radius: 4px;
+    margin: var(--spacing-md) 0 var(--spacing-lg) var(--spacing-md);
+    font-weight: bold;
+    transition: var(--transition-standard);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Project List */
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+}
+
+.project-list li {
+    transition: var(--transition-standard);
+}
+
+.project-list li:hover {
+    transform: translateX(5px);
+}
+
+/* Back to Home Link */
+.back-to-home {
+    margin: var(--spacing-lg) 0 var(--spacing-lg) var(--spacing-md);
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }
 
 /* Gradient Animation */
@@ -205,10 +304,40 @@ hr.separator {
     }
 }
 
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .content-wrapper, h1, #clock, p, .footer, .ye-note {
+        padding-left: var(--spacing-sm);
+        padding-right: var(--spacing-sm);
+        margin-left: var(--spacing-sm);
+        margin-right: var(--spacing-sm);
+    }
+    
+    .project-list {
+        grid-template-columns: 1fr;
+    }
+}
 
-/* Responsive */
-@media (max-width: 600px) {
-    h1, #clock, p, .footer, #ye-stream, .ye-note {
-        margin-left: 10px;
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .link-gradient::before,
+    .link-gradient:hover::before,
+    .footer a::before,
+    .footer a:hover::before {
+        display: none;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+    
+    .footer {
+        border-top: 1px solid #ccc;
     }
 }
