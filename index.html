@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632" crossorigin="anonymous"></script>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com; style-src 'self' https://cdnjs.cloudflare.com;">
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com; img-src 'self' data:;">
+    
     <title>YZY STREAM - Kanye West Streaming Hub</title>
 
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
+    <link rel="preload" href="style.css" as="style">
+    <link rel="preload" href="clock.js" as="script">
+    
+    <!-- Styles -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Scripts -->
     <script src="clock.js" defer></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632" crossorigin="anonymous"></script>
 
     <!-- Favicon and App Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -28,7 +36,7 @@
     <meta name="author" content="YZY Stream Admin">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="YZY Stream - Kanye West Streaming Hub">
+    <meta property="og:title" content="YZY STREAM - Kanye West Streaming Hub">
     <meta property="og:description" content="Follow where Ye streams and explore unreleased Kanye West albums.">
     <meta property="og:image" content="https://yzystream.com/logo.png">
     <meta property="og:url" content="https://yzystream.com">
@@ -36,61 +44,62 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="YZY Stream - Kanye West Streaming Hub">
+    <meta name="twitter:title" content="YZY STREAM - Kanye West Streaming Hub">
     <meta name="twitter:description" content="Official independently owned YZY Stream site for Ye streaming updates, leaks, and news.">
     <meta name="twitter:image" content="https://yzystream.com/logo.png">
 
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
 </head>
 
 <body>
-    <div class="content-wrapper">
+    <header>
         <h1>YZY STREAM</h1>
+        <div id="clock" aria-live="polite" role="status">00:00:00 - 00/00/0000</div>
+    </header>
 
-        <div id="clock">00:00:00 - 00/00/0000</div>
+    <main class="content-wrapper">
+        <section class="intro">
+            <p>This domain is independently owned and available for future development.</p>
+            <p>For legitimate inquiries regarding this domain, please contact me.</p>
 
-        <p>This domain is independently owned and available for future development.</p>
-        <p>For legitimate inquiries regarding this domain, please contact me.</p>
-
-        <p class="contact">
-            Contact: <span class="email">yzystream1@gmail.com</span>
-        </p>
+            <p class="contact">
+                Contact: <a href="mailto:yzystream1@gmail.com" class="email">yzystream1@gmail.com</a>
+            </p>
+        </section>
 
         <hr class="separator">
 
-        <section id="ye-stream">
-            <h2>Where does Ye stream?</h2>
+        <section id="ye-stream" aria-labelledby="ye-stream-heading">
+            <h2 id="ye-stream-heading">Where does Ye stream?</h2>
             <ul>
-                <li><a href="https://x.com/YEFANATICS" target="_blank">X (YEFANATICS) →</a></li>
-                <li><a href="https://kick.com/digitalnaskick" target="_blank">Kick (digitalnas) →</a></li>
-                <li><a href="https://www.twitch.tv/digitalnastwitch" target="_blank">Twitch (digitalnas) →</a></li>
-                 <li><a href="https://parti.com/creator/parti/DigitalNas" target="_blank">Parti (digitalnas) →</a></li>
+                <li><a href="https://x.com/YEFANATICS" target="_blank" rel="noopener">X (YEFANATICS) <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span></a></li>
+                <li><a href="https://kick.com/digitalnaskick" target="_blank" rel="noopener">Kick (digitalnas) <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span></a></li>
+                <li><a href="https://www.twitch.tv/digitalnastwitch" target="_blank" rel="noopener">Twitch (digitalnas) <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span></a></li>
+                <li><a href="https://parti.com/creator/parti/DigitalNas" target="_blank" rel="noopener">Parti (digitalnas) <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span></a></li>
             </ul>
             <p class="ye-note">This list will be updated in future if Ye decides to stream elsewhere.</p>
         </section>
 
         <hr class="separator">
 
-  <h2>Unreleased Ye</h2>
-    <a href="untitled.html" class="link-gradient">🎧 Stream Unreleased Kanye West Albums →</a></h2>
-  <p>Discover Ye’s unreleased albums and demo projects hosted on [Untitled]</p>
-</section>
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Ye</h2>
+            <a href="untitled.html" class="link-gradient">🎧 Stream Unreleased Kanye West Albums <span aria-hidden="true">→</span></a>
+            <p>Discover Ye's unreleased albums and demo projects hosted on [Untitled]</p>
+        </section>
 
+        <hr class="separator">
+    </main>
 
-
-     
-
-   <hr class="separator">
-
-<footer class="footer">
-    © 2025 | yzystream.com
-    <br>
-    <a href="index.html">Home</a> | 
-    <a href="untitled.html">[untitled]</a> | 
-    <a href="faq.html">FAQ</a> | 
-    <a href="privacy.html">Privacy Policy</a>
-</footer>
-
-    </div>
+    <footer class="footer">
+        <p>&copy; 2025 | yzystream.com</p>
+        <nav aria-label="Footer navigation">
+            <a href="index.html">Home</a> | 
+            <a href="untitled.html">[untitled]</a> | 
+            <a href="faq.html">FAQ</a> | 
+            <a href="privacy.html">Privacy Policy</a>
+        </nav>
+    </footer>
 </body>
 </html>
