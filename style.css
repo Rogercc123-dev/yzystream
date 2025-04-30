@@ -19,19 +19,6 @@
     --transition-standard: all 0.3s ease;
 }
 
-/* Dark Mode Support (for future implementation) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --primary-color: #ffffff;
-        --secondary-color: #aaaaaa;
-        --background-color: #121212;
-        --accent-color: #333333;
-        --text-color: #ffffff;
-        --text-muted: rgba(255, 255, 255, 0.7);
-        --text-light: rgba(255, 255, 255, 0.5);
-    }
-}
-
 html {
     scroll-behavior: smooth;
 }
@@ -56,36 +43,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    font-size: clamp(28px, 5vw, 36px);
+    font-size: 36px;
     font-weight: 700;
-    margin-bottom: var(--spacing-md);
-    margin-left: var(--spacing-md);
+    margin-bottom: 20px;
 }
 
 h2 {
-    font-size: clamp(20px, 4vw, 24px);
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: 15px;
 }
 
 p {
     font-size: 16px;
     color: var(--text-muted);
-    margin: 0 0 15px var(--spacing-md);
+    margin: 0 0 15px 0;
     max-width: 65ch; /* Optimizes readability */
 }
 
 /* Layout */
 .content-wrapper {
-    padding: var(--spacing-md);
+    padding: 20px;
     flex: 1; /* Makes content fill available space */
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-header, footer {
-    padding: var(--spacing-md);
+header {
+    padding: 20px;
     width: 100%;
 }
 
@@ -94,24 +80,23 @@ main {
 }
 
 section {
-    margin: var(--spacing-md) 0;
+    margin: 20px 0;
 }
 
 .intro {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 30px;
 }
 
 /* Clock */
 #clock {
     font-size: 16px;
     color: var(--text-light);
-    margin-bottom: var(--spacing-md);
-    margin-left: var(--spacing-md);
+    margin-bottom: 20px;
 }
 
 /* Contact */
 .contact {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 40px;
 }
 
 .contact .email {
@@ -128,8 +113,7 @@ section {
 
 /* Ye Note */
 .ye-note {
-    margin-left: var(--spacing-md);
-    margin-top: var(--spacing-sm);
+    margin-top: 10px;
     color: var(--text-muted);
     font-size: 14px;
 }
@@ -139,22 +123,21 @@ hr.separator {
     border: none;
     height: 1px;
     background-color: var(--accent-color);
-    margin: var(--spacing-lg) var(--spacing-md);
+    margin: 30px 0;
 }
 
 /* Footer */
 .footer {
     font-size: 14px;
     color: var(--text-light);
-    margin-left: var(--spacing-md);
-    margin-top: var(--spacing-xl);
-    padding-top: var(--spacing-md);
+    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 10px;
     text-align: center;
 }
 
 .footer p {
-    margin-bottom: var(--spacing-sm);
-    margin-left: 0;
+    margin-bottom: 10px;
 }
 
 .footer a {
@@ -197,12 +180,11 @@ hr.separator {
 ul {
     list-style: none;
     padding: 0;
-    margin-left: var(--spacing-md);
 }
 
 li {
     font-size: 16px;
-    margin: var(--spacing-sm) 0;
+    margin: 5px 0;
     color: var(--text-muted);
 }
 
@@ -250,7 +232,7 @@ li {
     padding: 10px 20px;
     background-color: var(--accent-color);
     border-radius: 4px;
-    margin: var(--spacing-md) 0 var(--spacing-lg) var(--spacing-md);
+    margin: 20px 0;
     font-weight: bold;
     transition: var(--transition-standard);
 }
@@ -262,14 +244,12 @@ li {
 
 /* Project List */
 .project-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: var(--spacing-md);
-    margin-top: var(--spacing-md);
+    margin-top: 20px;
 }
 
 .project-list li {
     transition: var(--transition-standard);
+    margin: 10px 0;
 }
 
 .project-list li:hover {
@@ -278,7 +258,7 @@ li {
 
 /* Back to Home Link */
 .back-to-home {
-    margin: var(--spacing-lg) 0 var(--spacing-lg) var(--spacing-md);
+    margin: 30px 0;
 }
 
 /* Accessibility */
@@ -306,15 +286,8 @@ li {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-    .content-wrapper, h1, #clock, p, .footer, .ye-note {
-        padding-left: var(--spacing-sm);
-        padding-right: var(--spacing-sm);
-        margin-left: var(--spacing-sm);
-        margin-right: var(--spacing-sm);
-    }
-    
-    .project-list {
-        grid-template-columns: 1fr;
+    .content-wrapper {
+        padding: 15px;
     }
 }
 
@@ -340,4 +313,9 @@ li {
     .footer {
         border-top: 1px solid #ccc;
     }
+}
+
+/* Force all links to have the same color */
+a {
+    color: var(--text-color);
 }
