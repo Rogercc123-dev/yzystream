@@ -241,113 +241,80 @@ li {
 }
 
 
-/* Soft Light Gray Metallic Sheen CTA Button with Black Text */
+/* CTA Button with Metallic Sheen */
 .cta-button {
-  display: inline-block;
-  padding: 12px 24px;
-  background-color: #e5e5e5; /* Very soft light gray background */
-  background-image: linear-gradient(to right, #e0e0e0, #e5e5e5, #ececec);
-  color: black; /* Black text */
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 500; /* Slightly reduced from bold for softer look */
-  text-transform: uppercase;
-  text-decoration: none;
-  border: none;
-  border-radius: 8px; /* More rounded corners for softer look */
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  z-index: 1;
-  letter-spacing: 0.5px; /* Slightly increased letter spacing for a softer look */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--accent-color); /* Uses your existing light gray color */
+    color: var(--text-color); /* Uses your existing text color (black) */
+    font-family: var(--primary-font);
+    border-radius: 4px;
+    margin: 20px 0;
+    font-weight: bold;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-standard);
+    z-index: 1;
 }
 
-/* The straight metallic sheen effect */
+/* Metallic sheen effect */
 .cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.6) 50%, /* Reduced opacity for softer effect */
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: translateX(0);
-  transition: transform 0.9s ease; /* Slower for a gentler effect */
-  z-index: 2;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.6) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transition: all 0.5s ease;
+    z-index: 2;
 }
 
 /* Background change effect */
 .cta-button::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .cta-button span {
-  position: relative;
-  z-index: 3; /* Above both effects */
-  transition: transform 0.4s ease;
+    position: relative;
+    z-index: 3; /* Above the effects */
 }
 
 /* Hover effects */
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .cta-button:hover::before {
-  transform: translateX(100%);
-  transition: transform 1.2s ease; /* Slower for a softer effect */
+    left: 100%;
 }
 
 .cta-button:hover::after {
-  opacity: 1;
-}
-
-.cta-button:hover span {
-  transform: translateX(3px); /* Reduced movement for a softer effect */
-}
-
-/* Active state for better mobile experience */
-.cta-button:active {
-  transform: translateY(0);
-  background-image: linear-gradient(to right, #f8f8f8, #ffffff, #f8f8f8);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    opacity: 1;
 }
 
 /* Mobile optimization */
 @media (max-width: 768px) {
-  .cta-button {
-    padding: 10px 20px;
-    width: 100%; /* Full width on mobile */
-    text-align: center;
-    font-size: 14px;
-  }
-  
-  .cta-button:hover {
-    transform: none; /* Prevent hover lift on touch devices */
-  }
-  
-  /* Make the active state more pronounced for touch */
-  .cta-button:active::before {
-    transform: translateX(100%);
-  }
-  
-  .cta-button:active::after {
-    opacity: 1;
-  }
+    .cta-button {
+        width: 100%; /* Full width on mobile */
+        text-align: center;
+    }
 }
 
 /* Project List */
