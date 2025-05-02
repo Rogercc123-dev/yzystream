@@ -323,7 +323,7 @@ li {
     
     a {
         color: black;
-       
+       text-decoration: underline; 
     }
     
     .footer {
