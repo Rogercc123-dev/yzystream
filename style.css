@@ -188,6 +188,28 @@ hr.separator {
   color: inherit;
   text-decoration: underline;
 }
+.cta-button-unreleased {
+  display: inline-block;
+  background: linear-gradient(135deg, #ff004f, #ff9000);
+  color: #fff;
+  padding: 16px 28px;
+  margin: 12px 0;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 20px rgba(255, 0, 79, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.cta-button-unreleased:hover {
+  background: linear-gradient(135deg, #ff9000, #ff004f);
+  transform: scale(1.05);
+  box-shadow: 0 10px 28px rgba(255, 0, 79, 0.45);
+}
 
 /* Lists & Link Styles */
 ul {
