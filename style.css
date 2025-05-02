@@ -241,42 +241,43 @@ li {
 }
 
 
-/* Light Gray Metallic Sheen CTA Button */
+/* Soft Light Gray Metallic Sheen CTA Button with Black Text */
 .cta-button {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #e0e0e0; /* Light gray background */
-  background-image: linear-gradient(45deg, #d8d8d8, #e0e0e0, #e8e8e8);
-  color: black;
+  background-color: #e5e5e5; /* Very soft light gray background */
+  background-image: linear-gradient(to right, #e0e0e0, #e5e5e5, #ececec);
+  color: black; /* Black text */
   font-family: 'IBM Plex Mono', monospace;
-  font-weight: bold;
+  font-weight: 500; /* Slightly reduced from bold for softer look */
   text-transform: uppercase;
   text-decoration: none;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px; /* More rounded corners for softer look */
   position: relative;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.4s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   z-index: 1;
+  letter-spacing: 0.5px; /* Slightly increased letter spacing for a softer look */
 }
 
-/* The metallic sheen effect */
+/* The straight metallic sheen effect */
 .cta-button::before {
   content: '';
   position: absolute;
-  top: -50%;
+  top: 0;
   left: -100%;
-  width: 200%;
-  height: 200%;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(
     to right,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.6) 50%, /* Reduced opacity for softer effect */
     rgba(255, 255, 255, 0) 100%
   );
-  transform: rotate(30deg);
-  transition: transform 0.7s ease;
+  transform: translateX(0);
+  transition: transform 0.9s ease; /* Slower for a gentler effect */
   z-index: 2;
 }
 
@@ -288,27 +289,27 @@ li {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, #ffffff, #ffffff, #f8f8f8);
+  background: white;
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.4s ease;
 }
 
 .cta-button span {
   position: relative;
   z-index: 3; /* Above both effects */
-  transition: transform 0.3s ease;
+  transition: transform 0.4s ease;
 }
 
 /* Hover effects */
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .cta-button:hover::before {
-  transform: translateX(100%) rotate(30deg);
-  transition: transform 1s ease;
+  transform: translateX(100%);
+  transition: transform 1.2s ease; /* Slower for a softer effect */
 }
 
 .cta-button:hover::after {
@@ -316,14 +317,14 @@ li {
 }
 
 .cta-button:hover span {
-  transform: translateX(5px);
+  transform: translateX(3px); /* Reduced movement for a softer effect */
 }
 
 /* Active state for better mobile experience */
 .cta-button:active {
   transform: translateY(0);
-  background-image: linear-gradient(45deg, #ffffff, #ffffff, #f8f8f8);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(to right, #f8f8f8, #ffffff, #f8f8f8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* Mobile optimization */
@@ -341,7 +342,7 @@ li {
   
   /* Make the active state more pronounced for touch */
   .cta-button:active::before {
-    transform: translateX(100%) rotate(30deg);
+    transform: translateX(100%);
   }
   
   .cta-button:active::after {
