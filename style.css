@@ -188,6 +188,16 @@ hr.separator {
   color: inherit;
   text-decoration: underline;
 }
+#unreleased-heading {
+  font-family: 'IBM Plex Mono', monospace;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5em;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
 
 
 /* Lists & Link Styles */
