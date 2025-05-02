@@ -247,6 +247,10 @@ li {
     padding: 10px 20px;
     background-color: var(--accent-color);
     border-radius: 4px;
+    .cta-button {
+  text-decoration: none; /* This removes underline */
+}
+
     margin: 20px 0;
     font-weight: bold;
     transition: var(--transition-standard);
