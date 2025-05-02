@@ -260,6 +260,48 @@ li {
     -webkit-text-fill-color: transparent;
     animation: gradientMove 2s linear infinite;
 }
+.link-gradient {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  border: 2px solid black;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+  border-radius: 0; /* sharp corners */
+}
+
+.link-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: white;
+  transform: skewX(-20deg);
+  z-index: 0;
+  transition: left 0.5s ease;
+}
+
+.link-gradient:hover::before {
+  left: 100%;
+}
+
+.link-gradient:hover {
+  color: black;
+  background-color: white;
+}
+
+.link-gradient span {
+  position: relative;
+  z-index: 1;
+}
 
 /* CTA Button */
 .cta-button {
