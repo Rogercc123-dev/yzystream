@@ -367,6 +367,48 @@ li {
         padding: 15px;
     }
 }
+.cta-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: black;
+  color: white;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid black;
+  border-radius: 0; /* Sharp corners */
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: white;
+  transform: skewX(-20deg);
+  transition: left 0.4s ease;
+  z-index: 1;
+}
+
+.cta-button:hover::before {
+  left: 100%;
+}
+
+.cta-button span {
+  position: relative;
+  z-index: 2;
+}
+
+.cta-button:hover {
+  color: black;
+  background-color: white;
+}
 
 /* Print Styles */
 @media print {
