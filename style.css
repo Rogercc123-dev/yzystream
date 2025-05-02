@@ -241,20 +241,75 @@ li {
 }
 
 
-/* CTA Button */
+/* Updated CTA Button with Cooler Hover Effect */
 .cta-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: var(--accent-color);
-    border-radius: 4px;
-    margin: 20px 0;
-    font-weight: bold;
-    transition: var(--transition-standard);
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: black;
+  color: white;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 2px solid black;
+  border-radius: 0; /* Sharp corners */
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: black;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cta-button:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.cta-button span {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover span {
+  transform: translateX(5px);
+}
+
+/* Add a subtle pulse animation when hovering */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+.cta-button:hover {
+  animation: pulse 1.5s infinite;
 }
 
 /* Project List */
