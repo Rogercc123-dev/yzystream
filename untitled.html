@@ -250,41 +250,37 @@
 
     <!-- Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Track of the day functionality
-            const playBtn = document.querySelector('.play-btn');
-            const playProgress = document.querySelector('.play-progress');
-            let isPlaying = false;
-            let progressInterval;
+    document.addEventListener('DOMContentLoaded', function() {
+        const playBtn = document.querySelector('.play-btn');
+        const playProgress = document.querySelector('.play-progress');
+        const audio = document.getElementById('track-audio');
+        let isPlaying = false;
 
-            playBtn.addEventListener('click', function() {
-                if (isPlaying) {
-                    // Pause functionality
-                    clearInterval(progressInterval);
-                    playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                    isPlaying = false;
-                } else {
-                    // Play functionality
-                    playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                    isPlaying = true;
-                    
-                    // Simulate progress bar movement for demo
-                    let progress = 0;
-                    progressInterval = setInterval(() => {
-                        progress += 1;
-                        if (progress <= 100) {
-                            playProgress.style.width = progress + '%';
-                        } else {
-                            clearInterval(progressInterval);
-                            playBtn.innerHTML = '<i class="fas fa-play"></i>';
-                            isPlaying = false;
-                            playProgress.style.width = '0%';
-                        }
-                    }, 300);
-                }
-            });
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
         });
-    </script>
+
+        audio.addEventListener('play', () => isPlaying = true);
+        audio.addEventListener('pause', () => isPlaying = false);
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            playProgress.style.width = progress + '%';
+        });
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playProgress.style.width = '0%';
+        });
+    });
+</script>
+
     
     <!-- SEO & Social -->
     <meta name="description" content="Explore unreleased Kanye West (Ye) albums. Links to unofficial projects hosted on [untitled].">
@@ -591,8 +587,9 @@
         <img src="/api/placeholder/400/400" alt="Album cover for Hurricane (2018 Version)">
       </div>
       <div class="track-info">
-        <div class="track-title">Hurricane (2018 Version)</div>
-        <div class="track-project">From: Yandhi</div>
+        <audio id="track-audio" src="BLOODSTAIN.mp3"></audio>
+         <div class="track-title">BLOODSTAIN</div>
+        <div class="track-project">From: SOMEDAY WE'LL ALL BE FREE</div>
       </div>
       <div class="player-controls">
         <div class="play-bar">
