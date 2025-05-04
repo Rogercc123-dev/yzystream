@@ -27,11 +27,16 @@
       // Check if the credentials match
       if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
         // Successful login
+        localStorage.setItem('isLoggedIn', 'true'); // Save the logged in status
         window.location.href = '/admin/dashboard.html'; // Redirect to admin page
       } else {
         alert('Invalid username or password');
       }
     });
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+  localStorage.setItem('isLoggedIn', 'true'); // Save the logged in status
+  window.location.href = '/admin/dashboard.html'; // Redirect to admin page
+}
   </script>
 </body>
 </html>
