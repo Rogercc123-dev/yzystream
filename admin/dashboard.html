@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard - YZYStream</title>
+</head>
+<body>
+  <h1>Welcome to the Admin Dashboard</h1>
+  <button id="logoutButton">Logout</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/gotrue-js@2.11.0/dist/gotrue.min.js"></script>
+  <script>
+    const auth = new GoTrue({
+      APIUrl: 'https://yzystream.netlify.app/.netlify/identity',
+      setCookie: true
+    });
+
+    // Check if the user is logged in
+    auth.currentUser().then(user => {
+      if (!user) {
+        window.location.href = '/login.html'; // Redirect to login if not logged in
+      } else {
+        console.log('Logged in as:', user.email);
+      }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      await auth.logout();
+      window.location.href = '/login.html'; // Redirect to login after logout
+    });
+  </script>
+</body>
+</html>
