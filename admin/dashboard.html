@@ -3,142 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Artist Dashboard</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>YZY STREAM Admin Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #f8f9fa;
+        }
+        .dashboard-card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .code-block {
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            padding: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .copy-btn {
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background-color: #2d3748;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+        }
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein {
+            from {bottom: 0; opacity: 0;}
+            to {bottom: 30px; opacity: 1;}
+        }
+        @keyframes fadeout {
+            from {bottom: 30px; opacity: 1;}
+            to {bottom: 0; opacity: 0;}
+        }
+    </style>
 </head>
-<body>
-    <div class="content-wrapper">
-        <h1>Create Artist Dashboard</h1>
+<body class="min-h-screen bg-gray-100">
+    <nav class="bg-gray-800 text-white px-6 py-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">YZY STREAM Admin Dashboard</h1>
+            <div class="flex items-center space-x-4">
+                <span id="current-date" class="text-gray-300 text-sm"></span>
+            </div>
+        </div>
+    </nav>
 
-        <form id="dashboard-form">
-            <div>
-                <label for="artistName">Artist Name</label>
-                <input type="text" id="artistName" placeholder="Enter Artist Name" required />
+    <main class="container mx-auto px-4 py-8">
+        <div class="dashboard-card bg-white p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-6">Add New Album Entry</h2>
+            
+            <div class="mb-8 p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-700">
+                <p class="font-medium">Fill out the form below to generate HTML code for a new album entry.</p>
             </div>
-            <div>
-                <label for="albumName">Album Name</label>
-                <input type="text" id="albumName" placeholder="Enter Album Name" required />
-            </div>
-            <div>
-                <label for="year">Year</label>
-                <input type="text" id="year" placeholder="Enter Year" required />
-            </div>
-            <div>
-                <label for="albumLink">Album Link</label>
-                <input type="text" id="albumLink" placeholder="Enter Album Link" required />
-            </div>
-            <div>
-                <label for="trackName">Track Name</label>
-                <input type="text" id="trackName" placeholder="Enter Track Name" required />
-            </div>
-            <div>
-                <label for="trackAudio">Track Audio Link</label>
-                <input type="text" id="trackAudio" placeholder="Enter Track Audio Link" required />
-            </div>
-            <div>
-                <label for="trackCoverImage">Track Cover Image URL</label>
-                <input type="text" id="trackCoverImage" placeholder="Enter Track Cover Image URL" required />
-            </div>
-            <button type="button" onclick="generateFile()">Generate HTML File</button>
-        </form>
 
-        <div id="message"></div>
-    </div>
+            <form id="album-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="artist-name" class="block text-sm font-medium text-gray-700 mb-1">Artist Name</label>
+                        <input type="text" id="artist-name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Frank Ocean">
+                    </div>
+                    
+                    <div>
+                        <label for="album-name" class="block text-sm font-medium text-gray-700 mb-1">Album Name</label>
+                        <input type="text" id="album-name" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Blonde (Alternate Version)">
+                    </div>
+                    
+                    <div>
+                        <label for="album-link" class="block text-sm font-medium text-gray-700 mb-1">Album Link</label>
+                        <input type="text" id="album-link" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. https://untitled.stream/library/project/xyz123">
+                    </div>
+                    
+                    <div>
+                        <label for="album-year" class="block text-sm font-medium text-gray-700 mb-1">Year</label>
+                        <input type="text" id="album-year" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. 2016">
+                    </div>
+                    
+                    <div class="md:col-span-2">
+                        <label for="album-info" class="block text-sm font-medium text-gray-700 mb-1">Album Info</label>
+                        <textarea id="album-info" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g. Alternate version with additional tracks and different sequencing. Contains the rare track 'Seigfried (Extended)'"></textarea>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button type="submit" id="generate-btn" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Generate Code
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <div id="output-container" class="dashboard-card bg-white p-6 mb-8 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Generated HTML Code</h2>
+                <button id="copy-button" class="copy-btn px-4 py-2 bg-gray-800 text-white rounded-md flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy Code
+                </button>
+            </div>
+            <div class="code-block" id="code-output"></div>
+            
+            <div class="mt-6">
+                <h3 class="text-lg font-medium mb-3">Preview</h3>
+                <div class="border border-gray-300 rounded-md p-4 bg-gray-50">
+                    <div id="preview-content" class="text-gray-800"></div>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex justify-between">
+                <button id="reset-button" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+                    Create Another
+                </button>
+                
+                <button id="add-update-button" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                    Generate Update Entry
+                </button>
+            </div>
+        </div>
+        
+        <div id="updates-container" class="dashboard-card bg-white p-6 mb-8 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Generated Update Entry</h2>
+                <button id="copy-update-button" class="copy-btn px-4 py-2 bg-gray-800 text-white rounded-md flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy Update
+                </button>
+            </div>
+            <div class="code-block" id="update-output"></div>
+            
+            <div class="mt-6">
+                <h3 class="text-lg font-medium mb-3">Update Preview</h3>
+                <div class="border border-gray-300 rounded-md p-4 bg-gray-50">
+                    <div id="update-preview" class="text-gray-800"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast">Code copied to clipboard!</div>
+
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto px-4">
+            <p class="text-center text-sm">© 2025 YZY STREAM Admin Dashboard</p>
+        </div>
+    </footer>
 
     <script>
-        function generateFile() {
-            // Get the values from the form inputs
-            const artistName = document.getElementById('artistName').value;
-            const albumName = document.getElementById('albumName').value;
-            const year = document.getElementById('year').value;
-            const albumLink = document.getElementById('albumLink').value;
-            const trackName = document.getElementById('trackName').value;
-            const trackAudio = document.getElementById('trackAudio').value;
-            const trackCoverImage = document.getElementById('trackCoverImage').value;
-
-            // Validate if all fields are filled
-            if (!artistName || !albumName || !year || !albumLink || !trackName || !trackAudio || !trackCoverImage) {
-                alert('Please fill all fields');
-                return;
-            }
-
-            // Generate the HTML content with the provided values
-            const htmlContent = `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${artistName} Dashboard</title>
-                    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
-                    <link rel="stylesheet" href="style.css">
-                </head>
-                <body>
-                    <div class="content-wrapper">
-                        <h2>[untitled] ${artistName} Projects</h2>
-                        <p>[untitled] is a decentralized music streaming platform used by fans to archive and share unreleased projects...</p>
-                        <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
-                            Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date
+            const currentDate = new Date();
+            document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Form submission handler
+            document.getElementById('album-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const artistName = document.getElementById('artist-name').value.trim();
+                const albumName = document.getElementById('album-name').value.trim();
+                const albumLink = document.getElementById('album-link').value.trim();
+                const albumYear = document.getElementById('album-year').value.trim();
+                const albumInfo = document.getElementById('album-info').value.trim();
+                
+                if (!artistName || !albumName || !albumLink || !albumYear || !albumInfo) {
+                    alert('Please fill out all fields');
+                    return;
+                }
+                
+                // Generate HTML code
+                const htmlCode = `<li>
+        <span class="album-link">
+            <a href="${albumLink}" class="link-gradient" target="_blank" rel="noopener">
+                ${albumName} <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+            </a>
+            <div class="tooltip" role="tooltip">
+                <span class="year">${albumYear}</span>
+                <div class="info">${albumInfo}</div>
+            </div>
+        </span>
+    </li>`;
+                
+                // Display the code
+                document.getElementById('code-output').textContent = htmlCode;
+                
+                // Create preview
+                const previewContent = document.getElementById('preview-content');
+                previewContent.innerHTML = `
+                <div style="position: relative; margin-bottom: 12px;">
+                    <span style="font-weight: bold;">
+                        <a href="#" style="color: #3366cc; text-decoration: none;">
+                            ${albumName} <span style="font-size: 0.9em;">→</span>
                         </a>
-
-                        <div class="support-links">
-                            <a href="https://www.patreon.com/YZYSTREAM1" target="_blank">Exclusive links on Patreon</a><br>
-                            <a href="https://buymeacoffee.com/yzystream" target="_blank">Support Me</a><br>
-                            <a href="https://x.com/yzystream1" target="_blank">Follow me on X (Twitter)</a>
-                        </div>
-
-                        <hr class="separator">
-
-                        <section id="unreleased">
-                            <h3>Unreleased ${artistName} Projects</h3>
-                            <ul>
-                                <li>
-                                    <span class="album-link">
-                                        <a href="${albumLink}" class="link-gradient" target="_blank" rel="noopener">${albumName}</a>
-                                    </span>
-                                </li>
-                            </ul>
-                        </section>
-
-                        <section class="track-of-day">
-                            <h3 class="text-center">Track of the Day</h3>
-
-                            <div class="track-container">
-                                <div class="album-cover mb-4">
-                                    <img src="${trackCoverImage}" alt="Track of the Day Cover">
-                                </div>
-
-                                <div class="track-info">
-                                    <audio id="track-audio" src="${trackAudio}"></audio>
-
-                                    <div class="track-title text-white text-2xl font-bold mb-2">${trackName}</div>
-
-                                    <p class="text-gray-400 text-sm">
-                                        from: <a href="${albumLink}" class="underline hover:text-white" target="_blank" rel="noopener noreferrer">${albumName}</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </section>
+                    </span>
+                    <div style="padding: 8px; background: #fff; border: 1px solid #ddd; border-radius: 4px; width: 200px; margin-top: 5px;">
+                        <div style="font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #eee; padding-bottom: 3px;">${albumYear}</div>
+                        <div style="font-size: 0.9em;">${albumInfo}</div>
                     </div>
-                </body>
-                </html>
-            `;
-
-            // Create a Blob from the HTML content
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-
-            // Create an anchor element to trigger download
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${artistName}-dashboard.html`;
-
-            // Trigger the download
-            link.click();
-
-            // Display success message
-            document.getElementById('message').innerText = `HTML file for ${artistName} has been generated!`;
-        }
+                </div>`;
+                
+                // Show output container
+                document.getElementById('output-container').classList.remove('hidden');
+                
+                // Generate update entry
+                const today = new Date();
+                const formattedDate = today.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+                
+                const updateEntry = `<li style="margin-bottom: 1rem;">
+      <strong>${formattedDate}:</strong> ${artistName} - ${albumName} added.
+    </li>`;
+                
+                // Store update entry for later
+                document.getElementById('album-form').dataset.updateEntry = updateEntry;
+                document.getElementById('album-form').dataset.artistName = artistName;
+                document.getElementById('album-form').dataset.albumName = albumName;
+            });
+            
+            // Copy code button
+            document.getElementById('copy-button').addEventListener('click', function() {
+                const codeText = document.getElementById('code-output').textContent;
+                copyToClipboard(codeText);
+                showToast();
+            });
+            
+            // Copy update button
+            document.getElementById('copy-update-button').addEventListener('click', function() {
+                const updateText = document.getElementById('update-output').textContent;
+                copyToClipboard(updateText);
+                showToast();
+            });
+            
+            // Reset button
+            document.getElementById('reset-button').addEventListener('click', function() {
+                document.getElementById('album-form').reset();
+                document.getElementById('output-container').classList.add('hidden');
+                document.getElementById('updates-container').classList.add('hidden');
+            });
+            
+            // Generate update entry button
+            document.getElementById('add-update-button').addEventListener('click', function() {
+                const updateEntry = document.getElementById('album-form').dataset.updateEntry;
+                
+                if (updateEntry) {
+                    document.getElementById('update-output').textContent = updateEntry;
+                    document.getElementById('update-preview').innerHTML = updateEntry;
+                    document.getElementById('updates-container').classList.remove('hidden');
+                }
+            });
+            
+            // Helper function to copy to clipboard
+            function copyToClipboard(text) {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            
+            // Show toast notification
+            function showToast() {
+                const toast = document.getElementById('toast');
+                toast.className = "toast show";
+                setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            }
+        });
     </script>
 </body>
 </html>
