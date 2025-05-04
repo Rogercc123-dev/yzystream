@@ -1,32 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - YZYStream</title>
 </head>
 <body>
-  <h1>Welcome to the Admin Dashboard</h1>
-  <button id="logoutButton">Logout</button>
+  <h1>Admin Dashboard</h1>
+  <p>Welcome, Admin!</p>
+  <button id="logout-button">Logout</button>
 
-  <script src="https://cdn.jsdelivr.net/npm/gotrue-js@2.11.0/dist/gotrue.min.js"></script>
   <script>
-    const auth = new GoTrue({
-      APIUrl: 'https://yzystream.netlify.app/.netlify/identity',
-      setCookie: true
-    });
+    // Check if the user is logged in (simple check for this example)
+    if (!localStorage.getItem('isLoggedIn')) {
+      window.location.href = '/login.html'; // If not logged in, redirect to login page
+    }
 
-    // Check if the user is logged in
-    auth.currentUser().then(user => {
-      if (!user) {
-        window.location.href = '/login.html'; // Redirect to login if not logged in
-      } else {
-        console.log('Logged in as:', user.email);
-      }
-    });
-
-    // Logout functionality
-    document.getElementById('logoutButton').addEventListener('click', async () => {
-      await auth.logout();
-      window.location.href = '/login.html'; // Redirect to login after logout
+    document.getElementById('logout-button').addEventListener('click', function() {
+      localStorage.removeItem('isLoggedIn'); // Remove the "logged in" status
+      window.location.href = '/login.html'; // Redirect to login page
     });
   </script>
 </body>
