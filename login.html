@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - YZYStream</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="login-form">
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script src="https://cdn.jsdelivr.net/npm/gotrue-js@2.11.0/dist/gotrue.min.js"></script>
+  <script>
+    const auth = new GoTrue({
+      APIUrl: 'https://yzystream.netlify.app/.netlify/identity',
+      setCookie: true
+    });
+
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      auth.login(email, password, true)
+        .then(user => {
+          console.log('Logged in as:', user);
+          window.location.href = '/admin/';
+        })
+        .catch(error => console.error('Login failed:', error));
+    });
+  </script>
+</body>
+</html>
