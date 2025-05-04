@@ -443,6 +443,27 @@ a:hover {
         margin: 0 0.25rem;
     }
 }
+.join-team-section {
+    text-align: center;
+    margin: 40px 0 20px;
+}
+
+.join-btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: background 0.3s ease;
+    font-weight: 500;
+}
+
+.join-btn:hover {
+    background: #333;
+}
 
 /* Print Styles */
 @media print {
