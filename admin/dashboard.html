@@ -3,113 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artist Dashboard - YZY STREAM</title>
-
-    <!-- Preload critical assets -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
-    <link rel="preload" href="style.css" as="style">
-
-    <!-- Styles -->
+    <title>Generate Artist Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="content-wrapper">
-        <h1 id="dynamic-title">Artist Dashboard</h1>
+        <h1>Create Artist Dashboard</h1>
 
-        <!-- Dynamic content will be injected here -->
-        <div id="dynamic-content"></div>
-        
-        <div class="back-to-home mt-6 text-center">
-            <a href="index.html" class="link-gradient">← Back to Home</a>
-        </div>
+        <form id="dashboard-form">
+            <div>
+                <label for="artistName">Artist Name</label>
+                <input type="text" id="artistName" placeholder="Enter Artist Name" required />
+            </div>
+            <div>
+                <label for="albumName">Album Name</label>
+                <input type="text" id="albumName" placeholder="Enter Album Name" required />
+            </div>
+            <div>
+                <label for="year">Year</label>
+                <input type="text" id="year" placeholder="Enter Year" required />
+            </div>
+            <div>
+                <label for="albumLink">Album Link</label>
+                <input type="text" id="albumLink" placeholder="Enter Album Link" required />
+            </div>
+            <div>
+                <label for="trackName">Track Name</label>
+                <input type="text" id="trackName" placeholder="Enter Track Name" required />
+            </div>
+            <div>
+                <label for="trackAudio">Track Audio Link</label>
+                <input type="text" id="trackAudio" placeholder="Enter Track Audio Link" required />
+            </div>
+            <div>
+                <label for="trackCoverImage">Track Cover Image URL</label>
+                <input type="text" id="trackCoverImage" placeholder="Enter Track Cover Image URL" required />
+            </div>
+            <button type="button" onclick="generateFile()">Generate HTML File</button>
+        </form>
 
-        <footer class="footer text-center mt-8">
-            <p>&copy; 2025 | yzystream.com</p>
-            <nav aria-label="Footer navigation">
-                <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
-            </nav>
-        </footer>
+        <div id="message"></div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // JavaScript function to generate HTML content
-        function generateHTML(artistName, albumName, year, albumLink, projectLink, trackName, trackAudio, trackCoverImage) {
-            const htmlTemplate = `
-                <h2>[untitled] ${artistName} Projects</h2>
-                <p>[untitled] is a decentralized music streaming platform used by fans to archive and share unreleased projects...</p>
-                <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
-                    Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
-                </a>
+        function generateFile() {
+            // Get the values from the form inputs
+            const artistName = document.getElementById('artistName').value;
+            const albumName = document.getElementById('albumName').value;
+            const year = document.getElementById('year').value;
+            const albumLink = document.getElementById('albumLink').value;
+            const trackName = document.getElementById('trackName').value;
+            const trackAudio = document.getElementById('trackAudio').value;
+            const trackCoverImage = document.getElementById('trackCoverImage').value;
 
-                <div class="support-links">
-                    <a href="https://www.patreon.com/YZYSTREAM1" target="_blank">Exclusive links on Patreon</a><br>
-                    <a href="https://buymeacoffee.com/yzystream" target="_blank">Support Me</a><br>
-                    <a href="https://x.com/yzystream1" target="_blank">Follow me on X (Twitter)</a>
-                </div>
+            // Validate if all fields are filled
+            if (!artistName || !albumName || !year || !albumLink || !trackName || !trackAudio || !trackCoverImage) {
+                alert('Please fill all fields');
+                return;
+            }
 
-                <hr class="separator">
+            // Generate the HTML content with the provided values
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${artistName} Dashboard</title>
+                    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
+                    <link rel="stylesheet" href="style.css">
+                </head>
+                <body>
+                    <div class="content-wrapper">
+                        <h2>[untitled] ${artistName} Projects</h2>
+                        <p>[untitled] is a decentralized music streaming platform used by fans to archive and share unreleased projects...</p>
+                        <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
+                            Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+                        </a>
 
-                <section id="unreleased">
-                    <h3>Unreleased ${artistName} Projects</h3>
-                    <ul>
-                        <li>
-                            <span class="album-link">
-                                <a href="${albumLink}" class="link-gradient" target="_blank" rel="noopener">${albumName}</a>
-                            </span>
-                        </li>
-                    </ul>
-                </section>
-
-                <section class="track-of-day">
-                    <h3 class="text-center">Track of the Day</h3>
-
-                    <div class="track-container">
-                        <div class="album-cover mb-4">
-                            <img src="${trackCoverImage}" alt="Track of the Day Cover">
+                        <div class="support-links">
+                            <a href="https://www.patreon.com/YZYSTREAM1" target="_blank">Exclusive links on Patreon</a><br>
+                            <a href="https://buymeacoffee.com/yzystream" target="_blank">Support Me</a><br>
+                            <a href="https://x.com/yzystream1" target="_blank">Follow me on X (Twitter)</a>
                         </div>
 
-                        <div class="track-info">
-                            <audio id="track-audio" src="${trackAudio}"></audio>
+                        <hr class="separator">
 
-                            <div class="track-title text-white text-2xl font-bold mb-2">${trackName}</div>
+                        <section id="unreleased">
+                            <h3>Unreleased ${artistName} Projects</h3>
+                            <ul>
+                                <li>
+                                    <span class="album-link">
+                                        <a href="${albumLink}" class="link-gradient" target="_blank" rel="noopener">${albumName}</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </section>
 
-                            <p class="text-gray-400 text-sm">
-                                from: <a href="${projectLink}" class="underline hover:text-white" target="_blank" rel="noopener noreferrer">SOMEDAY WE'LL ALL BE FREE</a>
-                            </p>
-                        </div>
+                        <section class="track-of-day">
+                            <h3 class="text-center">Track of the Day</h3>
+
+                            <div class="track-container">
+                                <div class="album-cover mb-4">
+                                    <img src="${trackCoverImage}" alt="Track of the Day Cover">
+                                </div>
+
+                                <div class="track-info">
+                                    <audio id="track-audio" src="${trackAudio}"></audio>
+
+                                    <div class="track-title text-white text-2xl font-bold mb-2">${trackName}</div>
+
+                                    <p class="text-gray-400 text-sm">
+                                        from: <a href="${albumLink}" class="underline hover:text-white" target="_blank" rel="noopener noreferrer">${albumName}</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </section>
+                </body>
+                </html>
             `;
 
-            // Replace placeholders with dynamic data
-            return htmlTemplate
-                .replace("[untitled]", "Untitled")  
-                .replace("${artistName}", artistName)
-                .replace("${albumName}", albumName)
-                .replace("${year}", year)
-                .replace("${albumLink}", albumLink)
-                .replace("${projectLink}", projectLink)
-                .replace("${trackName}", trackName)
-                .replace("${trackAudio}", trackAudio)
-                .replace("${trackCoverImage}", trackCoverImage);
+            // Create a Blob from the HTML content
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+
+            // Create an anchor element to trigger download
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${artistName}-dashboard.html`;
+
+            // Trigger the download
+            link.click();
+
+            // Display success message
+            document.getElementById('message').innerText = `HTML file for ${artistName} has been generated!`;
         }
-
-        // Example usage: Populate page with data
-        const artistName = "Frank Ocean";
-        const albumName = "Channel Orange (Demo)";
-        const year = "2012";
-        const albumLink = "https://untitled.stream/library/project/channel-orange";
-        const projectLink = "https://untitled.stream/library/project/channel-orange";
-        const trackName = "Pyramids";
-        const trackAudio = "https://example.com/audio/pyramids.mp3";
-        const trackCoverImage = "https://example.com/images/pyramids-cover.jpg";
-
-        // Generate dynamic HTML and insert into the page
-        const generatedHTML = generateHTML(artistName, albumName, year, albumLink, projectLink, trackName, trackAudio, trackCoverImage);
-        document.getElementById('dynamic-content').innerHTML = generatedHTML;
     </script>
 </body>
 </html>
