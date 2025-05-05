@@ -693,33 +693,31 @@
     // Function to load shared content
     async function loadSharedContent() {
         try {
-            // Try different possible paths
+            console.log('Attempting to load shared content...');
+            // Try multiple possible paths for shared-content.json
             const paths = [
                 'shared-content.json',
-                './shared-content.json',
                 '../admin/shared-content.json',
                 '/admin/shared-content.json'
             ];
             
-            let response = null;
             let content = null;
-            
             for (const path of paths) {
                 try {
-                    console.log('Trying to load from:', path);
-                    response = await fetch(path);
+                    console.log('Trying path:', path);
+                    const response = await fetch(path);
                     if (response.ok) {
                         content = await response.json();
-                        console.log('Successfully loaded from:', path);
+                        console.log('Successfully loaded shared content from:', path);
                         break;
                     }
                 } catch (e) {
-                    console.log('Failed to load from:', path, e);
+                    console.log('Failed to load from path:', path);
                 }
             }
             
             if (!content) {
-                throw new Error('Could not load shared content from any path');
+                throw new Error('Failed to load shared content from any path');
             }
             
             // Update track of the day
@@ -730,13 +728,26 @@
                 const trackProject = document.getElementById('track-project');
                 const trackProjectLink = document.getElementById('track-project-link');
                 
-                if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
-                if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
-                if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
-                if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
-                if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
-                
-                console.log('Updated track of the day:', content.trackOfTheDay);
+                if (trackCover) {
+                    trackCover.src = content.trackOfTheDay.coverImage;
+                    console.log('Updated track cover:', trackCover.src);
+                }
+                if (trackAudio) {
+                    trackAudio.src = content.trackOfTheDay.audioFile;
+                    console.log('Updated track audio:', trackAudio.src);
+                }
+                if (trackTitle) {
+                    trackTitle.textContent = content.trackOfTheDay.title;
+                    console.log('Updated track title:', trackTitle.textContent);
+                }
+                if (trackProject) {
+                    trackProject.textContent = content.trackOfTheDay.project;
+                    console.log('Updated track project:', trackProject.textContent);
+                }
+                if (trackProjectLink) {
+                    trackProjectLink.href = content.trackOfTheDay.projectLink;
+                    console.log('Updated track project link:', trackProjectLink.href);
+                }
             }
             
             // Update updates section
@@ -748,7 +759,7 @@
                         '<strong>' + update.date + ':</strong> ' + update.text +
                         '</li>'
                     ).join('');
-                    console.log('Updated updates list:', content.updates.length, 'updates');
+                    console.log('Updated updates list with', content.updates.length, 'updates');
                 }
             }
         } catch (error) {
@@ -917,78 +928,89 @@
 
             // Add script to load shared content
             const sharedContentScript = `
-                <script>
-                    async function loadSharedContent() {
-                        try {
-                            // Try different possible paths
-                            const paths = [
-                                'shared-content.json',
-                                './shared-content.json',
-                                '../admin/shared-content.json',
-                                '/admin/shared-content.json'
-                            ];
-                            
-                            let response = null;
-                            let content = null;
-                            
-                            for (const path of paths) {
-                                try {
-                                    console.log('Trying to load from:', path);
-                                    response = await fetch(path);
-                                    if (response.ok) {
-                                        content = await response.json();
-                                        console.log('Successfully loaded from:', path);
-                                        break;
-                                    }
-                                } catch (e) {
-                                    console.log('Failed to load from:', path, e);
-                                }
-                            }
-                            
-                            if (!content) {
-                                throw new Error('Could not load shared content from any path');
-                            }
-                            
-                            // Update track of the day
-                            if (content.trackOfTheDay) {
-                                const trackCover = document.getElementById('track-cover');
-                                const trackAudio = document.getElementById('track-audio');
-                                const trackTitle = document.getElementById('track-title');
-                                const trackProject = document.getElementById('track-project');
-                                const trackProjectLink = document.getElementById('track-project-link');
-                                
-                                if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
-                                if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
-                                if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
-                                if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
-                                if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
-                                
-                                console.log('Updated track of the day:', content.trackOfTheDay);
-                            }
-                            
-                            // Update updates section
-                            if (content.updates) {
-                                const updatesList = document.getElementById('updates-list');
-                                if (updatesList) {
-                                    updatesList.innerHTML = content.updates.map(update => 
-                                        '<li style="margin-bottom: 1rem;">' +
-                                        '<strong>' + update.date + ':</strong> ' + update.text +
-                                        '</li>'
-                                    ).join('');
-                                    console.log('Updated updates list:', content.updates.length, 'updates');
-                                }
-                            }
-                        } catch (error) {
-                            console.error('Error loading shared content:', error);
+    <script>
+        async function loadSharedContent() {
+            try {
+                console.log('Attempting to load shared content...');
+                // Try multiple possible paths for shared-content.json
+                const paths = [
+                    'shared-content.json',
+                    '../admin/shared-content.json',
+                    '/admin/shared-content.json'
+                ];
+                
+                let content = null;
+                for (const path of paths) {
+                    try {
+                        console.log('Trying path:', path);
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            content = await response.json();
+                            console.log('Successfully loaded shared content from:', path);
+                            break;
                         }
+                    } catch (e) {
+                        console.log('Failed to load from path:', path);
                     }
+                }
+                
+                if (!content) {
+                    throw new Error('Failed to load shared content from any path');
+                }
+                
+                // Update track of the day
+                if (content.trackOfTheDay) {
+                    const trackCover = document.getElementById('track-cover');
+                    const trackAudio = document.getElementById('track-audio');
+                    const trackTitle = document.getElementById('track-title');
+                    const trackProject = document.getElementById('track-project');
+                    const trackProjectLink = document.getElementById('track-project-link');
+                    
+                    if (trackCover) {
+                        trackCover.src = content.trackOfTheDay.coverImage;
+                        console.log('Updated track cover:', trackCover.src);
+                    }
+                    if (trackAudio) {
+                        trackAudio.src = content.trackOfTheDay.audioFile;
+                        console.log('Updated track audio:', trackAudio.src);
+                    }
+                    if (trackTitle) {
+                        trackTitle.textContent = content.trackOfTheDay.title;
+                        console.log('Updated track title:', trackTitle.textContent);
+                    }
+                    if (trackProject) {
+                        trackProject.textContent = content.trackOfTheDay.project;
+                        console.log('Updated track project:', trackProject.textContent);
+                    }
+                    if (trackProjectLink) {
+                        trackProjectLink.href = content.trackOfTheDay.projectLink;
+                        console.log('Updated track project link:', trackProjectLink.href);
+                    }
+                }
+                
+                // Update updates section
+                if (content.updates) {
+                    const updatesList = document.getElementById('updates-list');
+                    if (updatesList) {
+                        updatesList.innerHTML = content.updates.map(update => 
+                            '<li style="margin-bottom: 1rem;">' +
+                            '<strong>' + update.date + ':</strong> ' + update.text +
+                            '</li>'
+                        ).join('');
+                        console.log('Updated updates list with', content.updates.length, 'updates');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading shared content:', error);
+            }
+        }
 
-                    // Load shared content when the page loads
-                    document.addEventListener('DOMContentLoaded', loadSharedContent);
+        // Load shared content when the page loads
+        document.addEventListener('DOMContentLoaded', loadSharedContent);
 
-                    // Reload shared content every 5 minutes
-                    setInterval(loadSharedContent, 5 * 60 * 1000);
-                <\/script>
+        // Reload shared content every 5 minutes
+        setInterval(loadSharedContent, 5 * 60 * 1000);
+    <\/script>
             `;
 
             // Replace placeholders in the template
@@ -997,200 +1019,207 @@
                 .replace(/\${albumsHTML}/g, albumsHTML)
                 .replace(/\${currentYear}/g, new Date().getFullYear())
                 .replace('</body>', sharedContentScript + '</body>');
-            
+
+            console.log('Generated HTML includes shared content script:', finalHtml.includes('loadSharedContent'));
             return finalHtml;
-        }
+    }
+
+    // Function to generate and download the page
+    async function generatePage() {
+        console.log('generatePage called');
+        const artistName = document.getElementById('page-artist-name').value;
+        console.log('Artist name:', artistName);
         
-        // Function to generate and download the page
-        async function generatePage() {
-            console.log('generatePage called');
-            const artistName = document.getElementById('page-artist-name').value;
-            console.log('Artist name:', artistName);
-            
-            if (!artistName) {
-                showToast('Please enter an artist name');
-                return;
-            }
-
-            if (albumEntries.length === 0) {
-                showToast('Please add at least one album');
-                return;
-            }
-            console.log('Album entries:', albumEntries);
-
-            const html = await generateArtistPage();
-            console.log('Generated HTML:', html);
-            
-            if (!html) {
-                console.log('No HTML generated');
-                return;
-            }
-
-            // Create a blob and download link
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${artistName.toLowerCase().replace(/ /g, '')}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showToast('Page generated successfully!');
+        if (!artistName) {
+            showToast('Please enter an artist name');
+            return;
         }
 
-        // Copy to clipboard function
-        document.getElementById('copy-button').addEventListener('click', function() {
-            const codeOutput = document.getElementById('code-output');
-            navigator.clipboard.writeText(codeOutput.textContent).then(function() {
-                showToast('Code copied to clipboard!');
-            }, function() {
-                showToast('Failed to copy code');
-            });
+        if (albumEntries.length === 0) {
+            showToast('Please add at least one album');
+            return;
+        }
+        console.log('Album entries:', albumEntries);
+
+        const html = await generateArtistPage();
+        console.log('Generated HTML length:', html.length);
+        console.log('Generated HTML includes shared content script:', html.includes('loadSharedContent'));
+        
+        if (!html) {
+            console.log('No HTML generated');
+            return;
+        }
+
+        // Create a blob and download link
+        const blob = new Blob([html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${artistName.toLowerCase().replace(/ /g, '')}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast('Page generated successfully!');
+    }
+
+    // Add JSZip library to the page
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+    document.head.appendChild(script);
+
+    // Add event listener to the generate page button
+    document.getElementById('generate-page-btn').addEventListener('click', function() {
+        console.log('Generate page button clicked');
+        generatePage();
+    });
+
+    // Copy to clipboard function
+    document.getElementById('copy-button').addEventListener('click', function() {
+        const codeOutput = document.getElementById('code-output');
+        navigator.clipboard.writeText(codeOutput.textContent).then(function() {
+            showToast('Code copied to clipboard!');
+        }, function() {
+            showToast('Failed to copy code');
         });
-        
-        // Toast function
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(function() {
-                toast.classList.remove('show');
-            }, 3000);
-        }
+    });
     
-        // Reset button
-        document.getElementById('reset-button').addEventListener('click', function() {
-            document.getElementById('page-artist-name').value = '';
-            albumEntries = [];
-            renderAlbumEntries();
-            document.getElementById('output-container').classList.add('hidden');
-            document.getElementById('updates-container').classList.add('hidden');
+    // Toast function
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+
+    // Reset button
+    document.getElementById('reset-button').addEventListener('click', function() {
+        document.getElementById('page-artist-name').value = '';
+        albumEntries = [];
+        renderAlbumEntries();
+        document.getElementById('output-container').classList.add('hidden');
+        document.getElementById('updates-container').classList.add('hidden');
+    });
+    
+    // Generate Update Entry button
+    document.getElementById('generate-update-btn').addEventListener('click', function() {
+        const artistName = document.getElementById('page-artist-name').value.trim();
+        
+        if (!artistName) {
+            alert('Artist name is required to generate update');
+            return;
+        }
+        
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric'
         });
         
-        // Generate Update Entry button
-        document.getElementById('generate-update-btn').addEventListener('click', function() {
-            const artistName = document.getElementById('page-artist-name').value.trim();
-            
-            if (!artistName) {
-                alert('Artist name is required to generate update');
-                return;
+        // Generate update entry HTML
+        const updateHTML = `<li style="margin-bottom: 1rem;">
+            <strong>${formattedDate}:</strong> ${artistName} page added.
+        </li>`;
+        
+        document.getElementById('update-output').textContent = updateHTML;
+        document.getElementById('updates-container').classList.remove('hidden');
+        
+        // Scroll to the updates container
+        document.getElementById('updates-container').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // Copy update to clipboard
+    document.getElementById('copy-update-button').addEventListener('click', function() {
+        const updateOutput = document.getElementById('update-output');
+        navigator.clipboard.writeText(updateOutput.textContent).then(function() {
+            showToast('Update copied to clipboard!');
+        }, function() {
+            showToast('Failed to copy update');
+        });
+    });
+
+    // Function to load current shared content
+    async function loadCurrentSharedContent() {
+        try {
+            const response = await fetch('/admin/shared-content.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            const content = await response.json();
+            console.log('Loading current shared content:', content);
             
-            const currentDate = new Date();
-            const formattedDate = currentDate.toLocaleDateString('en-US', { 
-                month: 'long', 
-                day: 'numeric', 
-                year: 'numeric'
-            });
-            
-            // Generate update entry HTML
-            const updateHTML = `<li style="margin-bottom: 1rem;">
-                <strong>${formattedDate}:</strong> ${artistName} page added.
-            </li>`;
-            
-            document.getElementById('update-output').textContent = updateHTML;
-            document.getElementById('updates-container').classList.remove('hidden');
-            
-            // Scroll to the updates container
-            document.getElementById('updates-container').scrollIntoView({ behavior: 'smooth' });
-        });
-        
-        // Copy update to clipboard
-        document.getElementById('copy-update-button').addEventListener('click', function() {
-            const updateOutput = document.getElementById('update-output');
-            navigator.clipboard.writeText(updateOutput.textContent).then(function() {
-                showToast('Update copied to clipboard!');
-            }, function() {
-                showToast('Failed to copy update');
-            });
-        });
+            // Populate track of the day form
+            if (content.trackOfTheDay) {
+                document.getElementById('track-title-input').value = content.trackOfTheDay.title || '';
+                document.getElementById('track-project-input').value = content.trackOfTheDay.project || '';
+                document.getElementById('track-project-link-input').value = content.trackOfTheDay.projectLink || '';
+                document.getElementById('track-cover-input').value = content.trackOfTheDay.coverImage || '';
+                document.getElementById('track-audio-input').value = content.trackOfTheDay.audioFile || '';
+            }
 
-        // Add event listener to the generate page button
-        document.getElementById('generate-page-btn').addEventListener('click', function() {
-            console.log('Generate page button clicked');
-            generatePage();
-        });
-
-        // Function to load current shared content
-        async function loadCurrentSharedContent() {
-            try {
-                const response = await fetch('/admin/shared-content.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const content = await response.json();
-                console.log('Loading current shared content:', content);
-                
-                // Populate track of the day form
-                if (content.trackOfTheDay) {
-                    document.getElementById('track-title-input').value = content.trackOfTheDay.title || '';
-                    document.getElementById('track-project-input').value = content.trackOfTheDay.project || '';
-                    document.getElementById('track-project-link-input').value = content.trackOfTheDay.projectLink || '';
-                    document.getElementById('track-cover-input').value = content.trackOfTheDay.coverImage || '';
-                    document.getElementById('track-audio-input').value = content.trackOfTheDay.audioFile || '';
-                }
-
-                // Populate updates list
-                if (content.updates) {
-                    const updatesList = document.getElementById('current-updates');
-                    updatesList.innerHTML = content.updates.map((update, index) => `
-                        <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-                            <div>
-                                <strong>${update.date}:</strong> ${update.text}
-                            </div>
-                            <button class="text-red-500 delete-update" data-index="${index}">×</button>
+            // Populate updates list
+            if (content.updates) {
+                const updatesList = document.getElementById('current-updates');
+                updatesList.innerHTML = content.updates.map((update, index) => `
+                    <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div>
+                            <strong>${update.date}:</strong> ${update.text}
                         </div>
-                    `).join('');
+                        <button class="text-red-500 delete-update" data-index="${index}">×</button>
+                    </div>
+                `).join('');
 
-                    // Add delete handlers
-                    document.querySelectorAll('.delete-update').forEach(btn => {
-                        btn.addEventListener('click', async () => {
-                            const index = parseInt(btn.dataset.index);
-                            await deleteUpdate(index);
-                        });
+                // Add delete handlers
+                document.querySelectorAll('.delete-update').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const index = parseInt(btn.dataset.index);
+                        await deleteUpdate(index);
                     });
-                }
-            } catch (error) {
-                console.error('Error loading current shared content:', error);
-                showToast('Error loading shared content');
+                });
             }
+        } catch (error) {
+            console.error('Error loading current shared content:', error);
+            showToast('Error loading shared content');
         }
+    }
 
-        // Function to save track of the day
-        async function saveTrackOfTheDay() {
-            try {
-                const response = await fetch('/admin/shared-content.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const content = await response.json();
-
-                content.trackOfTheDay = {
-                    title: document.getElementById('track-title-input').value,
-                    project: document.getElementById('track-project-input').value,
-                    projectLink: document.getElementById('track-project-link-input').value,
-                    coverImage: document.getElementById('track-cover-input').value,
-                    audioFile: document.getElementById('track-audio-input').value
-                };
-
-                await saveSharedContent(content);
-                showToast('Track of the day saved successfully!');
-            } catch (error) {
-                console.error('Error saving track of the day:', error);
-                showToast('Error saving track of the day');
+    // Function to save track of the day
+    async function saveTrackOfTheDay() {
+        try {
+            const response = await fetch('/admin/shared-content.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        }
+            const content = await response.json();
 
-        // Function to add update
-        async function addUpdate() {
-            try {
-                const response = await fetch('/admin/shared-content.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+            content.trackOfTheDay = {
+                title: document.getElementById('track-title-input').value,
+                project: document.getElementById('track-project-input').value,
+                projectLink: document.getElementById('track-project-link-input').value,
+                coverImage: document.getElementById('track-cover-input').value,
+                audioFile: document.getElementById('track-audio-input').value
+            };
+
+            await saveSharedContent(content);
+            showToast('Track of the day saved successfully!');
+        } catch (error) {
+            console.error('Error saving track of the day:', error);
+            showToast('Error saving track of the day');
+        }
+    }
+
+    // Function to add update
+    async function addUpdate() {
+        try {
+            const response = await fetch('/admin/shared-content.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
                 const content = await response.json();
 
                 const updateText = document.getElementById('update-text-input').value;
