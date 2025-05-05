@@ -124,10 +124,15 @@
 
   <!-- Script -->
   <script>
+    let templateLoaded = false;
+    let templateContent = '';
+
     // Load the template file
     fetch('templates/artist-page-template.html')
         .then(response => response.text())
         .then(html => {
+            templateContent = html;
+            templateLoaded = true;
             document.getElementById('artist-page-template').textContent = html;
         })
         .catch(error => {
@@ -216,10 +221,11 @@
               numberSpan.textContent = (index + 1) + '.';
               
               const albumDetailsDiv = document.createElement('div');
-              albumDetailsDiv.innerHTML = `
-                  <strong>${album.name}</strong> (${album.year})<br>
-                  <span class="text-sm text-gray-600">${album.link}</span>
-              `;
+              albumDetailsDiv.className = 'flex items-center';
+              
+              const albumLinkSpan = document.createElement('span');
+              albumLinkSpan.className = 'album-link text-sm text-gray-600';
+              albumLinkSpan.textContent = album.link;
               
               const removeBtn = document.createElement('span');
               removeBtn.className = 'remove-album text-red-500 cursor-pointer';
@@ -229,10 +235,12 @@
                   renderAlbumEntries();
               });
               
+              albumDetailsDiv.appendChild(albumLinkSpan);
+              albumDetailsDiv.appendChild(removeBtn);
+              
               albumInfoDiv.appendChild(numberSpan);
               albumInfoDiv.appendChild(albumDetailsDiv);
               albumDiv.appendChild(albumInfoDiv);
-              albumDiv.appendChild(removeBtn);
               
               albumEntriesContainer.appendChild(albumDiv);
           });
@@ -252,6 +260,11 @@
           
           if (albumEntries.length === 0) {
               alert('Please add at least one album');
+              return;
+          }
+
+          if (!templateLoaded) {
+              alert('Template is still loading. Please wait a moment and try again.');
               return;
           }
           
@@ -293,9 +306,8 @@
               year: 'numeric'
           });
           
-          // Load and process the template
-          const template = document.getElementById('artist-page-template').textContent;
-          return template
+          // Use the loaded template content
+          return templateContent
               .replace(/\${artistName}/g, artistName)
               .replace(/\${albumsHTML}/g, albumsHTML)
               .replace(/\${formattedDate}/g, formattedDate)
