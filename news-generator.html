@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News Generator | yzystream</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    input, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+    button {
+      cursor: pointer;
+      background: #fff;
+      color: #000;
+      border: none;
+    }
+    .status {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>News Generator</h1>
+  <p>Paste a Kanye Wiki link below. Example: <code>https://kanyewest.fandom.com/wiki/LOVE_EVERYONE</code></p>
+  <input id="urlInput" type="text" placeholder="Enter Kanye Wiki URL" size="50"/>
+  <button onclick="generate()">Generate .html</button>
+  <div class="status" id="status"></div>
+
+  <script>
+    async function generate() {
+      const url = document.getElementById('urlInput').value;
+      const status = document.getElementById('status');
+      status.textContent = 'Fetching content...';
+
+      try {
+        const corsProxy = 'https://api.allorigins.win/get?url=';
+        const res = await fetch(corsProxy + encodeURIComponent(url));
+        const data = await res.json();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html');
+
+        const title = doc.querySelector('h1.page-header__title')?.innerText || 'Untitled';
+        const content = doc.querySelector('.mw-parser-output')?.innerHTML || '';
+        const safeContent = content.replaceAll(/<script.*?>.*?<\/script>/gi, ''); // Remove scripts
+
+        const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${title} | yzystream</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="news-article">
+    <h1>${title}</h1>
+    ${safeContent}
+  </main>
+</body>
+</html>`;
+
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${title.replace(/\s+/g, '_')}.html`;
+        a.click();
+
+        status.textContent = '✅ HTML generated and downloaded. Upload it to GitHub when ready.';
+      } catch (err) {
+        console.error(err);
+        status.textContent = '❌ Failed to fetch or parse the page. Check the URL.';
+      }
+    }
+  </script>
+</body>
+</html>
