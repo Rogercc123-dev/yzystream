@@ -1,40 +1,819 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>YZYSTREAM - Page Generator</title>
-    <script defer src="script.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-white text-black p-8">
-    <h1 class="text-3xl font-bold mb-4">YZYSTREAM Page Generator</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YZY Stream - Album Page Generator</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <style>
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      font-size: 17px;
+    }
 
-    <div class="space-y-4 max-w-2xl">
-      <div>
-        <label for="page-artist-name" class="block font-semibold">Artist Name:</label>
-        <input type="text" id="page-artist-name" class="border px-4 py-2 w-full" />
+    .toast.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+
+    @-webkit-keyframes fadein {
+      from {bottom: 0; opacity: 0;} 
+      to {bottom: 30px; opacity: 1;}
+    }
+
+    @keyframes fadein {
+      from {bottom: 0; opacity: 0;}
+      to {bottom: 30px; opacity: 1;}
+    }
+
+    @-webkit-keyframes fadeout {
+      from {bottom: 30px; opacity: 1;} 
+      to {bottom: 0; opacity: 0;}
+    }
+
+    @keyframes fadeout {
+      from {bottom: 30px; opacity: 1;}
+      to {bottom: 0; opacity: 0;}
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+  <div class="max-w-3xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold mb-2">YZY STREAM</h1>
+    <p class="text-sm text-gray-600 mb-6" id="current-date"></p>
+
+    <!-- Artist Name -->
+    <div class="mb-4">
+      <label for="page-artist-name" class="block font-medium mb-1">Artist Name</label>
+      <input type="text" id="page-artist-name" class="w-full p-2 border rounded" placeholder="e.g. Kanye West" />
+    </div>
+
+    <!-- Add Album Button -->
+    <button id="add-album-btn" class="bg-black text-white px-4 py-2 rounded mb-4">+ Add Album</button>
+
+    <!-- Album Form -->
+    <div id="album-form" class="hidden bg-white p-4 border rounded mb-4">
+      <div class="mb-2">
+        <label class="block font-medium mb-1">Album Name</label>
+        <input type="text" id="album-name" class="w-full p-2 border rounded" />
       </div>
+      <div class="mb-2">
+        <label class="block font-medium mb-1">Album Link</label>
+        <input type="url" id="album-link" class="w-full p-2 border rounded" />
+      </div>
+      <div class="mb-2">
+        <label class="block font-medium mb-1">Release Year</label>
+        <input type="text" id="album-year" class="w-full p-2 border rounded" />
+      </div>
+      <div class="mb-2">
+        <label class="block font-medium mb-1">Album Info</label>
+        <textarea id="album-info" class="w-full p-2 border rounded"></textarea>
+      </div>
+      <div class="flex gap-4 mt-4">
+        <button id="save-album-btn" class="bg-green-600 text-white px-4 py-2 rounded">Save</button>
+        <button id="cancel-album-btn" class="text-red-500">Cancel</button>
+      </div>
+    </div>
 
-      <div class="border-t pt-4">
-        <h2 class="text-xl font-semibold mb-2">Add Album</h2>
-        <div class="space-y-2">
-          <input type="text" id="album-name" placeholder="Album Name" class="border px-4 py-2 w-full" />
-          <input type="text" id="album-link" placeholder="Album Link (e.g. /albums/album.html)" class="border px-4 py-2 w-full" />
-          <input type="text" id="album-image" placeholder="Image URL" class="border px-4 py-2 w-full" />
-          <button id="add-album-btn" class="bg-black text-white px-4 py-2 rounded">Add Album</button>
+    <!-- Album Entries -->
+    <div id="album-entries" class="space-y-3 mb-6"></div>
+
+    <!-- Generate Button -->
+    <button id="generate-page-btn" class="bg-blue-600 text-white px-4 py-2 rounded">Generate Page</button>
+
+    <!-- Action Buttons -->
+    <div class="mt-4 flex space-x-4">
+      <button id="copy-button" class="bg-gray-800 text-white px-4 py-2 rounded">Copy to Clipboard</button>
+      <button id="reset-button" class="bg-red-600 text-white px-4 py-2 rounded">Reset</button>
+      <button id="generate-update-btn" class="bg-purple-600 text-white px-4 py-2 rounded">Generate Update Entry</button>
+    </div>
+
+    <!-- Output -->
+    <div id="output-container" class="hidden mt-10">
+      <h2 class="text-xl font-semibold mb-2">Generated HTML</h2>
+      <textarea id="code-output" class="w-full h-96 p-4 border font-mono text-sm rounded bg-gray-50" readonly></textarea>
+    </div>
+
+    <!-- Updates Output -->
+    <div id="updates-container" class="hidden mt-10">
+      <h2 class="text-xl font-semibold mb-2">Update Entry HTML</h2>
+      <textarea id="update-output" class="w-full h-24 p-4 border font-mono text-sm rounded bg-gray-50" readonly></textarea>
+      <button id="copy-update-button" class="mt-2 bg-gray-800 text-white px-4 py-2 rounded">Copy Update to Clipboard</button>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Code copied to clipboard!</div>
+  </div>
+
+  <!-- Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set current date
+      const currentDate = new Date();
+      document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+      });
+      
+      // Album entries store
+      let albumEntries = [];
+      
+      // Add album button
+      document.getElementById('add-album-btn').addEventListener('click', function() {
+          document.getElementById('album-form').classList.remove('hidden');
+          document.getElementById('album-name').focus();
+      });
+      
+      // Cancel album button
+      document.getElementById('cancel-album-btn').addEventListener('click', function() {
+          document.getElementById('album-form').classList.add('hidden');
+          clearAlbumForm();
+      });
+      
+      // Save album button
+      document.getElementById('save-album-btn').addEventListener('click', function() {
+          const albumName = document.getElementById('album-name').value.trim();
+          const albumLink = document.getElementById('album-link').value.trim();
+          const albumYear = document.getElementById('album-year').value.trim();
+          const albumInfo = document.getElementById('album-info').value.trim();
+          
+          if (!albumName || !albumLink || !albumYear || !albumInfo) {
+              alert('Please fill out all album fields');
+              return;
+          }
+          
+          const newAlbum = {
+              name: albumName,
+              link: albumLink,
+              year: albumYear,
+              info: albumInfo
+          };
+          
+          albumEntries.push(newAlbum);
+          renderAlbumEntries();
+          
+          document.getElementById('album-form').classList.add('hidden');
+          clearAlbumForm();
+      });
+      
+      // Function to clear album form
+      function clearAlbumForm() {
+          document.getElementById('album-name').value = '';
+          document.getElementById('album-link').value = '';
+          document.getElementById('album-year').value = '';
+          document.getElementById('album-info').value = '';
+      }
+      
+      // Function to render album entries
+      function renderAlbumEntries() {
+          const albumEntriesContainer = document.getElementById('album-entries');
+          albumEntriesContainer.innerHTML = '';
+          
+          if (albumEntries.length === 0) {
+              albumEntriesContainer.innerHTML = '<p class="text-gray-500 italic">No albums added yet.</p>';
+              return;
+          }
+          
+          albumEntries.forEach((album, index) => {
+              const albumDiv = document.createElement('div');
+              albumDiv.className = 'album-entry p-3 border border-gray-200 rounded-md flex justify-between items-center';
+              
+              const albumInfoDiv = document.createElement('div');
+              albumInfoDiv.className = 'flex items-center';
+              
+              const numberSpan = document.createElement('span');
+              numberSpan.className = 'album-entry-number mr-2';
+              numberSpan.textContent = (index + 1) + '.';
+              
+              const albumDetailsDiv = document.createElement('div');
+              albumDetailsDiv.innerHTML = `
+                  <strong>${album.name}</strong> (${album.year})<br>
+                  <span class="text-sm text-gray-600">${album.link}</span>
+              `;
+              
+              const removeBtn = document.createElement('span');
+              removeBtn.className = 'remove-album text-red-500 cursor-pointer';
+              removeBtn.innerHTML = '&times;';
+              removeBtn.addEventListener('click', function() {
+                  albumEntries.splice(index, 1);
+                  renderAlbumEntries();
+              });
+              
+              albumInfoDiv.appendChild(numberSpan);
+              albumInfoDiv.appendChild(albumDetailsDiv);
+              albumDiv.appendChild(albumInfoDiv);
+              albumDiv.appendChild(removeBtn);
+              
+              albumEntriesContainer.appendChild(albumDiv);
+          });
+      }
+      
+      // Initialize with empty albums display
+      renderAlbumEntries();
+      
+      // Generate page button
+      document.getElementById('generate-page-btn').addEventListener('click', function() {
+          const artistName = document.getElementById('page-artist-name').value.trim();
+          
+          if (!artistName) {
+              alert('Please enter artist name');
+              return;
+          }
+          
+          if (albumEntries.length === 0) {
+              alert('Please add at least one album');
+              return;
+          }
+          
+          const generatedHTML = generateArtistPage(artistName, albumEntries);
+          
+          document.getElementById('code-output').textContent = generatedHTML;
+          document.getElementById('output-container').classList.remove('hidden');
+          
+          // Scroll to the output container
+          document.getElementById('output-container').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Function to generate full artist page HTML
+      function generateArtistPage(artistName, albums) {
+          // Generate album list HTML
+          let albumsHTML = '';
+          
+          albums.forEach(album => {
+              albumsHTML += `
+                  <li>
+                      <span class="album-link">
+                          <a href="${album.link}" class="link-gradient" target="_blank" rel="noopener">
+                              ${album.name} <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+                          </a>
+                          <div class="tooltip" role="tooltip">
+                              <span class="year">${album.year}</span>
+                              <div class="info">${album.info}</div>
+                          </div>
+                      </span>
+                  </li>
+              `;
+          });
+          
+          // Generate full HTML page
+          const currentDate = new Date();
+          const formattedDate = currentDate.toLocaleDateString('en-US', { 
+              month: 'long', 
+              day: 'numeric', 
+              year: 'numeric'
+          });
+          
+          return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>[untitled] ${artistName} Projects - YZY STREAM</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
+    <link rel="preload" href="style.css" as="style">
+    
+    <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom Tooltip Styles -->
+    <style>
+        /* Tooltip styles */
+        .album-link {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
+            background: #fff;
+            color: #333;
+            text-align: left;
+            padding: 12px;
+            border-radius: 6px;
+            width: 250px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            font-size: 0.85em;
+            line-height: 1.4;
+            border: 1px solid #eee;
+            pointer-events: none;
+            white-space: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+        }
+
+        .album-link:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip .year {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 3px;
+            color: #000;
+        }
+
+        .tooltip .info {
+            color: #333;
+        }
+
+        /* Track of the Day section */
+        .track-of-day {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .track-of-day h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .track-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .album-cover {
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .track-info {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .track-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .track-project {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .player-controls {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .play-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #ddd;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-progress {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #666, #333);
+            border-radius: 3px;
+            transition: width 0.2s;
+        }
+
+        .player-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .player-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .player-btn:hover {
+            color: #000;
+        }
+
+        .player-btn.play-btn {
+            font-size: 1.5rem;
+        }
+
+        /* Social buttons */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .twitter-btn {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .twitter-btn:hover {
+            background-color: #333;
+        }
+
+        .twitter-btn i {
+            margin-right: 5px;
+        }
+
+        /* Center the footer and fix alignment */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            color: #666;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer p, .footer nav {
+            margin: 5px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            .album-cover {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const playBtn = document.querySelector('.play-btn');
+        const playProgress = document.querySelector('.play-progress');
+        const audio = document.getElementById('track-audio');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        });
+
+        audio.addEventListener('play', () => isPlaying = true);
+        audio.addEventListener('pause', () => isPlaying = false);
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            playProgress.style.width = progress + '%';
+        });
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playProgress.style.width = '0%';
+        });
+    });
+    </script>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Explore unreleased ${artistName} albums. Links to unofficial projects hosted on [untitled].">
+    <meta name="keywords" content="Unreleased ${artistName}, ${artistName} leaks, ${artistName} unreleased albums, ${artistName}, ${artistName} music leaks, YZY STREAM, [untitled] albums">
+    <meta name="author" content="YZY Stream Admin">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="[untitled] ${artistName} Projects - YZY STREAM">
+    <meta property="og:description" content="Explore unreleased ${artistName} albums and projects.">
+    <meta property="og:image" content="https://yzystream.com/logo.png">
+    <meta property="og:url" content="https://yzystream.com/${artistName.toLowerCase().replace(/ /g, '')}.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[untitled] ${artistName} Projects - YZY STREAM">
+    <meta name="twitter:description" content="Explore unreleased ${artistName} albums and projects.">
+    <meta name="twitter:image" content="https://yzystream.com/logo.png">
+    
+    <!-- Favicon & Manifest -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="web-app-manifest-512x512.png">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1>[untitled] ${artistName} Projects</h1>
+
+        <p>[untitled] is a decentralized music streaming platform used by fans to archive and share unreleased projects. It's unofficial, but essential to fans who want to explore unreleased music.</p>
+
+        <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
+            Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+        </a>
+
+        <div class="support-links">
+            <a href="https://www.patreon.com/YZYSTREAM1" target="_blank">Exclusive links on Patreon</a><br>
+            <a href="https://buymeacoffee.com/yzystream" target="_blank">Support Me</a><br>
+            <a href="https://x.com/yzystream1" target="_blank">Follow me on X (Twitter)</a>
         </div>
-        <ul id="album-list" class="mt-4 space-y-2"></ul>
-      </div>
 
-      <button id="generate-page-btn" class="bg-green-600 text-white px-6 py-2 rounded">Generate Page</button>
+        <hr class="separator">
+        
+        <section id="unreleased" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased ${artistName} Projects</h2>
+            <ul>
+                ${albumsHTML}
+            </ul>
+
+            <p class="ye-note">
+                All hosted on the [untitled] streaming platform. Links open in a new tab.
+            </p>
+        </section>
+      
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Kanye West</h2>
+            <a href="untitled.html" class="cta-button">
+                <span>🎧 Stream Unreleased Ye Projects →</span>
+            </a>
+        </section>
+       
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Playboi Carti</h2>
+            <a href="carti.html" class="cta-button">
+                <span>🎧 Stream Unreleased Carti Projects →</span>
+            </a>
+        </section>
+          
+        <hr class="separator">
+        
+        <section id="updates" style="margin-top: 3rem;">
+            <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 1rem;">
+                    <strong>${formattedDate}:</strong> ${artistName} page added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Playboi Carti page added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Patreon-only album Yandhi (Complete Edition) added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Track of the day feature added to the site.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 2, 2025:</strong> Never See Me Again track added to the site.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 2, 2025:</strong> Patreon-only track Mama's Boyfriend added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 1, 2025:</strong> Patreon-only album Good Ass Job (2018) added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 1, 2025:</strong> Patreon-only album WAR ft. James Blake added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Yesuke added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Waves added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Graduation - Rising Stars added.
+                </li>
+            </ul>
+        </section>
+        
+        <!-- Track of the Day Section -->
+        <section class="track-of-day">
+            <h3 class="text-center">Track of the Day</h3>
+
+            <div class="track-container flex flex-col items-center justify-center text-center">
+                <div class="album-cover mb-4">
+                    <img src="sdw.jpeg" alt="Track of the Day Cover">
+                </div>
+
+                <div class="track-info">
+                    <!-- Just load the audio without displaying the default player -->
+                    <audio id="track-audio" src="BLOODSTAIN.mp3"></audio>
+
+                    <div class="track-title text-white text-2xl font-bold mb-2">BLOODSTAIN</div>
+
+                    <p class="text-gray-400 text-sm">
+                        from: 
+                        <a 
+                            href="https://untitled.stream/library/project/jm8gXanAeHKKkY5RZI7Aj" 
+                            class="underline hover:text-white" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                            SOMEDAY WE'LL ALL BE FREE
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Custom Player Controls -->
+                <div class="player-controls w-full max-w-md mt-4">
+                    <div class="play-bar h-1 bg-gray-600 relative">
+                        <div class="play-progress bg-white h-1 absolute top-0 left-0 w-1/4"></div> <!-- example width -->
+                    </div>
+                    <div class="player-buttons flex justify-center mt-3 space-x-4">
+                        <button class="player-btn"><i class="fas fa-step-backward"></i></button>
+                        <button class="player-btn play-btn"><i class="fas fa-play"></i></button>
+                        <button class="player-btn"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="join-team-section">
+            <a href="mailto:yzystream1@gmail.com" class="join-btn">
+                JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
+            </a>
+        </div>
+
+        <div class="back-to-home mt-6 text-center">
+            <a href="index.html" class="link-gradient">← Back to Home</a>
+        </div>
+
+        <footer class="footer text-center mt-8">
+            <p>&copy; 2025 | yzystream.com</p>
+            <nav aria-label="Footer navigation">
+                <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
+            </nav>
+        </footer>
+
+        <div id="container-4a9437801822b6aee6f0b4e30a534dba"></div>
     </div>
-
-    <div id="output-container" class="mt-8 hidden">
-      <h2 class="text-2xl font-bold mb-2">Generated HTML</h2>
-      <textarea id="code-output" class="w-full h-96 border p-4 font-mono text-sm"></textarea>
-      <button id="download-html-btn" class="mt-4 bg-black text-white px-4 py-2 rounded">Download HTML</button>
-    </div>
-  </body>
-</html>
-
+</body>
+</html>`;
+      }
+      
+      // Copy to clipboard function
+      document.getElementById('copy-button').addEventListener('click', function() {
+          const codeOutput = document.getElementById('code-output');
+          navigator.clipboard.writeText(codeOutput.textContent).then(function() {
+              showToast('Code copied to clipboard!');
+          }, function() {
+              showToast('Failed to copy code');
+      });
+      codeOutput.select();
+  });
+  
+  // Reset button
+  document.getElementById('reset-button').addEventListener('click', function() {
+      if (confirm('Reset all form values and albums?')) {
+          document.getElementById('page-artist-name').value = '';
+          albumEntries = [];
+          renderAlbumEntries();
+          document.getElementById('code-output').textContent = '';
+          document.getElementById('output-container').classList.add('hidden');
+          document.getElementById('updates-container').classList.add('hidden');
+      }
+  });
+  
+  // Toast function
+  function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast show';
+      
+      // Hide toast after 3 seconds
+      setTimeout(function() {
+          toast.className = toast.className.replace('show', '');
+      }, 3000);
+  }
+  
+  // Generate update entry
+  document.getElementById('generate-update-btn').addEventListener('click', function() {
+      const artistName = document.getElementById('page-artist-name').value.trim();
+      
+      if (!artistName) {
+          alert('Please enter artist name');
+          return;
+      }
+      
+      if (albumEntries.length === 0) {
+          alert('Please add at least one album');
+          return;
+      }
+      
+      // Get current date formatted
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleDateString('en-US', { 
+          month: 'long', 
+          day: 'numeric', 
+          year: 'numeric'
+      });
+      
+      let updateHTML = `<li style="margin-bottom: 1rem;">
+          <strong>${formattedDate}:</strong> ${artistName} page added with ${albumEntries.length} album${albumEntries.length > 1 ? 's' : ''}.
+      </li>`;
+      
+      document.getElementById('update-output').textContent = updateHTML;
+      document.getElementById('updates-container').classList.remove('hidden');
+      
+      // Scroll to updates container
+      document.getElementById('updates-container').scrollIntoView({ behavior: 'smooth' });
+  });
+  
+  // Copy update to clipboard
+  document.getElementById('copy-update-button').addEventListener('click', function() {
+      const updateOutput = document.getElementById('update-output');
+      navigator.clipboard.writeText(updateOutput.textContent).then(function() {
+          showToast('Update copied to clipboard!');
+      }, function() {
+          showToast('Failed to copy update');
+      });
+      updateOutput.select();
+  });
+});
