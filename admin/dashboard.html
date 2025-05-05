@@ -277,20 +277,81 @@
               year: 'numeric'
           });
           
-          const html = `<!DOCTYPE html>
+          return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>[untitled] ${artistName} Projects - YZY STREAM</title>
-    <!-- ... rest of head content ... -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .link-gradient {
+            background: linear-gradient(90deg, #000, #333);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .album-link {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            background: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
+            width: 200px;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 10px;
+        }
+        .album-link:hover .tooltip {
+            visibility: visible;
+        }
+        .year {
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+        .info {
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
-<body>
-    <!-- ... rest of body content ... -->
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <h1 class="text-4xl font-bold mb-2">[untitled] ${artistName} Projects</h1>
+        <p class="text-gray-600 mb-8">A collection of unreleased ${artistName} projects and albums.</p>
+
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Available Projects</h2>
+            <ul class="space-y-4">
+                ${albumsHTML}
+            </ul>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4">Updates</h2>
+            <ul class="space-y-2">
+                <li class="text-gray-600">
+                    <strong>${formattedDate}:</strong> Added ${artistName} page with ${albums.length} project${albums.length > 1 ? 's' : ''}.
+                </li>
+            </ul>
+        </div>
+
+        <footer class="mt-8 text-center text-gray-600">
+            <p>&copy; ${new Date().getFullYear()} YZY STREAM. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>`;
-          
-          return html;
       }
       
       // Copy to clipboard function
