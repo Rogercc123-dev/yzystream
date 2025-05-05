@@ -313,6 +313,50 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://pagead2.googlesyndication.com">
 
+    <!-- Shared Content Loading Script -->
+    <script>
+        async function loadSharedContent() {
+            try {
+                const response = await fetch('https://yzystream.com/shared-content.json');
+                const content = await response.json();
+                
+                // Update track of the day
+                if (content.trackOfTheDay) {
+                    const trackCover = document.getElementById('track-cover');
+                    const trackAudio = document.getElementById('track-audio');
+                    const trackTitle = document.getElementById('track-title');
+                    const trackProject = document.getElementById('track-project');
+                    const trackProjectLink = document.getElementById('track-project-link');
+                    
+                    if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
+                    if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
+                    if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
+                    if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
+                    if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
+                }
+                
+                // Update updates section
+                if (content.updates) {
+                    const updatesList = document.getElementById('updates-list');
+                    if (updatesList) {
+                        updatesList.innerHTML = content.updates.map(update => 
+                            '<li style="margin-bottom: 1rem;">' +
+                            '<strong>' + update.date + ':</strong> ' + update.text +
+                            '</li>'
+                        ).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading shared content:', error);
+            }
+        }
+
+        // Load immediately when script runs
+        window.addEventListener('load', loadSharedContent);
+        // Reload every 5 minutes
+        setInterval(loadSharedContent, 5 * 60 * 1000);
+    </script>
+
 </head>
 <body>
    <div class="content-wrapper">
@@ -392,7 +436,7 @@
             </a>
             <div class="tooltip" role="tooltip">
                 <span class="year">2015</span>
-                <div class="info">1629* is the highly anticipated, yet unreleased, collaborative mixtape between Atlanta rapper Playboi Carti and Philly's Lil Uzi Vert, first teased in 2017. Named after their respective neighborhoods—Carti’s 2900 block in Atlanta and Uzi’s 1600 block in North Philly—the project sparked excitement with tracks like “wokeuplikethis*” and “Lookin” from Carti’s debut mixtape. Despite recording numerous songs, including roughly 40 during 2019 London sessions, the project remains shelved.
+                <div class="info">1629* is the highly anticipated, yet unreleased, collaborative mixtape between Atlanta rapper Playboi Carti and Philly's Lil Uzi Vert, first teased in 2017. Named after their respective neighborhoods—Carti's 2900 block in Atlanta and Uzi's 1600 block in North Philly—the project sparked excitement with tracks like "wokeuplikethis*" and "Lookin" from Carti's debut mixtape. Despite recording numerous songs, including roughly 40 during 2019 London sessions, the project remains shelved.
 
                    <li>
         <span class="album-link">
@@ -409,7 +453,7 @@
             </a>
             <div class="tooltip" role="tooltip">
                 <span class="year">2020</span>
-                <div class="info">The second iteration of Whole Lotta Red represents Carti's peak of experimentation, pushing his "baby voice" and high-pitched vocals to new extremes. He collaborated with Pi’erre Bourne, Richie Souf, and Maaly Raw, floating over a mix of heavenly synth beats and hard trap, but after mixed reactions to the V2 sound upon the release of "@ MEH" (everbody thought it was fucking shit), Carti scrapped and reworked the project before its final release. The cover art from this era comes from the @ MEH single, marking a transitional phase.</div>
+                <div class="info">The second iteration of Whole Lotta Red represents Carti's peak of experimentation, pushing his "baby voice" and high-pitched vocals to new extremes. He collaborated with Pi'erre Bourne, Richie Souf, and Maaly Raw, floating over a mix of heavenly synth beats and hard trap, but after mixed reactions to the V2 sound upon the release of "@ MEH" (everbody thought it was fucking shit), Carti scrapped and reworked the project before its final release. The cover art from this era comes from the @ MEH single, marking a transitional phase.</div>
             </div>
         </span>
     </li>
@@ -441,101 +485,71 @@
         </a>
         <hr class="separator">
         <section id="updates" style="margin-top: 3rem;">
-  <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
-  <ul style="list-style: none; padding-left: 0;">
-     </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>May 4, 2025:</strong> Playboi Carti page added.
-    </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>May 4, 2025:</strong> Patreon-only album Yandhi (Complete Edition) added.
-    </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>May 4, 2025:</strong> Track of the day feature added to the site.
-    </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>May 2, 2025:</strong> Never See Me Again track added to the site.
-    </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>May 2, 2025:</strong> Patreon-only track Mama's Boyfriend added.
-    </li>
-      <li style="margin-bottom: 1rem;">
-      <strong>May 1, 2025:</strong> Patreon-only album Good Ass Job (2018) added.
-    </li>
-      <li style="margin-bottom: 1rem;">
-      <strong>May 1, 2025:</strong> Patreon-only album WAR ft. James Blake added.
-    </li>
-      <li style="margin-bottom: 1rem;">
-      <strong>April 30, 2025:</strong> Patreon-only album Yesuke added.
-    </li>
-     <li style="margin-bottom: 1rem;">
-      <strong>April 30, 2025:</strong> Patreon-only album Waves added.
-    </li>
-    <li style="margin-bottom: 1rem;">
-      <strong>April 30, 2025:</strong> Patreon-only album Graduation -  Rising Stars added.
-    </li>
-   
-  </ul>
-</section>
-<!-- Track of the Day Section -->
-<section class="track-of-day">
-  <h3 class="text-center">Track of the Day</h3>
+            <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
+            <ul style="list-style: none; padding-left: 0;" id="updates-list">
+                <!-- Updates will be loaded dynamically -->
+            </ul>
+        </section>
+        <!-- Track of the Day Section -->
+        <section class="track-of-day">
+            <h3 class="text-center">Track of the Day</h3>
 
-  <div class="track-container flex flex-col items-center justify-center text-center">
-    
-    <div class="album-cover mb-4">
-      <img src="sdw.jpeg" alt="Track of the Day Cover">
+            <div class="track-container flex flex-col items-center justify-center text-center">
+                <div class="album-cover mb-4">
+                    <img id="track-cover" src="" alt="Track of the Day Cover">
+                </div>
+
+                <div class="track-info">
+                    <audio id="track-audio" src=""></audio>
+
+                    <div id="track-title" class="track-title text-white text-2xl font-bold mb-2"></div>
+
+                    <p class="text-gray-400 text-sm">
+                        from: 
+                        <a 
+                            id="track-project-link"
+                            href="" 
+                            class="underline hover:text-white" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                            <span id="track-project"></span>
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Custom Player Controls -->
+                <div class="player-controls w-full max-w-md mt-4">
+                    <div class="play-bar h-1 bg-gray-600 relative">
+                        <div class="play-progress bg-white h-1 absolute top-0 left-0 w-1/4"></div> <!-- example width -->
+                    </div>
+                    <div class="player-buttons flex justify-center mt-3 space-x-4">
+                        <button class="player-btn"><i class="fas fa-step-backward"></i></button>
+                        <button class="player-btn play-btn"><i class="fas fa-play"></i></button>
+                        <button class="player-btn"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="join-team-section">
+            <a href="mailto:yzystream1@gmail.com" class="join-btn">
+                JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
+            </a>
+        </div>
+
+        <div class="back-to-home mt-6 text-center">
+            <a href="index.html" class="link-gradient">← Back to Home</a>
+        </div>
+
+        <footer class="footer text-center mt-8">
+            <p>&copy; 2025 | yzystream.com</p>
+            <nav aria-label="Footer navigation">
+                <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
+            </nav>
+        </footer>
+
+
+        <div id="container-4a9437801822b6aee6f0b4e30a534dba"></div>
     </div>
-
-    <div class="track-info">
-      <!-- Just load the audio without displaying the default player -->
-      <audio id="track-audio" src="BLOODSTAIN.mp3"></audio>
-
-      <div class="track-title text-white text-2xl font-bold mb-2">BLOODSTAIN</div>
-
-      <p class="text-gray-400 text-sm">
-        from: 
-        <a 
-          href="https://untitled.stream/library/project/jm8gXanAeHKKkY5RZI7Aj" 
-          class="underline hover:text-white" 
-          target="_blank" 
-          rel="noopener noreferrer">
-          SOMEDAY WE'LL ALL BE FREE
-        </a>
-      </p>
-    </div>
-
-    <!-- Custom Player Controls -->
-    <div class="player-controls w-full max-w-md mt-4">
-      <div class="play-bar h-1 bg-gray-600 relative">
-        <div class="play-progress bg-white h-1 absolute top-0 left-0 w-1/4"></div> <!-- example width -->
-      </div>
-      <div class="player-buttons flex justify-center mt-3 space-x-4">
-        <button class="player-btn"><i class="fas fa-step-backward"></i></button>
-        <button class="player-btn play-btn"><i class="fas fa-play"></i></button>
-        <button class="player-btn"><i class="fas fa-step-forward"></i></button>
-      </div>
-    </div>
-  </div>
-</section>
-<div class="join-team-section">
-  <a href="mailto:yzystream1@gmail.com" class="join-btn">
-    JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
-  </a>
-</div>
-
-<div class="back-to-home mt-6 text-center">
-  <a href="index.html" class="link-gradient">← Back to Home</a>
-</div>
-
-<footer class="footer text-center mt-8">
-  <p>&copy; 2025 | yzystream.com</p>
-  <nav aria-label="Footer navigation">
-    <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
-  </nav>
-</footer>
-
-
-<div id="container-4a9437801822b6aee6f0b4e30a534dba"></div>
 </body>
 </html>
+
