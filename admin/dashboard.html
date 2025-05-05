@@ -567,7 +567,7 @@
         </div>
 
         <footer class="footer text-center mt-8">
-            <p>&copy; 2025 | yzystream.com</p>
+            <p>&copy; \${currentYear} | yzystream.com</p>
             <nav aria-label="Footer navigation">
                 <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
             </nav>
@@ -705,7 +705,7 @@
         </div>
 
         <footer class="footer text-center mt-8">
-            <p>&copy; \${new Date().getFullYear()} | yzystream.com</p>
+            <p>&copy; \${currentYear} | yzystream.com</p>
             <nav aria-label="Footer navigation">
                 <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
             </nav>
@@ -904,7 +904,7 @@
               .replace(/\${artistName}/g, artistName)
               .replace(/\${albumsHTML}/g, albumsHTML)
               .replace(/\${formattedDate}/g, formattedDate)
-              .replace(/\${new Date().getFullYear()}/g, new Date().getFullYear());
+              .replace(/\${currentYear}/g, new Date().getFullYear());
           
           console.log('Final HTML length:', finalHtml.length);
           return finalHtml;
@@ -982,6 +982,11 @@
       document.getElementById('generate-page-btn').addEventListener('click', function() {
           console.log('Generate page button clicked');
           generatePage();
+      });
+  });
+  </script>
+</body>
+</html>
       });
   });
   </script>
