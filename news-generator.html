@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>News Generator | yzystream</title>
+  <title>YZY News Generator</title>
   <style>
     body {
-      font-family: sans-serif;
       background: #111;
-      color: #fff;
+      color: white;
+      font-family: sans-serif;
       padding: 2rem;
     }
     input, button {
-      padding: 0.5rem;
+      padding: 0.6rem;
       font-size: 1rem;
-      margin-right: 0.5rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      max-width: 600px;
     }
     button {
-      background: #fff;
-      color: #000;
-      border: none;
+      background: white;
+      color: black;
       cursor: pointer;
+      border: none;
     }
     .status {
       margin-top: 1rem;
@@ -29,83 +31,118 @@
   </style>
 </head>
 <body>
-  <h1>News Generator</h1>
-  <p>Paste a Kanye Wiki link below. Example:<br><code>https://kanyewest.fandom.com/wiki/LOVE_EVERYONE</code></p>
-  <input id="urlInput" type="text" placeholder="Enter Kanye Wiki URL" size="50"/>
-  <button onclick="generate()">Generate .html</button>
-  <div class="status" id="status"></div>
+  <h1>📰 YZY Stream — News Page Generator</h1>
+  <p>Paste a <strong>Kanye Wiki</strong> link below. Example:<br>
+    <code>https://kanyewest.fandom.com/wiki/LOVE_EVERYONE</code></p>
+  <input id="urlInput" type="text" placeholder="Paste Kanye Wiki URL here..." />
+  <button onclick="generate()">Generate & Download HTML</button>
+  <div class="status" id="status">Ready</div>
 
   <script>
     async function generate() {
-      const url = document.getElementById('urlInput').value;
+      const url = document.getElementById('urlInput').value.trim();
       const status = document.getElementById('status');
-      status.textContent = 'Fetching content...';
+      status.textContent = 'Fetching...';
+
+      if (!url.startsWith('http')) {
+        status.textContent = '❌ Invalid URL.';
+        return;
+      }
 
       try {
         const proxy = 'https://api.allorigins.win/get?url=';
         const res = await fetch(proxy + encodeURIComponent(url));
         const data = await res.json();
-
         const parser = new DOMParser();
         const doc = parser.parseFromString(data.contents, 'text/html');
 
-        const title = doc.querySelector('h1.page-header__title')?.innerText.trim() || 'Untitled Article';
-        const contentEl = doc.querySelector('.mw-parser-output');
+        const title = doc.querySelector('h1.page-header__title')?.innerText || 'Untitled';
+        const contentBlock = doc.querySelector('.mw-parser-output');
 
-        // Remove junk
-        contentEl.querySelectorAll('.mw-editsection, script, style, .reference, sup').forEach(el => el.remove());
+        // Clean junk
+        contentBlock.querySelectorAll('.mw-editsection, script, style, .reference, sup').forEach(el => el.remove());
 
-        // Fix image URLs
-        contentEl.querySelectorAll('img').forEach(img => {
-          const src = img.getAttribute('data-src') || img.getAttribute('src');
-          if (src && src.startsWith('//')) {
-            img.src = 'https:' + src;
-          }
-          img.removeAttribute('srcset');
+        // Fix images
+        contentBlock.querySelectorAll('img').forEach(img => {
+          let src = img.getAttribute('data-src') || img.getAttribute('src');
+          if (src?.startsWith('//')) src = 'https:' + src;
+          img.setAttribute('src', src);
+          img.setAttribute('loading', 'lazy');
           img.style.maxWidth = '100%';
-          img.style.borderRadius = '12px';
+          img.style.borderRadius = '8px';
         });
 
-        const cleanHTML = contentEl.innerHTML;
+        const articleHTML = contentBlock.innerHTML;
 
-        const finalHTML = `<!DOCTYPE html>
+        // --- Final HTML shell using your site style ---
+        const finalHTML = `
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title}</title>
-  <link rel="stylesheet" href="/style.css" />
-  <style>
-    body {
-      font-family: 'Helvetica Neue', sans-serif;
-      background: #f4f4f4;
-      color: #111;
-      padding: 2rem;
-      line-height: 1.6;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-    }
-    img {
-      max-width: 100%;
-      margin: 1rem 0;
-    }
-    article {
-      max-width: 800px;
-      margin: 0 auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://pl26524932.profitableratecpm.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com; img-src * data:;">
+
+  <title>${title} - YZY STREAM</title>
+
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
+  <link rel="preload" href="style.css" as="style">
+  <link rel="preload" href="clock.js" as="script">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="clock.js" defer></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="web-app-manifest-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="web-app-manifest-512x512.png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#ffffff" />
+
+  <meta name="description" content="${title} - News article about Kanye West.">
+  <meta name="keywords" content="Kanye West, Ye, Kanye Wiki, News, YZY Stream, ${title}">
+  <meta name="author" content="YZY Stream Admin">
+
+  <meta property="og:title" content="${title} - YZY STREAM" />
+  <meta property="og:description" content="News: ${title}" />
+  <meta property="og:image" content="https://yzystream.com/logo.png" />
+  <meta property="og:url" content="https://yzystream.com/news/${title.replace(/\s+/g, '_')}.html" />
+  <meta property="og:type" content="article" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${title} - YZY STREAM" />
+  <meta name="twitter:description" content="News article about Kanye West: ${title}" />
+  <meta name="twitter:image" content="https://yzystream.com/logo.png" />
 </head>
 <body>
-  <article>
-    <h1>${title}</h1>
-    ${cleanHTML}
-  </article>
+  <div class="content-wrapper">
+    <header>
+      <h1>YZY STREAM</h1>
+      <div id="clock" aria-live="polite" role="status">00:00:00 - 00/00/0000</div>
+    </header>
+
+    <main>
+      <section id="news-article">
+        <h2>${title}</h2>
+        ${articleHTML}
+      </section>
+    </main>
+
+    <hr class="separator" />
+
+    <footer class="footer">
+      <p>&copy; 2025 | yzystream.com</p>
+      <nav aria-label="Footer navigation">
+        <a href="index.html">Home</a> | 
+        <a href="untitled.html">[untitled]</a> | 
+        <a href="faq.html">FAQ</a> | 
+        <a href="privacy.html">Privacy Policy</a>
+      </nav>
+    </footer>
+  </div>
 </body>
 </html>`;
 
@@ -115,10 +152,10 @@
         a.download = `${title.replace(/\s+/g, '_')}.html`;
         a.click();
 
-        status.textContent = '✅ Page generated and downloaded!';
+        status.textContent = '✅ Generated and downloaded successfully!';
       } catch (err) {
         console.error(err);
-        status.textContent = '❌ Failed to fetch or parse the page. Double-check the link.';
+        status.textContent = '❌ Failed to fetch and process page.';
       }
     }
   </script>
