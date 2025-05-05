@@ -57,12 +57,11 @@
         const doc = parser.parseFromString(data.contents, 'text/html');
 
         const title = doc.querySelector('h1.page-header__title')?.innerText || 'Untitled';
+        const safeTitle = title.replace(/\s+/g, '_');
         const contentBlock = doc.querySelector('.mw-parser-output');
 
-        // Clean junk
         contentBlock.querySelectorAll('.mw-editsection, script, style, .reference, sup').forEach(el => el.remove());
 
-        // Fix images
         contentBlock.querySelectorAll('img').forEach(img => {
           let src = img.getAttribute('data-src') || img.getAttribute('src');
           if (src?.startsWith('//')) src = 'https:' + src;
@@ -74,15 +73,12 @@
 
         const articleHTML = contentBlock.innerHTML;
 
-        // --- Final HTML shell using your site style ---
-        const finalHTML = `
-<!DOCTYPE html>
+        const finalHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com https://pl26524932.profitableratecpm.com 'unsafe-inline'; style-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; font-src 'self' https://cdnjs.cloudflare.com; img-src * data:;">
-
   <title>${title} - YZY STREAM</title>
 
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
@@ -109,7 +105,7 @@
   <meta property="og:title" content="${title} - YZY STREAM" />
   <meta property="og:description" content="News: ${title}" />
   <meta property="og:image" content="https://yzystream.com/logo.png" />
-  <meta property="og:url" content="https://yzystream.com/news/${title.replace(/\s+/g, '_')}.html" />
+  <meta property="og:url" content="https://yzystream.com/news/${safeTitle}.html" />
   <meta property="og:type" content="article" />
 
   <meta name="twitter:card" content="summary_large_image" />
@@ -149,7 +145,7 @@
         const blob = new Blob([finalHTML], { type: 'text/html' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `${title.replace(/\s+/g, '_')}.html`;
+        a.download = `${safeTitle}.html`;
         a.click();
 
         status.textContent = '✅ Generated and downloaded successfully!';
