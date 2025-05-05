@@ -117,8 +117,24 @@
     <div id="toast" class="toast">Code copied to clipboard!</div>
   </div>
 
+  <!-- Template -->
+  <template id="artist-page-template">
+    <!-- The content will be loaded from the external file -->
+  </template>
+
   <!-- Script -->
   <script>
+    // Load the template file
+    fetch('templates/artist-page-template.html')
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('artist-page-template').textContent = html;
+        })
+        .catch(error => {
+            console.error('Error loading template:', error);
+            showToast('Error loading template');
+        });
+
     document.addEventListener('DOMContentLoaded', function() {
       // Set current date
       const currentDate = new Date();
@@ -277,81 +293,13 @@
               year: 'numeric'
           });
           
-          return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[untitled] ${artistName} Projects - YZY STREAM</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .link-gradient {
-            background: linear-gradient(90deg, #000, #333);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .album-link {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip {
-            visibility: hidden;
-            position: absolute;
-            background: #fff;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 1;
-            width: 200px;
-            left: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-left: 10px;
-        }
-        .album-link:hover .tooltip {
-            visibility: visible;
-        }
-        .year {
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 5px;
-        }
-        .info {
-            color: #666;
-            font-size: 0.9em;
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-    <div class="max-w-4xl mx-auto py-10 px-4">
-        <h1 class="text-4xl font-bold mb-2">[untitled] ${artistName} Projects</h1>
-        <p class="text-gray-600 mb-8">A collection of unreleased ${artistName} projects and albums.</p>
-
-        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-4">Available Projects</h2>
-            <ul class="space-y-4">
-                ${albumsHTML}
-            </ul>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Updates</h2>
-            <ul class="space-y-2">
-                <li class="text-gray-600">
-                    <strong>${formattedDate}:</strong> Added ${artistName} page with ${albums.length} project${albums.length > 1 ? 's' : ''}.
-                </li>
-            </ul>
-        </div>
-
-        <footer class="mt-8 text-center text-gray-600">
-            <p>&copy; ${new Date().getFullYear()} YZY STREAM. All rights reserved.</p>
-        </footer>
-    </div>
-</body>
-</html>`;
+          // Load and process the template
+          const template = document.getElementById('artist-page-template').textContent;
+          return template
+              .replace(/\${artistName}/g, artistName)
+              .replace(/\${albumsHTML}/g, albumsHTML)
+              .replace(/\${formattedDate}/g, formattedDate)
+              .replace(/\${new Date\(\)\.getFullYear\(\)}/g, new Date().getFullYear());
       }
       
       // Copy to clipboard function
@@ -362,48 +310,37 @@
           }, function() {
               showToast('Failed to copy code');
           });
-          codeOutput.select();
-      });
-      
-      // Reset button
-      document.getElementById('reset-button').addEventListener('click', function() {
-          if (confirm('Reset all form values and albums?')) {
-              document.getElementById('page-artist-name').value = '';
-              albumEntries = [];
-              renderAlbumEntries();
-              document.getElementById('code-output').textContent = '';
-              document.getElementById('output-container').classList.add('hidden');
-              document.getElementById('updates-container').classList.add('hidden');
-          }
       });
       
       // Toast function
       function showToast(message) {
           const toast = document.getElementById('toast');
           toast.textContent = message;
-          toast.className = 'toast show';
+          toast.classList.add('show');
           
-          // Hide toast after 3 seconds
           setTimeout(function() {
-              toast.className = toast.className.replace('show', '');
+              toast.classList.remove('show');
           }, 3000);
       }
       
-      // Generate update entry
+      // Reset button
+      document.getElementById('reset-button').addEventListener('click', function() {
+          document.getElementById('page-artist-name').value = '';
+          albumEntries = [];
+          renderAlbumEntries();
+          document.getElementById('output-container').classList.add('hidden');
+          document.getElementById('updates-container').classList.add('hidden');
+      });
+      
+      // Generate Update Entry button
       document.getElementById('generate-update-btn').addEventListener('click', function() {
           const artistName = document.getElementById('page-artist-name').value.trim();
           
           if (!artistName) {
-              alert('Please enter artist name');
+              alert('Artist name is required to generate update');
               return;
           }
           
-          if (albumEntries.length === 0) {
-              alert('Please add at least one album');
-              return;
-          }
-          
-          // Get current date formatted
           const currentDate = new Date();
           const formattedDate = currentDate.toLocaleDateString('en-US', { 
               month: 'long', 
@@ -411,14 +348,15 @@
               year: 'numeric'
           });
           
-          let updateHTML = `<li style="margin-bottom: 1rem;">
-              <strong>${formattedDate}:</strong> ${artistName} page added with ${albumEntries.length} album${albumEntries.length > 1 ? 's' : ''}.
-          </li>`;
+          // Generate update entry HTML
+          const updateHTML = `<li style="margin-bottom: 1rem;">
+  <strong>${formattedDate}:</strong> ${artistName} page added.
+</li>`;
           
           document.getElementById('update-output').textContent = updateHTML;
           document.getElementById('updates-container').classList.remove('hidden');
           
-          // Scroll to updates container
+          // Scroll to the updates container
           document.getElementById('updates-container').scrollIntoView({ behavior: 'smooth' });
       });
       
@@ -430,9 +368,8 @@
           }, function() {
               showToast('Failed to copy update');
           });
-          updateOutput.select();
       });
-    });
+  });
   </script>
 </body>
 </html>
