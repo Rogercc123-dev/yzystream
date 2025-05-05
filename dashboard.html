@@ -694,31 +694,12 @@
     async function loadSharedContent() {
         try {
             console.log('Attempting to load shared content...');
-            // Try multiple possible paths for shared-content.json
-            const paths = [
-                'shared-content.json',
-                '../shared-content.json',
-                '/shared-content.json'
-            ];
-            
-            let content = null;
-            for (const path of paths) {
-                try {
-                    console.log('Trying path:', path);
-                    const response = await fetch(path);
-                    if (response.ok) {
-                        content = await response.json();
-                        console.log('Successfully loaded shared content from:', path);
-                        break;
-                    }
-                } catch (e) {
-                    console.log('Failed to load from path:', path, e);
-                }
+            const response = await fetch('shared-content.json');
+            if (!response.ok) {
+                throw new Error('Failed to load shared content');
             }
-            
-            if (!content) {
-                throw new Error('Failed to load shared content from any path');
-            }
+            const content = await response.json();
+            console.log('Shared content loaded successfully:', content);
             
             // Update track of the day
             if (content.trackOfTheDay) {
@@ -728,26 +709,11 @@
                 const trackProject = document.getElementById('track-project');
                 const trackProjectLink = document.getElementById('track-project-link');
                 
-                if (trackCover) {
-                    trackCover.src = content.trackOfTheDay.coverImage;
-                    console.log('Updated track cover:', trackCover.src);
-                }
-                if (trackAudio) {
-                    trackAudio.src = content.trackOfTheDay.audioFile;
-                    console.log('Updated track audio:', trackAudio.src);
-                }
-                if (trackTitle) {
-                    trackTitle.textContent = content.trackOfTheDay.title;
-                    console.log('Updated track title:', trackTitle.textContent);
-                }
-                if (trackProject) {
-                    trackProject.textContent = content.trackOfTheDay.project;
-                    console.log('Updated track project:', trackProject.textContent);
-                }
-                if (trackProjectLink) {
-                    trackProjectLink.href = content.trackOfTheDay.projectLink;
-                    console.log('Updated track project link:', trackProjectLink.href);
-                }
+                if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
+                if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
+                if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
+                if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
+                if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
             }
             
             // Update updates section
@@ -759,7 +725,6 @@
                         '<strong>' + update.date + ':</strong> ' + update.text +
                         '</li>'
                     ).join('');
-                    console.log('Updated updates list with', content.updates.length, 'updates');
                 }
             }
         } catch (error) {
@@ -928,96 +893,54 @@
 
             // Add script to load shared content
             const sharedContentScript = `
-    <script>
-        async function loadSharedContent() {
-            try {
-                console.log('Attempting to load shared content...');
-                // Try multiple possible paths for shared-content.json
-                const paths = [
-                    'shared-content.json',
-                    '../shared-content.json',
-                    '/shared-content.json'
-                ];
-                
-                let content = null;
-                for (const path of paths) {
-                    try {
-                        console.log('Trying path:', path);
-                        const response = await fetch(path);
-                        if (response.ok) {
-                            content = await response.json();
-                            console.log('Successfully loaded shared content from:', path);
-                            break;
-                        }
-                    } catch (e) {
-                        console.log('Failed to load from path:', path, e);
-                    }
-                }
-                
-                if (!content) {
-                    throw new Error('Failed to load shared content from any path');
-                }
-                
-                // Update track of the day
-                if (content.trackOfTheDay) {
-                    const trackCover = document.getElementById('track-cover');
-                    const trackAudio = document.getElementById('track-audio');
-                    const trackTitle = document.getElementById('track-title');
-                    const trackProject = document.getElementById('track-project');
-                    const trackProjectLink = document.getElementById('track-project-link');
-                    
-                    if (trackCover) {
-                        trackCover.src = content.trackOfTheDay.coverImage;
-                        console.log('Updated track cover:', trackCover.src);
-                    }
-                    if (trackAudio) {
-                        trackAudio.src = content.trackOfTheDay.audioFile;
-                        console.log('Updated track audio:', trackAudio.src);
-                    }
-                    if (trackTitle) {
-                        trackTitle.textContent = content.trackOfTheDay.title;
-                        console.log('Updated track title:', trackTitle.textContent);
-                    }
-                    if (trackProject) {
-                        trackProject.textContent = content.trackOfTheDay.project;
-                        console.log('Updated track project:', trackProject.textContent);
-                    }
-                    if (trackProjectLink) {
-                        trackProjectLink.href = content.trackOfTheDay.projectLink;
-                        console.log('Updated track project link:', trackProjectLink.href);
-                    }
-                }
-                
-                // Update updates section
-                if (content.updates) {
-                    const updatesList = document.getElementById('updates-list');
-                    if (updatesList) {
-                        updatesList.innerHTML = content.updates.map(update => 
-                            '<li style="margin-bottom: 1rem;">' +
-                            '<strong>' + update.date + ':</strong> ' + update.text +
-                            '</li>'
-                        ).join('');
-                        console.log('Updated updates list with', content.updates.length, 'updates');
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading shared content:', error);
+<script>
+    async function loadSharedContent() {
+        try {
+            console.log('Attempting to load shared content...');
+            const response = await fetch('shared-content.json');
+            if (!response.ok) {
+                throw new Error('Failed to load shared content');
             }
+            const content = await response.json();
+            console.log('Shared content loaded successfully:', content);
+            
+            // Update track of the day
+            if (content.trackOfTheDay) {
+                const trackCover = document.getElementById('track-cover');
+                const trackAudio = document.getElementById('track-audio');
+                const trackTitle = document.getElementById('track-title');
+                const trackProject = document.getElementById('track-project');
+                const trackProjectLink = document.getElementById('track-project-link');
+                
+                if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
+                if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
+                if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
+                if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
+                if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
+            }
+            
+            // Update updates section
+            if (content.updates) {
+                const updatesList = document.getElementById('updates-list');
+                if (updatesList) {
+                    updatesList.innerHTML = content.updates.map(update => 
+                        '<li style="margin-bottom: 1rem;">' +
+                        '<strong>' + update.date + ':</strong> ' + update.text +
+                        '</li>'
+                    ).join('');
+                }
+            }
+        } catch (error) {
+            console.error('Error loading shared content:', error);
         }
+    }
 
-        // Load shared content when the page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM Content Loaded - Attempting to load shared content');
-            loadSharedContent();
-        });
+    // Load shared content when the page loads
+    document.addEventListener('DOMContentLoaded', loadSharedContent);
 
-        // Reload shared content every 5 minutes
-        setInterval(function() {
-            console.log('Interval triggered - Reloading shared content');
-            loadSharedContent();
-        }, 5 * 60 * 1000);
-    <\/script>
-            `;
+    // Reload shared content every 5 minutes
+    setInterval(loadSharedContent, 5 * 60 * 1000);
+<\/script>`;
 
             // Replace placeholders in the template
             const finalHtml = templateContent
@@ -1026,7 +949,6 @@
                 .replace(/\${currentYear}/g, new Date().getFullYear())
                 .replace('</body>', sharedContentScript + '</body>');
 
-            console.log('Generated HTML includes shared content script:', finalHtml.includes('loadSharedContent'));
             return finalHtml;
         }
 
