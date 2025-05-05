@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[untitled] ${artistName} Projects - YZY STREAM</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
+    <link rel="preload" href="style.css" as="style">
+    
+    <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom Tooltip Styles -->
+    <style>
+        /* Tooltip styles */
+        .album-link {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            position: absolute;
+            top: 50%;
+            left: 105%;
+            transform: translateY(-50%);
+            background: #fff;
+            color: #333;
+            text-align: left;
+            padding: 12px;
+            border-radius: 6px;
+            width: 250px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.2s, visibility 0.2s;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+            font-size: 0.85em;
+            line-height: 1.4;
+            border: 1px solid #eee;
+            pointer-events: none;
+            white-space: normal;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -5px;
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+        }
+
+        .album-link:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip .year {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding-bottom: 3px;
+            color: #000;
+        }
+
+        .tooltip .info {
+            color: #333;
+        }
+
+        /* Track of the Day section */
+        .track-of-day {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .track-of-day h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            width: 100%;
+            position: relative;
+        }
+
+        .track-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .album-cover {
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .track-info {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .track-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .track-project {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .player-controls {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .play-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #ddd;
+            border-radius: 3px;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .play-progress {
+            position: absolute;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #666, #333);
+            border-radius: 3px;
+            transition: width 0.2s;
+        }
+
+        .player-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .player-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .player-btn:hover {
+            color: #000;
+        }
+
+        .player-btn.play-btn {
+            font-size: 1.5rem;
+        }
+
+        /* Social buttons */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .twitter-btn {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .twitter-btn:hover {
+            background-color: #333;
+        }
+
+        .twitter-btn i {
+            margin-right: 5px;
+        }
+
+        /* Center the footer and fix alignment */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            color: #666;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer p, .footer nav {
+            margin: 5px 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 600px) {
+            .album-cover {
+                width: 180px;
+                height: 180px;
+            }
+        }
+    </style>
+
+    <!-- Scripts -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const playBtn = document.querySelector('.play-btn');
+        const playProgress = document.querySelector('.play-progress');
+        const audio = document.getElementById('track-audio');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        });
+
+        audio.addEventListener('play', () => isPlaying = true);
+        audio.addEventListener('pause', () => isPlaying = false);
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            playProgress.style.width = progress + '%';
+        });
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playProgress.style.width = '0%';
+        });
+    });
+    </script>
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Explore unreleased ${artistName} albums. Links to unofficial projects hosted on [untitled].">
+    <meta name="keywords" content="Unreleased ${artistName}, ${artistName} leaks, ${artistName} unreleased albums, ${artistName}, ${artistName} music leaks, YZY STREAM, [untitled] albums">
+    <meta name="author" content="YZY Stream Admin">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="[untitled] ${artistName} Projects - YZY STREAM">
+    <meta property="og:description" content="Explore unreleased ${artistName} albums and projects.">
+    <meta property="og:image" content="https://yzystream.com/logo.png">
+    <meta property="og:url" content="https://yzystream.com/${artistName.toLowerCase().replace(/ /g, '')}.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[untitled] ${artistName} Projects - YZY STREAM">
+    <meta name="twitter:description" content="Explore unreleased ${artistName} albums and projects.">
+    <meta name="twitter:image" content="https://yzystream.com/logo.png">
+    
+    <!-- Favicon & Manifest -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="web-app-manifest-512x512.png">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1>[untitled] ${artistName} Projects</h1>
+
+        <p>[untitled] is a decentralized music streaming platform used by fans to archive and share unreleased projects. It's unofficial, but essential to fans who want to explore unreleased music.</p>
+
+        <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
+            Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+        </a>
+
+        <div class="support-links">
+            <a href="https://www.patreon.com/YZYSTREAM1" target="_blank">Exclusive links on Patreon</a><br>
+            <a href="https://buymeacoffee.com/yzystream" target="_blank">Support Me</a><br>
+            <a href="https://x.com/yzystream1" target="_blank">Follow me on X (Twitter)</a>
+        </div>
+
+        <hr class="separator">
+        
+        <section id="unreleased" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased ${artistName} Projects</h2>
+            <ul>
+                ${albumsHTML}
+            </ul>
+
+            <p class="ye-note">
+                All hosted on the [untitled] streaming platform. Links open in a new tab.
+            </p>
+        </section>
+      
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Kanye West</h2>
+            <a href="untitled.html" class="cta-button">
+                <span>🎧 Stream Unreleased Ye Projects →</span>
+            </a>
+        </section>
+       
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Playboi Carti</h2>
+            <a href="carti.html" class="cta-button">
+                <span>🎧 Stream Unreleased Carti Projects →</span>
+            </a>
+        </section>
+          
+        <hr class="separator">
+        
+        <section id="updates" style="margin-top: 3rem;">
+            <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 1rem;">
+                    <strong>${formattedDate}:</strong> ${artistName} page added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Playboi Carti page added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Patreon-only album Yandhi (Complete Edition) added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 4, 2025:</strong> Track of the day feature added to the site.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 2, 2025:</strong> Never See Me Again track added to the site.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 2, 2025:</strong> Patreon-only track Mama's Boyfriend added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 1, 2025:</strong> Patreon-only album Good Ass Job (2018) added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>May 1, 2025:</strong> Patreon-only album WAR ft. James Blake added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Yesuke added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Waves added.
+                </li>
+                <li style="margin-bottom: 1rem;">
+                    <strong>April 30, 2025:</strong> Patreon-only album Graduation - Rising Stars added.
+                </li>
+            </ul>
+        </section>
+        
+        <!-- Track of the Day Section -->
+        <section class="track-of-day">
+            <h3 class="text-center">Track of the Day</h3>
+
+            <div class="track-container flex flex-col items-center justify-center text-center">
+                <div class="album-cover mb-4">
+                    <img src="sdw.jpeg" alt="Track of the Day Cover">
+                </div>
+
+                <div class="track-info">
+                    <!-- Just load the audio without displaying the default player -->
+                    <audio id="track-audio" src="BLOODSTAIN.mp3"></audio>
+
+                    <div class="track-title text-white text-2xl font-bold mb-2">BLOODSTAIN</div>
+
+                    <p class="text-gray-400 text-sm">
+                        from: 
+                        <a 
+                            href="https://untitled.stream/library/project/jm8gXanAeHKKkY5RZI7Aj" 
+                            class="underline hover:text-white" 
+                            target="_blank" 
+                            rel="noopener noreferrer">
+                            SOMEDAY WE'LL ALL BE FREE
+                        </a>
+                    </p>
+                </div>
+
+                <!-- Custom Player Controls -->
+                <div class="player-controls w-full max-w-md mt-4">
+                    <div class="play-bar h-1 bg-gray-600 relative">
+                        <div class="play-progress bg-white h-1 absolute top-0 left-0 w-1/4"></div> <!-- example width -->
+                    </div>
+                    <div class="player-buttons flex justify-center mt-3 space-x-4">
+                        <button class="player-btn"><i class="fas fa-step-backward"></i></button>
+                        <button class="player-btn play-btn"><i class="fas fa-play"></i></button>
+                        <button class="player-btn"><i class="fas fa-step-forward"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="join-team-section">
+            <a href="mailto:yzystream1@gmail.com" class="join-btn">
+                JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
+            </a>
+        </div>
+
+        <div class="back-to-home mt-6 text-center">
+            <a href="index.html" class="link-gradient">← Back to Home</a>
+        </div>
+
+        <footer class="footer text-center mt-8">
+            <p>&copy; 2025 | yzystream.com</p>
+            <nav aria-label="Footer navigation">
+                <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
+            </nav>
+        </footer>
+
+        <div id="container-4a9437801822b6aee6f0b4e30a534dba"></div>
+    </div>
+</body>
+</html> 
