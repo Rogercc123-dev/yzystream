@@ -1,6 +1,6 @@
 {
     "trackOfTheDay": {
-        "title": "STAIN",
+        "title": "BLOODSTAIN",
         "project": "SOMEDAY WE'LL ALL BE FREE",
         "projectLink": "https://untitled.stream/library/project/jm8gXanAeHKKkY5RZI7Aj",
         "coverImage": "sdw.jpeg",
@@ -8,16 +8,16 @@
     },
     "updates": [
         {
-            "date": "May 5, 2025",
-            "text": "Tdrack of the day feature added to the site."
-        },
-        {
             "date": "May 4, 2025",
             "text": "Playboi Carti page added."
         },
         {
             "date": "May 4, 2025",
             "text": "Patreon-only album Yandhi (Complete Edition) added."
+        },
+        {
+            "date": "May 4, 2025",
+            "text": "Track of the day feature added to the site."
         },
         {
             "date": "May 2, 2025",
