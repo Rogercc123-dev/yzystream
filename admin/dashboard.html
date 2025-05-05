@@ -693,7 +693,10 @@
     // Function to load shared content
     async function loadSharedContent() {
         try {
-            const response = await fetch('shared-content.json');
+            const response = await fetch('./shared-content.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             sharedContent = await response.json();
             console.log('Shared content loaded:', sharedContent);
         } catch (error) {
@@ -714,8 +717,24 @@
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
-        // Load shared content when the page loads
-        await loadSharedContent();
+        // Test shared content loading
+        try {
+            const testResponse = await fetch('./shared-content.json');
+            console.log('Test response status:', testResponse.status);
+            const testContent = await testResponse.json();
+            console.log('Test content loaded:', testContent);
+        } catch (error) {
+            console.error('Test load error:', error);
+        }
+
+        // Load current shared content
+        await loadCurrentSharedContent();
+
+        // Track of the day save button
+        document.getElementById('save-track-btn').addEventListener('click', saveTrackOfTheDay);
+
+        // Add update button
+        document.getElementById('add-update-btn').addEventListener('click', addUpdate);
 
         // Set current date
         const currentDate = new Date();
@@ -861,7 +880,7 @@
                 <script>
                     async function loadSharedContent() {
                         try {
-                            const response = await fetch('shared-content.json');
+                            const response = await fetch('./shared-content.json');
                             const sharedContent = await response.json();
                             
                             // Update track of the day
@@ -1021,8 +1040,12 @@
         // Function to load current shared content
         async function loadCurrentSharedContent() {
             try {
-                const response = await fetch('shared-content.json');
+                const response = await fetch('./shared-content.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const content = await response.json();
+                console.log('Loading current shared content:', content);
                 
                 // Populate track of the day form
                 if (content.trackOfTheDay) {
@@ -1054,7 +1077,7 @@
                     });
                 }
             } catch (error) {
-                console.error('Error loading shared content:', error);
+                console.error('Error loading current shared content:', error);
                 showToast('Error loading shared content');
             }
         }
@@ -1062,7 +1085,10 @@
         // Function to save track of the day
         async function saveTrackOfTheDay() {
             try {
-                const response = await fetch('shared-content.json');
+                const response = await fetch('./shared-content.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const content = await response.json();
 
                 content.trackOfTheDay = {
@@ -1084,7 +1110,10 @@
         // Function to add update
         async function addUpdate() {
             try {
-                const response = await fetch('shared-content.json');
+                const response = await fetch('./shared-content.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const content = await response.json();
 
                 const updateText = document.getElementById('update-text-input').value;
@@ -1099,6 +1128,10 @@
                     day: 'numeric', 
                     year: 'numeric' 
                 });
+
+                if (!content.updates) {
+                    content.updates = [];
+                }
 
                 content.updates.unshift({
                     date: formattedDate,
@@ -1118,8 +1151,15 @@
         // Function to delete update
         async function deleteUpdate(index) {
             try {
-                const response = await fetch('shared-content.json');
+                const response = await fetch('./shared-content.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const content = await response.json();
+
+                if (!content.updates) {
+                    content.updates = [];
+                }
 
                 content.updates.splice(index, 1);
                 await saveSharedContent(content);
@@ -1134,7 +1174,7 @@
         // Function to save shared content
         async function saveSharedContent(content) {
             try {
-                const response = await fetch('shared-content.json', {
+                const response = await fetch('./shared-content.json', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1150,19 +1190,8 @@
                 throw error;
             }
         }
-
-        // Add event listeners for shared content management
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Load current shared content
-            await loadCurrentSharedContent();
-
-            // Track of the day save button
-            document.getElementById('save-track-btn').addEventListener('click', saveTrackOfTheDay);
-
-            // Add update button
-            document.getElementById('add-update-btn').addEventListener('click', addUpdate);
-        });
     });
   </script>
 </body>
 </html>
+       
