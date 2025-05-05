@@ -152,6 +152,59 @@
     <!-- Generate Button -->
     <button id="generate-page-btn" class="bg-blue-600 text-white px-4 py-2 rounded">Generate Page</button>
 
+    <!-- Shared Content Management Section -->
+    <div class="mt-8 border-t pt-8">
+        <h2 class="text-2xl font-bold mb-4">Shared Content Management</h2>
+        
+        <!-- Track of the Day Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+            <h3 class="text-xl font-semibold mb-4">Track of the Day</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block font-medium mb-1">Title</label>
+                    <input type="text" id="track-title-input" class="w-full p-2 border rounded" placeholder="Track title">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Project Name</label>
+                    <input type="text" id="track-project-input" class="w-full p-2 border rounded" placeholder="Project name">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Project Link</label>
+                    <input type="url" id="track-project-link-input" class="w-full p-2 border rounded" placeholder="https://untitled.stream/...">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Cover Image URL</label>
+                    <input type="text" id="track-cover-input" class="w-full p-2 border rounded" placeholder="image.jpg">
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Audio File URL</label>
+                    <input type="text" id="track-audio-input" class="w-full p-2 border rounded" placeholder="audio.mp3">
+                </div>
+                <button id="save-track-btn" class="bg-green-600 text-white px-4 py-2 rounded">Save Track of the Day</button>
+            </div>
+        </div>
+
+        <!-- Updates Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Add Update</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block font-medium mb-1">Update Text</label>
+                    <textarea id="update-text-input" class="w-full p-2 border rounded" rows="3" placeholder="Enter update text..."></textarea>
+                </div>
+                <button id="add-update-btn" class="bg-green-600 text-white px-4 py-2 rounded">Add Update</button>
+            </div>
+
+            <!-- Current Updates List -->
+            <div class="mt-6">
+                <h4 class="font-semibold mb-2">Current Updates</h4>
+                <div id="current-updates" class="space-y-2">
+                    <!-- Updates will be listed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Action Buttons -->
     <div class="mt-4 flex space-x-4">
       <button id="copy-button" class="bg-gray-800 text-white px-4 py-2 rounded">Copy to Clipboard</button>
@@ -538,8 +591,8 @@
         <section id="updates" class="updates-section">
             <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
             <div class="updates-content">
-                <ul style="list-style: none; padding-left: 0;">
-                    ${updatesHTML}
+                <ul style="list-style: none; padding-left: 0;" id="updates-list">
+                    <!-- Updates will be loaded dynamically -->
                 </ul>
                 <div class="updates-blur"></div>
             </div>
@@ -554,22 +607,23 @@
 
             <div class="track-container flex flex-col items-center justify-center text-center">
                 <div class="album-cover mb-4">
-                    <img src="${trackOfTheDay.coverImage}" alt="Track of the Day Cover">
+                    <img id="track-cover" src="" alt="Track of the Day Cover">
                 </div>
 
                 <div class="track-info">
-                    <audio id="track-audio" src="${trackOfTheDay.audioFile}"></audio>
+                    <audio id="track-audio" src=""></audio>
 
-                    <div class="track-title text-white text-2xl font-bold mb-2">${trackOfTheDay.title}</div>
+                    <div id="track-title" class="track-title text-white text-2xl font-bold mb-2"></div>
 
                     <p class="text-gray-400 text-sm">
                         from: 
                         <a 
-                            href="${trackOfTheDay.projectLink}" 
+                            id="track-project-link"
+                            href="" 
                             class="underline hover:text-white" 
                             target="_blank" 
                             rel="noopener noreferrer">
-                            ${trackOfTheDay.project}
+                            <span id="track-project"></span>
                         </a>
                     </p>
                 </div>
@@ -771,47 +825,8 @@
         // Initialize with empty albums display
         renderAlbumEntries();
         
-        // Function to generate and download the page
-        function generatePage() {
-            console.log('generatePage called');
-            const artistName = document.getElementById('page-artist-name').value;
-            console.log('Artist name:', artistName);
-            
-            if (!artistName) {
-                showToast('Please enter an artist name');
-                return;
-            }
-
-            if (albumEntries.length === 0) {
-                showToast('Please add at least one album');
-                return;
-            }
-            console.log('Album entries:', albumEntries);
-
-            const html = generateArtistPage();
-            console.log('Generated HTML:', html);
-            
-            if (!html) {
-                console.log('No HTML generated');
-                return;
-            }
-
-            // Create a blob and download link
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${artistName.toLowerCase().replace(/ /g, '')}.html`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-
-            showToast('Page generated successfully!');
-        }
-
         // Function to generate full artist page HTML
-        function generateArtistPage() {
+        async function generateArtistPage() {
             console.log('generateArtistPage called');
             const artistName = document.getElementById('page-artist-name').value;
             console.log('Artist name in generateArtistPage:', artistName);
@@ -836,37 +851,99 @@
                     </li>
                 `;
             });
-            console.log('Generated albums HTML:', albumsHTML);
-
-            // Format current date
-            const now = new Date();
-            const formattedDate = now.toLocaleDateString('en-US', { 
-                month: 'long', 
-                day: 'numeric', 
-                year: 'numeric' 
-            });
-            console.log('Formatted date:', formattedDate);
-
-            // Generate updates HTML
-            const updatesHTML = generateUpdatesHTML();
 
             // Get template content
             const template = document.getElementById('artist-page-template');
             let templateContent = template.innerHTML;
 
+            // Add script to load shared content
+            const sharedContentScript = `
+                <script>
+                    async function loadSharedContent() {
+                        try {
+                            const response = await fetch('shared-content.json');
+                            const sharedContent = await response.json();
+                            
+                            // Update track of the day
+                            if (sharedContent.trackOfTheDay) {
+                                document.getElementById('track-cover').src = sharedContent.trackOfTheDay.coverImage;
+                                document.getElementById('track-audio').src = sharedContent.trackOfTheDay.audioFile;
+                                document.getElementById('track-title').textContent = sharedContent.trackOfTheDay.title;
+                                document.getElementById('track-project').textContent = sharedContent.trackOfTheDay.project;
+                                document.getElementById('track-project-link').href = sharedContent.trackOfTheDay.projectLink;
+                            }
+                            
+                            // Update updates section
+                            if (sharedContent.updates) {
+                                const updatesList = document.getElementById('updates-list');
+                                updatesList.innerHTML = sharedContent.updates.map(update => \`
+                                    <li style="margin-bottom: 1rem;">
+                                        <strong>\${update.date}:</strong> \${update.text}
+                                    </li>
+                                \`).join('');
+                            }
+                        } catch (error) {
+                            console.error('Error loading shared content:', error);
+                        }
+                    }
+
+                    // Load shared content when the page loads
+                    document.addEventListener('DOMContentLoaded', loadSharedContent);
+
+                    // Reload shared content every 5 minutes
+                    setInterval(loadSharedContent, 5 * 60 * 1000);
+                <\/script>
+            `;
+
             // Replace placeholders in the template
             const finalHtml = templateContent
                 .replace(/\${artistName}/g, artistName)
                 .replace(/\${albumsHTML}/g, albumsHTML)
-                .replace(/\${formattedDate}/g, formattedDate)
                 .replace(/\${currentYear}/g, new Date().getFullYear())
-                .replace(/\${updatesHTML}/g, updatesHTML)
-                .replace(/\${trackOfTheDay\.(\w+)}/g, (match, key) => sharedContent?.trackOfTheDay?.[key] || '');
+                .replace('</body>', sharedContentScript + '</body>');
             
-            console.log('Final HTML length:', finalHtml.length);
             return finalHtml;
         }
         
+        // Function to generate and download the page
+        async function generatePage() {
+            console.log('generatePage called');
+            const artistName = document.getElementById('page-artist-name').value;
+            console.log('Artist name:', artistName);
+            
+            if (!artistName) {
+                showToast('Please enter an artist name');
+                return;
+            }
+
+            if (albumEntries.length === 0) {
+                showToast('Please add at least one album');
+                return;
+            }
+            console.log('Album entries:', albumEntries);
+
+            const html = await generateArtistPage();
+            console.log('Generated HTML:', html);
+            
+            if (!html) {
+                console.log('No HTML generated');
+                return;
+            }
+
+            // Create a blob and download link
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${artistName.toLowerCase().replace(/ /g, '')}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast('Page generated successfully!');
+        }
+
         // Copy to clipboard function
         document.getElementById('copy-button').addEventListener('click', function() {
             const codeOutput = document.getElementById('code-output');
@@ -939,6 +1016,151 @@
         document.getElementById('generate-page-btn').addEventListener('click', function() {
             console.log('Generate page button clicked');
             generatePage();
+        });
+
+        // Function to load current shared content
+        async function loadCurrentSharedContent() {
+            try {
+                const response = await fetch('shared-content.json');
+                const content = await response.json();
+                
+                // Populate track of the day form
+                if (content.trackOfTheDay) {
+                    document.getElementById('track-title-input').value = content.trackOfTheDay.title || '';
+                    document.getElementById('track-project-input').value = content.trackOfTheDay.project || '';
+                    document.getElementById('track-project-link-input').value = content.trackOfTheDay.projectLink || '';
+                    document.getElementById('track-cover-input').value = content.trackOfTheDay.coverImage || '';
+                    document.getElementById('track-audio-input').value = content.trackOfTheDay.audioFile || '';
+                }
+
+                // Populate updates list
+                if (content.updates) {
+                    const updatesList = document.getElementById('current-updates');
+                    updatesList.innerHTML = content.updates.map((update, index) => `
+                        <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
+                            <div>
+                                <strong>${update.date}:</strong> ${update.text}
+                            </div>
+                            <button class="text-red-500 delete-update" data-index="${index}">×</button>
+                        </div>
+                    `).join('');
+
+                    // Add delete handlers
+                    document.querySelectorAll('.delete-update').forEach(btn => {
+                        btn.addEventListener('click', async () => {
+                            const index = parseInt(btn.dataset.index);
+                            await deleteUpdate(index);
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading shared content:', error);
+                showToast('Error loading shared content');
+            }
+        }
+
+        // Function to save track of the day
+        async function saveTrackOfTheDay() {
+            try {
+                const response = await fetch('shared-content.json');
+                const content = await response.json();
+
+                content.trackOfTheDay = {
+                    title: document.getElementById('track-title-input').value,
+                    project: document.getElementById('track-project-input').value,
+                    projectLink: document.getElementById('track-project-link-input').value,
+                    coverImage: document.getElementById('track-cover-input').value,
+                    audioFile: document.getElementById('track-audio-input').value
+                };
+
+                await saveSharedContent(content);
+                showToast('Track of the day saved successfully!');
+            } catch (error) {
+                console.error('Error saving track of the day:', error);
+                showToast('Error saving track of the day');
+            }
+        }
+
+        // Function to add update
+        async function addUpdate() {
+            try {
+                const response = await fetch('shared-content.json');
+                const content = await response.json();
+
+                const updateText = document.getElementById('update-text-input').value;
+                if (!updateText) {
+                    showToast('Please enter update text');
+                    return;
+                }
+
+                const now = new Date();
+                const formattedDate = now.toLocaleDateString('en-US', { 
+                    month: 'long', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+
+                content.updates.unshift({
+                    date: formattedDate,
+                    text: updateText
+                });
+
+                await saveSharedContent(content);
+                document.getElementById('update-text-input').value = '';
+                await loadCurrentSharedContent();
+                showToast('Update added successfully!');
+            } catch (error) {
+                console.error('Error adding update:', error);
+                showToast('Error adding update');
+            }
+        }
+
+        // Function to delete update
+        async function deleteUpdate(index) {
+            try {
+                const response = await fetch('shared-content.json');
+                const content = await response.json();
+
+                content.updates.splice(index, 1);
+                await saveSharedContent(content);
+                await loadCurrentSharedContent();
+                showToast('Update deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting update:', error);
+                showToast('Error deleting update');
+            }
+        }
+
+        // Function to save shared content
+        async function saveSharedContent(content) {
+            try {
+                const response = await fetch('shared-content.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(content, null, 2)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save shared content');
+                }
+            } catch (error) {
+                console.error('Error saving shared content:', error);
+                throw error;
+            }
+        }
+
+        // Add event listeners for shared content management
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load current shared content
+            await loadCurrentSharedContent();
+
+            // Track of the day save button
+            document.getElementById('save-track-btn').addEventListener('click', saveTrackOfTheDay);
+
+            // Add update button
+            document.getElementById('add-update-btn').addEventListener('click', addUpdate);
         });
     });
   </script>
