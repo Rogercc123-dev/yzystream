@@ -726,7 +726,10 @@
       }
 
       // Add event listener to the generate page button
-      document.getElementById('generate-page-btn').addEventListener('click', generatePage);
+      document.getElementById('generate-page-btn').addEventListener('click', function() {
+          console.log('Generate page button clicked');
+          generatePage();
+      });
       
       // Function to generate full artist page HTML
       function generateArtistPage() {
