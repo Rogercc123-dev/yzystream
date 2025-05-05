@@ -694,12 +694,31 @@
     async function loadSharedContent() {
         try {
             console.log('Attempting to load shared content...');
-            const response = await fetch('shared-content.json');
-            if (!response.ok) {
-                throw new Error('Failed to load shared content');
+            // Try multiple possible paths for shared-content.json
+            const paths = [
+                'shared-content.json',
+                '../shared-content.json',
+                '/shared-content.json'
+            ];
+            
+            let content = null;
+            for (const path of paths) {
+                try {
+                    console.log('Trying path:', path);
+                    const response = await fetch(path);
+                    if (response.ok) {
+                        content = await response.json();
+                        console.log('Successfully loaded shared content from:', path);
+                        break;
+                    }
+                } catch (e) {
+                    console.log('Failed to load from path:', path, e);
+                }
             }
-            const content = await response.json();
-            console.log('Shared content loaded successfully:', content);
+            
+            if (!content) {
+                throw new Error('Failed to load shared content from any path');
+            }
             
             // Update track of the day
             if (content.trackOfTheDay) {
@@ -913,12 +932,31 @@
         async function loadSharedContent() {
             try {
                 console.log('Attempting to load shared content...');
-                const response = await fetch('shared-content.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load shared content');
+                // Try multiple possible paths for shared-content.json
+                const paths = [
+                    'shared-content.json',
+                    '../shared-content.json',
+                    '/shared-content.json'
+                ];
+                
+                let content = null;
+                for (const path of paths) {
+                    try {
+                        console.log('Trying path:', path);
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            content = await response.json();
+                            console.log('Successfully loaded shared content from:', path);
+                            break;
+                        }
+                    } catch (e) {
+                        console.log('Failed to load from path:', path, e);
+                    }
                 }
-                const content = await response.json();
-                console.log('Shared content loaded successfully:', content);
+                
+                if (!content) {
+                    throw new Error('Failed to load shared content from any path');
+                }
                 
                 // Update track of the day
                 if (content.trackOfTheDay) {
@@ -968,10 +1006,16 @@
         }
 
         // Load shared content when the page loads
-        document.addEventListener('DOMContentLoaded', loadSharedContent);
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Attempting to load shared content');
+            loadSharedContent();
+        });
 
         // Reload shared content every 5 minutes
-        setInterval(loadSharedContent, 5 * 60 * 1000);
+        setInterval(function() {
+            console.log('Interval triggered - Reloading shared content');
+            loadSharedContent();
+        }, 5 * 60 * 1000);
     <\/script>
             `;
 
