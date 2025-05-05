@@ -693,33 +693,40 @@
     // Function to load shared content
     async function loadSharedContent() {
         try {
-            const response = await fetch('./shared-content.json');
+            const response = await fetch('/admin/shared-content.json');
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error('Failed to load shared content');
             }
             sharedContent = await response.json();
             console.log('Shared content loaded:', sharedContent);
+            
+            // Update track of the day
+            if (sharedContent.trackOfTheDay) {
+                document.getElementById('track-cover').src = '/admin/' + sharedContent.trackOfTheDay.coverImage;
+                document.getElementById('track-audio').src = '/admin/' + sharedContent.trackOfTheDay.audioFile;
+                document.getElementById('track-title').textContent = sharedContent.trackOfTheDay.title;
+                document.getElementById('track-project').textContent = sharedContent.trackOfTheDay.project;
+                document.getElementById('track-project-link').href = sharedContent.trackOfTheDay.projectLink;
+            }
+            
+            // Update updates section
+            if (sharedContent.updates) {
+                const updatesList = document.getElementById('updates-list');
+                updatesList.innerHTML = sharedContent.updates.map(update => 
+                    '<li style="margin-bottom: 1rem;">' +
+                    '<strong>' + update.date + ':</strong> ' + update.text +
+                    '</li>'
+                ).join('');
+            }
         } catch (error) {
             console.error('Error loading shared content:', error);
-            showToast('Error loading shared content');
         }
-    }
-
-    // Function to generate updates HTML
-    function generateUpdatesHTML() {
-        if (!sharedContent || !sharedContent.updates) return '';
-        
-        return sharedContent.updates.map(update => `
-            <li style="margin-bottom: 1rem;">
-                <strong>${update.date}:</strong> ${update.text}
-            </li>
-        `).join('');
     }
 
     document.addEventListener('DOMContentLoaded', async function() {
         // Test shared content loading
         try {
-            const testResponse = await fetch('./shared-content.json');
+            const testResponse = await fetch('/admin/shared-content.json');
             console.log('Test response status:', testResponse.status);
             const testContent = await testResponse.json();
             console.log('Test content loaded:', testContent);
@@ -880,13 +887,17 @@
                 <script>
                     async function loadSharedContent() {
                         try {
-                            const response = await fetch('./shared-content.json');
+                            const response = await fetch('/admin/shared-content.json');
+                            if (!response.ok) {
+                                throw new Error('Failed to load shared content');
+                            }
                             const sharedContent = await response.json();
+                            console.log('Shared content loaded:', sharedContent);
                             
                             // Update track of the day
                             if (sharedContent.trackOfTheDay) {
-                                document.getElementById('track-cover').src = sharedContent.trackOfTheDay.coverImage;
-                                document.getElementById('track-audio').src = sharedContent.trackOfTheDay.audioFile;
+                                document.getElementById('track-cover').src = '/admin/' + sharedContent.trackOfTheDay.coverImage;
+                                document.getElementById('track-audio').src = '/admin/' + sharedContent.trackOfTheDay.audioFile;
                                 document.getElementById('track-title').textContent = sharedContent.trackOfTheDay.title;
                                 document.getElementById('track-project').textContent = sharedContent.trackOfTheDay.project;
                                 document.getElementById('track-project-link').href = sharedContent.trackOfTheDay.projectLink;
@@ -895,11 +906,11 @@
                             // Update updates section
                             if (sharedContent.updates) {
                                 const updatesList = document.getElementById('updates-list');
-                                updatesList.innerHTML = sharedContent.updates.map(update => \`
-                                    <li style="margin-bottom: 1rem;">
-                                        <strong>\${update.date}:</strong> \${update.text}
-                                    </li>
-                                \`).join('');
+                                updatesList.innerHTML = sharedContent.updates.map(update => 
+                                    '<li style="margin-bottom: 1rem;">' +
+                                    '<strong>' + update.date + ':</strong> ' + update.text +
+                                    '</li>'
+                                ).join('');
                             }
                         } catch (error) {
                             console.error('Error loading shared content:', error);
@@ -1040,7 +1051,7 @@
         // Function to load current shared content
         async function loadCurrentSharedContent() {
             try {
-                const response = await fetch('./shared-content.json');
+                const response = await fetch('/admin/shared-content.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -1085,7 +1096,7 @@
         // Function to save track of the day
         async function saveTrackOfTheDay() {
             try {
-                const response = await fetch('./shared-content.json');
+                const response = await fetch('/admin/shared-content.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -1110,7 +1121,7 @@
         // Function to add update
         async function addUpdate() {
             try {
-                const response = await fetch('./shared-content.json');
+                const response = await fetch('/admin/shared-content.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -1151,7 +1162,7 @@
         // Function to delete update
         async function deleteUpdate(index) {
             try {
-                const response = await fetch('./shared-content.json');
+                const response = await fetch('/admin/shared-content.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -1174,7 +1185,7 @@
         // Function to save shared content
         async function saveSharedContent(content) {
             try {
-                const response = await fetch('./shared-content.json', {
+                const response = await fetch('/admin/shared-content.json', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1194,4 +1205,3 @@
   </script>
 </body>
 </html>
-       
