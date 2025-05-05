@@ -1,168 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>YZY Stream - Album Page Generator</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-gray-100 text-gray-900 font-sans">
-  <div class="max-w-3xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-2">YZY STREAM</h1>
-    <p class="text-sm text-gray-600 mb-6" id="current-date"></p>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>YZYSTREAM - Page Generator</title>
+    <script defer src="script.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-white text-black p-8">
+    <h1 class="text-3xl font-bold mb-4">YZYSTREAM Page Generator</h1>
 
-    <div class="mb-4">
-      <label for="page-artist-name" class="block font-medium mb-1">Artist Name</label>
-      <input type="text" id="page-artist-name" class="w-full p-2 border rounded" placeholder="e.g. Kanye West" />
+    <div class="space-y-4 max-w-2xl">
+      <div>
+        <label for="page-artist-name" class="block font-semibold">Artist Name:</label>
+        <input type="text" id="page-artist-name" class="border px-4 py-2 w-full" />
+      </div>
+
+      <div class="border-t pt-4">
+        <h2 class="text-xl font-semibold mb-2">Add Album</h2>
+        <div class="space-y-2">
+          <input type="text" id="album-name" placeholder="Album Name" class="border px-4 py-2 w-full" />
+          <input type="text" id="album-link" placeholder="Album Link (e.g. /albums/album.html)" class="border px-4 py-2 w-full" />
+          <input type="text" id="album-image" placeholder="Image URL" class="border px-4 py-2 w-full" />
+          <button id="add-album-btn" class="bg-black text-white px-4 py-2 rounded">Add Album</button>
+        </div>
+        <ul id="album-list" class="mt-4 space-y-2"></ul>
+      </div>
+
+      <button id="generate-page-btn" class="bg-green-600 text-white px-6 py-2 rounded">Generate Page</button>
     </div>
 
-    <button id="add-album-btn" class="bg-black text-white px-4 py-2 rounded mb-4">+ Add Album</button>
-
-    <div id="album-form" class="hidden bg-white p-4 border rounded mb-4">
-      <div class="mb-2">
-        <label class="block font-medium mb-1">Album Name</label>
-        <input type="text" id="album-name" class="w-full p-2 border rounded" />
-      </div>
-      <div class="mb-2">
-        <label class="block font-medium mb-1">Album Link</label>
-        <input type="url" id="album-link" class="w-full p-2 border rounded" />
-      </div>
-      <div class="mb-2">
-        <label class="block font-medium mb-1">Release Year</label>
-        <input type="text" id="album-year" class="w-full p-2 border rounded" />
-      </div>
-      <div class="mb-2">
-        <label class="block font-medium mb-1">Album Info</label>
-        <textarea id="album-info" class="w-full p-2 border rounded"></textarea>
-      </div>
-      <div class="flex gap-4 mt-4">
-        <button id="save-album-btn" class="bg-green-600 text-white px-4 py-2 rounded">Save</button>
-        <button id="cancel-album-btn" class="text-red-500">Cancel</button>
-      </div>
+    <div id="output-container" class="mt-8 hidden">
+      <h2 class="text-2xl font-bold mb-2">Generated HTML</h2>
+      <textarea id="code-output" class="w-full h-96 border p-4 font-mono text-sm"></textarea>
+      <button id="download-html-btn" class="mt-4 bg-black text-white px-4 py-2 rounded">Download HTML</button>
     </div>
-
-    <div id="album-entries" class="space-y-3 mb-6"></div>
-
-    <button id="generate-page-btn" class="bg-blue-600 text-white px-4 py-2 rounded">Generate Page</button>
-
-    <div id="output-container" class="hidden mt-10">
-      <h2 class="text-xl font-semibold mb-2">Generated HTML</h2>
-      <textarea id="code-output" class="w-full h-96 p-4 border font-mono text-sm rounded bg-gray-50" readonly></textarea>
-    </div>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentDate = new Date();
-      document.getElementById('current-date').textContent = currentDate.toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
-
-      let albumEntries = [];
-
-      const clearAlbumForm = () => {
-        document.getElementById('album-name').value = '';
-        document.getElementById('album-link').value = '';
-        document.getElementById('album-year').value = '';
-        document.getElementById('album-info').value = '';
-      };
-
-      const renderAlbumEntries = () => {
-        const container = document.getElementById('album-entries');
-        container.innerHTML = '';
-        if (albumEntries.length === 0) {
-          container.innerHTML = '<p class="text-gray-500 italic">No albums added yet.</p>';
-          return;
-        }
-
-        albumEntries.forEach((album, index) => {
-          const div = document.createElement('div');
-          div.className = 'album-entry p-3 border border-gray-200 rounded-md flex justify-between items-center';
-          div.innerHTML = `
-            <div>
-              <strong>${index + 1}. ${album.name}</strong> (${album.year})<br/>
-              <span class="text-sm text-gray-600">${album.link}</span>
-            </div>
-            <span class="text-red-500 cursor-pointer">&times;</span>
-          `;
-          div.querySelector('span.text-red-500').onclick = () => {
-            albumEntries.splice(index, 1);
-            renderAlbumEntries();
-          };
-          container.appendChild(div);
-        });
-      };
-
-      document.getElementById('add-album-btn').onclick = () => {
-        document.getElementById('album-form').classList.remove('hidden');
-        document.getElementById('album-name').focus();
-      };
-
-      document.getElementById('cancel-album-btn').onclick = () => {
-        document.getElementById('album-form').classList.add('hidden');
-        clearAlbumForm();
-      };
-
-      document.getElementById('save-album-btn').onclick = () => {
-        const name = document.getElementById('album-name').value.trim();
-        const link = document.getElementById('album-link').value.trim();
-        const year = document.getElementById('album-year').value.trim();
-        const info = document.getElementById('album-info').value.trim();
-        if (!name || !link || !year || !info) {
-          alert('Please fill out all album fields');
-          return;
-        }
-        albumEntries.push({ name, link, year, info });
-        renderAlbumEntries();
-        document.getElementById('album-form').classList.add('hidden');
-        clearAlbumForm();
-      };
-
-      document.getElementById('generate-page-btn').onclick = () => {
-        const artist = document.getElementById('page-artist-name').value.trim();
-        if (!artist) {
-          alert('Please enter artist name');
-          return;
-        }
-        if (albumEntries.length === 0) {
-          alert('Please add at least one album');
-          return;
-        }
-
-        const albumsHTML = albumEntries.map(album => `
-          <li>
-            <a href="${album.link}" target="_blank" class="text-blue-600 hover:underline">${album.name}</a>
-            <span> (${album.year})</span>
-            <p class="text-sm text-gray-700">${album.info}</p>
-          </li>
-        `).join('\n');
-
-        const output = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${artist} - Discography</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-white text-black font-sans p-6">
-  <h1 class="text-3xl font-bold mb-4">${artist}</h1>
-  <ul class="space-y-4">
-    ${albumsHTML}
-  </ul>
-</body>
-</html>
-        `.trim();
-
-        document.getElementById('code-output').value = output;
-        document.getElementById('output-container').classList.remove('hidden');
-        document.getElementById('output-container').scrollIntoView({ behavior: 'smooth' });
-      };
-
-      renderAlbumEntries();
-    });
-  </script>
-</body>
+  </body>
 </html>
 
