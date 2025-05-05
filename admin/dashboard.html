@@ -695,7 +695,10 @@
       
       // Function to generate and download the page
       function generatePage() {
+          console.log('generatePage called');
           const artistName = document.getElementById('page-artist-name').value;
+          console.log('Artist name:', artistName);
+          
           if (!artistName) {
               showToast('Please enter an artist name');
               return;
@@ -705,9 +708,13 @@
               showToast('Please add at least one album');
               return;
           }
+          console.log('Album entries:', albumEntries);
 
           const html = generateArtistPage();
+          console.log('Generated HTML:', html);
+          
           if (!html) {
+              console.log('No HTML generated');
               return;
           }
 
@@ -725,15 +732,12 @@
           showToast('Page generated successfully!');
       }
 
-      // Add event listener to the generate page button
-      document.getElementById('generate-page-btn').addEventListener('click', function() {
-          console.log('Generate page button clicked');
-          generatePage();
-      });
-      
       // Function to generate full artist page HTML
       function generateArtistPage() {
+          console.log('generateArtistPage called');
           const artistName = document.getElementById('page-artist-name').value;
+          console.log('Artist name in generateArtistPage:', artistName);
+          
           if (!artistName) {
               showToast('Please enter an artist name');
               return;
@@ -754,6 +758,7 @@
                   </li>
               `;
           });
+          console.log('Generated albums HTML:', albumsHTML);
 
           // Format current date
           const now = new Date();
@@ -762,16 +767,21 @@
               day: 'numeric', 
               year: 'numeric' 
           });
+          console.log('Formatted date:', formattedDate);
 
           // Get the template content
           const template = document.getElementById('artist-page-template').textContent;
+          console.log('Template content length:', template.length);
 
           // Replace placeholders
-          return template
+          const finalHtml = template
               .replace(/\${artistName}/g, artistName)
               .replace(/\${albumsHTML}/g, albumsHTML)
               .replace(/\${formattedDate}/g, formattedDate)
               .replace(/\${new Date().getFullYear()}/g, new Date().getFullYear());
+          
+          console.log('Final HTML length:', finalHtml.length);
+          return finalHtml;
       }
       
       // Copy to clipboard function
@@ -840,6 +850,12 @@
           }, function() {
               showToast('Failed to copy update');
           });
+      });
+
+      // Add event listener to the generate page button
+      document.getElementById('generate-page-btn').addEventListener('click', function() {
+          console.log('Generate page button clicked');
+          generatePage();
       });
   });
   </script>
