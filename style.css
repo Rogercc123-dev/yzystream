@@ -257,6 +257,25 @@ a:hover {
 .link-gradient:hover::after {
     width: 100%;
 }
+.video-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  border: 2px solid #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.highlight {
+  color: red;
+  font-weight: bold;
+}
 
 /* CTA Button */
 .cta-button {
