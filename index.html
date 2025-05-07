@@ -58,6 +58,26 @@
 </head>
 
 <body>
+ <!-- Navbar Component -->
+<nav id="navbar">
+  <div class="hamburger-menu">
+    <div class="bar1"></div>
+    <div class="bar2"></div>
+    <div class="bar3"></div>
+  </div>
+  <div class="menu-overlay">
+    <div class="menu-content">
+      <a href="index.html">HOME</a>
+      <a href="untitled.html">[UNTITLED]</a>
+      <a href="vinyl-cd.html">VINYLS & CDs</a>
+      <a href="carti.html">PLAYBOI CARTI</a>
+      <a href="frankocean.html">FRANK OCEAN</a>
+      <a href="dontoliver.html">DON TOLIVER</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+  </div>
+</nav>
+
   <div class="content-wrapper">
     <header>
       <h1>YZY STREAM</h1>
@@ -188,6 +208,33 @@
       </nav>
     </footer>
   </div>
-</body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const hamburger = document.querySelector('.hamburger-menu');
+  const menuOverlay = document.querySelector('.menu-overlay');
+
+  hamburger.addEventListener('click', function() {
+    this.classList.toggle('change');
+    menuOverlay.classList.toggle('open');
+  });
+
+  const menuLinks = document.querySelectorAll('.menu-content a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      hamburger.classList.remove('change');
+      menuOverlay.classList.remove('open');
+    });
+  });
+
+  document.addEventListener('click', function(event) {
+    if (!event.target.closest('#navbar') && menuOverlay.classList.contains('open')) {
+      hamburger.classList.remove('change');
+      menuOverlay.classList.remove('open');
+    }
+  });
+});
+</script>
+
+          </body>
 </html>
 </html>
