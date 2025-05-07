@@ -284,7 +284,9 @@ a:hover {
   background-color: white;
 }
 
-#shop-heading {
+#shop-heading, 
+#vinyl-cd-shop-heading,
+#albums-heading {
   font-size: 2.25rem;
   font-weight: 300;
   letter-spacing: 0.15em;
@@ -293,7 +295,8 @@ a:hover {
   color: #222;
 }
 
-#kanye-albums .shop-container {
+/* This ensures ALL shop containers use grid layout */
+.shop-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 40px;
@@ -301,9 +304,10 @@ a:hover {
   margin: 0 auto;
 }
 
+/* Specific styling for items */
 .shop-item {
   position: relative;
-  height: 400px;
+  height: 400px;  /* Fixed height */
   overflow: hidden;
   background-color: transparent;
 }
@@ -341,14 +345,16 @@ a:hover {
   opacity: 1;
 }
 
+/* Mobile responsiveness */
 @media (max-width: 768px) {
-  #kanye-albums .shop-container,
   .shop-container {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
   }
   
-  #shop-heading {
+  #shop-heading,
+  #vinyl-cd-shop-heading,
+  #albums-heading {
     font-size: 1.8rem;
   }
 }
