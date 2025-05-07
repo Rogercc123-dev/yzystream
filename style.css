@@ -276,78 +276,131 @@ a:hover {
   color: red;
   font-weight: bold;
 }
-/* Styles for Shop Section */
+/* Enhanced Styles for Shop Section - YZY Aesthetic */
 #shop {
   text-align: center;
-  margin: 60px 0;
+  margin: 80px 0;
+  padding: 0 20px;
 }
 
 #shop-heading {
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: #111;
-  letter-spacing: 0.5px;
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  color: #222;
 }
 
 .shop-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 48px; /* More space between items */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 60px;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .shop-item {
   position: relative;
-  width: 280px;
-  height: 400px;
-  border-radius: 16px;
+  aspect-ratio: 3/4;
   overflow: hidden;
-  background-color: #f8f8f8;
-  transition: transform 0.3s ease;
-}
-
-.shop-item:hover {
-  transform: scale(1.015);
+  background-color: #f5f5f5;
+  transition: all 0.4s ease;
 }
 
 .shop-image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  transition: opacity 0.3s ease;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  filter: contrast(1.05);
 }
 
-/* Optional slight dimming on hover */
+.shop-item:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
 .shop-item:hover .shop-image {
-  opacity: 0.92;
+  transform: scale(1.03);
 }
 
 .shop-item a {
   display: block;
+  height: 100%;
   text-decoration: none;
-  color: inherit;
 }
 
-/* Clean hover effect text */
 .hover-effect {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  padding: 6px 12px;
-  background-color: rgba(255, 255, 255, 0.85);
-  color: #000;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border-radius: 6px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-align: left;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  backdrop-filter: blur(6px);
+  transform: translateY(10px);
+  transition: all 0.3s ease;
 }
 
 .shop-item:hover .hover-effect {
   opacity: 1;
+  transform: translateY(0);
 }
 
+.item-price {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #222;
+  color: white;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: all 0.3s ease;
+}
+
+.shop-item:hover .item-price {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.shop-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.4s ease;
+}
+
+.shop-item:hover::after {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .shop-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 30px;
+  }
+  
+  #shop-heading {
+    font-size: 1.8rem;
+  }
+  
+  .hover-effect {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
 
 
 /* CTA Button */
