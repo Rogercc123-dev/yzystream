@@ -281,6 +281,7 @@ a:hover {
   text-align: center;
   margin: 80px 0;
   padding: 0 20px;
+  background-color: white;
 }
 
 #shop-heading {
@@ -294,8 +295,8 @@ a:hover {
 
 .shop-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 60px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 40px;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -305,18 +306,13 @@ a:hover {
   height: 400px;
   overflow: hidden;
   background-color: transparent;
-  transition: all 0.4s ease;
 }
 
 .shop-image {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.5s ease;
-}
-
-.shop-item:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
 }
 
 .shop-item:hover .shop-image {
@@ -331,58 +327,18 @@ a:hover {
 
 .hover-effect {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 20px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
-  color: white;
-  font-size: 1.1rem;
-  font-weight: 300;
+  bottom: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  color: #222;
+  font-size: 1rem;
   letter-spacing: 0.05em;
-  text-align: left;
   opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .shop-item:hover .hover-effect {
   opacity: 1;
-  transform: translateY(0);
-}
-
-.item-price {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: #222;
-  color: white;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  letter-spacing: 0.05em;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.3s ease;
-}
-
-.shop-item:hover .item-price {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.shop-item::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0);
-  transition: background 0.4s ease;
-}
-
-.shop-item:hover::after {
-  background: rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 768px) {
@@ -393,11 +349,6 @@ a:hover {
   
   #shop-heading {
     font-size: 1.8rem;
-  }
-  
-  .hover-effect {
-    padding: 15px;
-    font-size: 0.95rem;
   }
 }
 
