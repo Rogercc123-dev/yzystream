@@ -478,17 +478,58 @@
           
         <hr class="separator">
         
-        <section id="updates" class="updates-section">
-            <h2 style="font-size: 1.5rem; border-bottom: 2px solid #ccc; padding-bottom: 0.5rem;">Updates</h2>
-            <div class="updates-content">
-                <ul style="list-style: none; padding-left: 0;" id="updates-list">
-                    <!-- Updates will be loaded dynamically -->
-                </ul>
-                <div class="updates-blur"></div>
-            </div>
-            <button class="expand-button">
-                Show More Updates <i class="fas fa-chevron-down"></i>
-            </button>
+          <section id="mailing-list" aria-labelledby="mailing-list-heading">
+  <h2 id="mailing-list-heading">Get notified when a new link is added</h2>
+  <form name="subscribe" method="POST" data-netlify="true" id="subscribeForm" style="margin-top: 1rem;">
+    <input type="hidden" name="form-name" value="subscribe">
+    
+    <input 
+      type="email" 
+      name="email" 
+      id="email" 
+      required 
+      placeholder="your@email.com"
+      style="padding: 10px; width: 100%; max-width: 300px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border: 1px solid #000; background: #fff; color: #000; margin-bottom: 10px;"
+    >
+    <br>
+    <button 
+      type="submit"
+      style="padding: 10px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; background: #000; color: #fff; border: none; cursor: pointer; transition: 0.3s;"
+      onmouseover="this.style.background='#333'"
+      onmouseout="this.style.background='#000'"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <p id="responseMessage" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace;"></p>
+</section>
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = new FormData(form);
+  const message = document.getElementById("responseMessage");
+
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(data).toString()
+  })
+  .then(() => {
+    message.style.color = "green";
+    message.textContent = "Thanks for subscribing!";
+    form.reset();
+  })
+  .catch(() => {
+    message.style.color = "red";
+    message.textContent = "Something went wrong. Please try again.";
+  });
+});
+</script>
+            </ul>
         </section>
         
         <!-- Track of the Day Section -->
