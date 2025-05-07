@@ -293,8 +293,7 @@ a:hover {
   color: #222;
 }
 
-.shop-container, 
-.vinyl-container {
+#kanye-albums .shop-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   gap: 40px;
@@ -343,8 +342,8 @@ a:hover {
 }
 
 @media (max-width: 768px) {
-  .shop-container,
-  .vinyl-container {
+  #kanye-albums .shop-container,
+  .shop-container {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
   }
