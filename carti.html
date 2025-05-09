@@ -550,7 +550,160 @@ document.getElementById("subscribeForm").addEventListener("submit", function(e) 
             <h3 class="text-center">Project of the Day</h3>
 
            <iframe style="border-radius: 24px" src="https://untitled.stream/embed/2Syo1a9W2EV4" width="100%" height="344" allowFullScreen="" allow="picture-in-picture" frameborder="0" loading="lazy"></iframe>
-        
+          <!-- Patron Wall Section -->
+<section id="patron-wall" aria-labelledby="patron-wall-heading">
+    <h2 id="patron-wall-heading">Patron Wall</h2>
+    
+    <p class="patron-intro">Special thanks to our Patreon supporters who make YZY STREAM possible. Your support helps us continue share unreleased Ye projects.</p>
+      <div class="become-patron">
+        <p>Want to see your name here? Support YZY STREAM on Patreon!</p>
+        <a href="https://www.patreon.com/YZYSTREAM1" target="_blank" class="patron-cta-button">
+            Become a Patron <span aria-hidden="true">→</span>
+        </a>
+          </div>
+    <div class="patron-tiers">
+        <!-- Yitizens Tier -->
+        <div class="patron-tier yitizens-tier">
+            <div class="patron-grid">
+                <div class="patron-card">
+                    <span class="patron-name">Matthew S</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">Daniel Gonzalez</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">Tyler</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">Brett Kimball</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">MikeyB</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">Sael Perez</span>
+                </div>
+                <div class="patron-card">
+                    <span class="patron-name">stealth</span>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+    
+ 
+    </div>
+</section>
+
+<!-- CSS Styles for Patron Wall -->
+<style>
+    #patron-wall {
+        background-color: rgba(0, 0, 0, 0.03);
+        padding: 30px;
+        margin: 40px 0;
+        border-radius: 8px;
+    }
+    
+    .patron-intro {
+        text-align: center;
+        margin-bottom: 25px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .patron-tiers {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .patron-tier {
+        padding: 20px;
+        border-radius: 6px;
+    }
+    
+    .patron-tier h3 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+    }
+    
+    .yitizens-tier {
+        background-color: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.15);
+    }
+    
+    .patron-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .patron-card {
+        background-color: rgba(255, 255, 255, 0.5);
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    .yitizens-tier .patron-card {
+        border-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    .patron-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        line-height: 1.8;
+        font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    .become-patron {
+        margin-top: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+    }
+    
+    .patron-cta-button {
+        display: inline-block;
+        background: #000;
+        color: #fff;
+        padding: 10px 20px;
+        margin-top: 10px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-family: 'IBM Plex Mono', monospace;
+        transition: background-color 0.2s;
+    }
+    
+    .patron-cta-button:hover {
+        background: #333;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .patron-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        }
+
+        #patron-wall {
+            padding: 20px 15px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .patron-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+    }
+</style>
         <div class="join-team-section">
             <a href="mailto:yzystream1@gmail.com" class="join-btn">
                 JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
