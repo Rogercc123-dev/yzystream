@@ -6,6 +6,12 @@
     <title>YZYSTREAM - Streamers</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        .content-wrapper {
+            max-width: 800px; /* Constrain content width */
+            margin: 0 auto; /* Center the content */
+            padding: 20px; /* Add padding for spacing */
+            background: #f0f0f0; /* Grey background (adjust if defined in style.css) */
+        }
         .streamer-block {
             margin-bottom: 20px;
         }
@@ -21,7 +27,37 @@
             color: #888;
             font-style: italic;
             margin-top: 8px;
-            margin-left: 20px; /* Align status message with iframe */
+            margin-left: 20px; /* Align with iframe */
+            font-size: 1rem; /* Readable on mobile */
+        }
+        .separator {
+            margin: 20px 0;
+        }
+        .back-to-home, .footer {
+            font-size: 1rem; /* Readable on mobile */
+        }
+        /* Mobile optimizations */
+        @media screen and (max-width: 480px) {
+            .content-wrapper {
+                padding: 10px; /* Reduce padding on mobile */
+            }
+            .streamer-iframe {
+                max-width: 320px; /* Smaller players on mobile */
+                margin-left: 10px; /* Adjust left margin */
+            }
+            .status-message {
+                margin-left: 10px; /* Align with iframe */
+                font-size: 0.9rem; /* Slightly smaller text */
+            }
+            h1 {
+                font-size: 1.5rem; /* Smaller heading */
+            }
+            h2 {
+                font-size: 1.25rem;
+            }
+            h3 {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
