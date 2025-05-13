@@ -6,48 +6,71 @@
     <title>YZYSTREAM - Streamers</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        body {
+            margin: 0;
+            background: #fff; /* White background for the page */
+        }
         .content-wrapper {
-            max-width: 800px; /* Constrain content width */
-            margin: 0 auto; /* Center the content */
-            padding: 20px; /* Add padding for spacing */
-            background: #f0f0f0; /* Grey background (adjust if defined in style.css) */
+            max-width: 960px; /* Wider for PC, constrained */
+            margin: 0 auto; /* Center content */
+            padding: 20px; /* Spacious padding for PC */
         }
         .streamer-block {
+            max-width: 560px; /* Constrain each streamer's block */
+            background: #f0f0f0; /* Grey background for each streamer */
+            padding: 15px; /* Padding inside grey background */
+            border-radius: 12px; /* Rounded corners for block */
             margin-bottom: 20px;
+            margin-left: 20px; /* Shift blocks slightly left */
         }
         .streamer-iframe {
             border-radius: 24px;
-            max-width: 480px; /* Smaller width */
+            max-width: 480px; /* Video player size on PC */
             width: 100%; /* Responsive within max-width */
             aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
             display: block; /* Prevent inline spacing issues */
-            margin-left: 20px; /* Shift slightly to the left */
+            margin-left: 20px; /* Shift iframe slightly left */
         }
         .status-message {
             color: #888;
             font-style: italic;
             margin-top: 8px;
             margin-left: 20px; /* Align with iframe */
-            font-size: 1rem; /* Readable on mobile */
+            font-size: 1rem;
         }
         .separator {
             margin: 20px 0;
         }
         .back-to-home, .footer {
-            font-size: 1rem; /* Readable on mobile */
+            font-size: 1rem;
+        }
+        h1 {
+            font-size: 2rem;
+        }
+        h2 {
+            font-size: 1.5rem;
+        }
+        h3 {
+            font-size: 1.25rem;
+            margin-left: 20px; /* Align with iframe */
         }
         /* Mobile optimizations */
         @media screen and (max-width: 480px) {
             .content-wrapper {
-                padding: 10px; /* Reduce padding on mobile */
+                padding: 10px; /* Less padding on mobile */
+            }
+            .streamer-block {
+                max-width: 100%; /* Full width on mobile */
+                margin-left: 10px; /* Smaller left margin */
+                padding: 10px;
             }
             .streamer-iframe {
                 max-width: 320px; /* Smaller players on mobile */
-                margin-left: 10px; /* Adjust left margin */
+                margin-left: 10px; /* Smaller left margin */
             }
             .status-message {
                 margin-left: 10px; /* Align with iframe */
-                font-size: 0.9rem; /* Slightly smaller text */
+                font-size: 0.9rem; /* Smaller text */
             }
             h1 {
                 font-size: 1.5rem; /* Smaller heading */
@@ -57,6 +80,7 @@
             }
             h3 {
                 font-size: 1rem;
+                margin-left: 10px; /* Align with iframe */
             }
         }
     </style>
