@@ -287,13 +287,14 @@ a:hover {
   background-color: white;
 }
 .nas-projects-block {
-    background-color: #1a1a1a; /* Match the dark tone of your button gradient */
+    background-color: var(--secondary-color);
     padding: 2rem;
     border-radius: 16px;
     margin-bottom: 2rem;
-    color: #fff; /* Ensure text contrasts well */
+    color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 
 #shop-heading,
