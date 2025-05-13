@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5415642750943632"
+     crossorigin="anonymous"></script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X334CMYMFW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-X334CMYMFW');
+</script>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <title>[untitled] Kanye Projects - YZY STREAM</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" as="style">
+    <link rel="preload" href="style.css" as="style">
+    
+    <!-- Styles -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ibm-plex/6.0.0/css/ibm-plex-mono.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+  <!-- Custom Tooltip Styles -->
+<style>
+    /* Tooltip styles */
+    .album-link {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        position: absolute;
+        top: 50%;
+        left: 105%;
+        transform: translateY(-50%);
+        background: #fff;
+        color: #333;
+        text-align: left;
+        padding: 12px;
+        border-radius: 6px;
+        width: 250px;
+        z-index: 100;
+        opacity: 0;
+        transition: opacity 0.2s, visibility 0.2s;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2);
+        font-size: 0.85em;
+        line-height: 1.4;
+        border: 1px solid #eee;
+        pointer-events: none;
+        white-space: normal;
+    }
+
+    .tooltip::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: -5px;
+        transform: translateY(-50%);
+        border-width: 5px;
+        border-style: solid;
+        border-color: transparent #fff transparent transparent;
+    }
+
+    .album-link:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .tooltip .year {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding-bottom: 3px;
+        color: #000;
+    }
+
+    .tooltip .info {
+        color: #333;
+    }
+
+    /* Track of the Day section */
+    .track-of-day {
+        background-color: rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 30px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .track-of-day h3 {
+        margin-top: 0;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+        text-align: center;
+        width: 100%;
+        position: relative;
+    }
+
+    .track-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .album-cover {
+        width: 200px;
+        height: 200px;
+        background-color: #f0f0f0;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .album-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .track-info {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .track-title {
+        font-weight: bold;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    .track-project {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .player-controls {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .play-bar {
+        width: 100%;
+        height: 6px;
+        background-color: #ddd;
+        border-radius: 3px;
+        margin-bottom: 10px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .play-progress {
+        position: absolute;
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #666, #333);
+        border-radius: 3px;
+        transition: width 0.2s;
+    }
+
+    .player-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .player-btn {
+        background: none;
+        border: none;
+        font-size: 1.2rem;
+        color: #333;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .player-btn:hover {
+        color: #000;
+    }
+
+    .player-btn.play-btn {
+        font-size: 1.5rem;
+    }
+
+    /* Social buttons */
+    .social-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+        gap: 10px;
+    }
+
+    .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+    }
+
+    .twitter-btn {
+        background-color: #000;
+        color: #fff;
+    }
+
+    .twitter-btn:hover {
+        background-color: #333;
+    }
+
+    .twitter-btn i {
+        margin-right: 5px;
+    }
+
+    /* Center the footer and fix alignment */
+    .footer {
+        text-align: center;
+        margin-top: 30px;
+        padding: 20px 0;
+        color: #666;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer p, .footer nav {
+        margin: 5px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+        .album-cover {
+            width: 180px;
+            height: 180px;
+        }
+    }
+</style>
+
+    <!-- Scripts -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const playBtn = document.querySelector('.play-btn');
+        const playProgress = document.querySelector('.play-progress');
+        const audio = document.getElementById('track-audio');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                audio.play();
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        });
+
+        audio.addEventListener('play', () => isPlaying = true);
+        audio.addEventListener('pause', () => isPlaying = false);
+        audio.addEventListener('timeupdate', () => {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            playProgress.style.width = progress + '%';
+        });
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playProgress.style.width = '0%';
+        });
+    });
+</script>
+
+    
+    <!-- SEO & Social -->
+    <meta name="description" content="Explore unreleased Kanye West (Ye) albums. Links to unofficial projects hosted on [untitled].">
+    <meta name="keywords" content="Unreleased Kanye, Kanye West leaks, Kanye unreleased albums, YZY, Ye music leaks, YZY STREAM, [untitled] albums">
+    <meta name="author" content="YZY Stream Admin">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="[untitled] Kanye Projects - YZY STREAM">
+    <meta property="og:description" content="Explore unreleased Kanye West (Ye) albums and projects.">
+    <meta property="og:image" content="https://yzystream.com/logo.png">
+    <meta property="og:url" content="https://yzystream.com/untitled.html">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[untitled] Kanye Projects - YZY STREAM">
+    <meta name="twitter:description" content="Explore unreleased Kanye West (Ye) albums and projects.">
+    <meta name="twitter:image" content="https://yzystream.com/logo.png">
+    
+    <!-- Favicon & Manifest -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="web-app-manifest-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="web-app-manifest-512x512.png">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+
+    <!-- Shared Content Loading Script -->
+    <script>
+        async function loadSharedContent() {
+            try {
+                const response = await fetch('https://yzystream.com/shared-content.json');
+                const content = await response.json();
+                
+                // Update track of the day
+                if (content.trackOfTheDay) {
+                    const trackCover = document.getElementById('track-cover');
+                    const trackAudio = document.getElementById('track-audio');
+                    const trackTitle = document.getElementById('track-title');
+                    const trackProject = document.getElementById('track-project');
+                    const trackProjectLink = document.getElementById('track-project-link');
+                    
+                    if (trackCover) trackCover.src = content.trackOfTheDay.coverImage;
+                    if (trackAudio) trackAudio.src = content.trackOfTheDay.audioFile;
+                    if (trackTitle) trackTitle.textContent = content.trackOfTheDay.title;
+                    if (trackProject) trackProject.textContent = content.trackOfTheDay.project;
+                    if (trackProjectLink) trackProjectLink.href = content.trackOfTheDay.projectLink;
+                }
+                
+                // Update updates section
+                if (content.updates) {
+                    const updatesList = document.getElementById('updates-list');
+                    if (updatesList) {
+                        updatesList.innerHTML = content.updates.map(update => 
+                            '<li style="margin-bottom: 1rem;">' +
+                            '<strong>' + update.date + ':</strong> ' + update.text +
+                            '</li>'
+                        ).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading shared content:', error);
+            }
+        }
+
+        // Load immediately when script runs
+        window.addEventListener('load', loadSharedContent);
+        // Reload every 5 minutes
+        setInterval(loadSharedContent, 5 * 60 * 1000);
+    </script>
+
+</head>
+<body>
+   <div class="content-wrapper">
+  <h1>[untitled] Kanye Projects</h1>
+
+  <p>[untitled] is a decentralized music streaming platform </p>
+
+ 
+
+  <a class="link-gradient cta-button" href="https://untitled.stream" target="_blank" rel="noopener">
+    Visit [untitled] <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+  </a>
+
+  <div class="support-links">
+   
+     <a href="https://x.com/yzystream1" target="_blank">DigitalNAS on X</a>
+  </div>
+
+  
+
+
+
+</a>
+
+        <hr class="separator">
+        
+        <section id="unreleased" aria-labelledby="unreleased-heading">
+            <h2 id="unreleased-heading">Unreleased Ye Projects</h2>
+          <ul>
+    <li>
+        <span class="album-link">
+            <a href="https://untitled.stream/library/project/q20oe2UWSZv1WIyV3mNu4" class="link-gradient" target="_blank" rel="noopener">
+                Freshman Adjustment  <span class="sr-only">opens in new tab</span><span aria-hidden="true">→</span>
+            </a>
+            <div class="tooltip" role="tooltip">
+                <span class="year">2003</span>
+                <div class="info">2003 mixtape that compiles early Kanye West demos, unreleased tracks, and rough cuts from the pre-College Dropout era. It captures Kanye in his formative stage as both a producer and a rapper, blending soulful sample-driven beats with lyrics that hint at the themes he would later fully explore in his debut album. Though not an official release, it gained popularity through fan circulation and remains a snapshot of his artistic evolution before mainstream success.</div>
+            </div>
+        </span>
+    </li>
+ 
+
+            <p class="ye-note">
+                All hosted on the [untitled] streaming platform. Links open in a new tab.
+            </p>
+        </section>
+        <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+        <h2 id="unreleased-heading">Unreleased Playboi Carti</h2>
+        <a href="carti.html" class="cta-button">
+          <span>🎧 Stream Unreleased Playboi Carti Projects →</span>
+        </a>
+       <section id="unreleased-ye" aria-labelledby="unreleased-heading">
+        <h2 id="unreleased-heading">Unreleased Frank Ocean</h2>
+        <a href="frankocean.html" class="cta-button">
+          <span>🎧 Stream Unreleased Frank Ocean Projects →</span>
+        </a>
+           <hr class="separator">
+      <div id="ezoic-pub-ad-placeholder-101"></div>
+<script>
+    ezstandalone.cmd.push(function() {
+        ezstandalone.showAds(101)
+    });
+</script>
+         
+            <section id="mailing-list" aria-labelledby="mailing-list-heading">
+  <h2 id="mailing-list-heading">Get notified when a new link is added</h2>
+  <form name="subscribe" method="POST" data-netlify="true" id="subscribeForm" style="margin-top: 1rem;">
+    <input type="hidden" name="form-name" value="subscribe">
+    
+    <input 
+      type="email" 
+      name="email" 
+      id="email" 
+      required 
+      placeholder="your@email.com"
+      style="padding: 10px; width: 100%; max-width: 300px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; border: 1px solid #000; background: #fff; color: #000; margin-bottom: 10px;"
+    >
+    <br>
+    <button 
+      type="submit"
+      style="padding: 10px 20px; font-family: 'IBM Plex Mono', monospace; font-size: 16px; background: #000; color: #fff; border: none; cursor: pointer; transition: 0.3s;"
+      onmouseover="this.style.background='#333'"
+      onmouseout="this.style.background='#000'"
+    >
+      Subscribe
+    </button>
+  </form>
+
+  <p id="responseMessage" style="margin-top: 10px; font-family: 'IBM Plex Mono', monospace;"></p>
+</section>
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = new FormData(form);
+  const message = document.getElementById("responseMessage");
+
+  fetch("/", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(data).toString()
+  })
+  .then(() => {
+    message.style.color = "green";
+    message.textContent = "Thanks for subscribing!";
+    form.reset();
+  })
+  .catch(() => {
+    message.style.color = "red";
+    message.textContent = "Something went wrong. Please try again.";
+  });
+});
+</script>
+
+         
+        <div class="join-team-section">
+            <a href="mailto:yzystream1@gmail.com" class="join-btn">
+                JOIN OUR TEAM - CONTACT YZYSTREAM1@GMAIL.COM
+            </a>
+        </div>
+
+        <div class="back-to-home mt-6 text-center">
+            <a href="index.html" class="link-gradient">← Back to Home</a>
+        </div>
+
+        <footer class="footer text-center mt-8">
+            <p>&copy; 2025 | yzystream.com</p>
+            <nav aria-label="Footer navigation">
+                <a href="index.html">Home</a> | <a href="faq.html">FAQ</a> | <a href="privacy.html">Privacy Policy</a>
+            </nav>
+        </footer>
+
+
+        <div id="container-4a9437801822b6aee6f0b4e30a534dba"></div>
+    </div>
+          <script type="text/javascript"> var infolinks_pid = 3436000; var infolinks_wsid = 0; </script> <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+</body>
+</html>
