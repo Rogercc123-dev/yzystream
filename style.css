@@ -288,7 +288,7 @@ a:hover {
 }
 .nas-projects-block {
   --accent-color: #e0e0e0;
-  background-color: #333333; /* Added background color */
+  background-color: #e0e0e0; /* Added background color */
   padding: 2rem;
   border-radius: 16px;
   margin-bottom: 2rem;
