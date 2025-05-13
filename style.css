@@ -287,14 +287,14 @@ a:hover {
   background-color: white;
 }
 .nas-projects-block {
-    background-color: #e0e0e0(--secondary-color);
-    padding: 2rem;
-    border-radius: 16px;
-    margin-bottom: 2rem;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --accent-color: #e0e0e0;
+  background-color: #333333; /* Added background color */
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-
 
 
 #shop-heading,
