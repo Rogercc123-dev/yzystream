@@ -286,6 +286,12 @@ a:hover {
   padding: 0 15px;
   background-color: white;
 }
+.nas-projects-block {
+    background-color: rgba(200, 200, 200, 0.05); /* faint grey with transparency */
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+}
 
 #shop-heading,
 #vinyl-cd-shop-heading,
