@@ -287,11 +287,14 @@ a:hover {
   background-color: white;
 }
 .nas-projects-block {
-    background-color: rgba(200, 200, 200, 0.05); /* faint grey with transparency */
+    background-color: #1a1a1a; /* Match the dark tone of your button gradient */
     padding: 2rem;
     border-radius: 16px;
     margin-bottom: 2rem;
+    color: #fff; /* Ensure text contrasts well */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 #shop-heading,
 #vinyl-cd-shop-heading,
