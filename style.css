@@ -287,7 +287,7 @@ a:hover {
   background-color: white;
 }
 .nas-projects-block {
-    background-color: var(--secondary-color);
+    background-color: #e0e0e0(--secondary-color);
     padding: 2rem;
     border-radius: 16px;
     margin-bottom: 2rem;
