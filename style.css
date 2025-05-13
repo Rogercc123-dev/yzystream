@@ -142,6 +142,9 @@ hr.separator {
     padding-top: 1.25rem;
     padding-bottom: 0.625rem;
     text-align: center;
+    padding: 20px 0;
+}
+
 }
 
 .footer p {
