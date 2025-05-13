@@ -136,13 +136,49 @@ hr.separator {
 
 /* Footer */
 .footer {
-    font-size: 0.875rem;
-    color: var(--text-light);
-    margin-top: 2.5rem;
-    padding-top: 1.25rem;
-    padding-bottom: 0.625rem;
-    text-align: center;
-    padding: 20px 0;
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-top: 2.5rem;
+  padding: 20px 0;
+  display: flex; /* Use flexbox for centering */
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Ensure text is centered */
+}
+
+.footer p {
+  margin-bottom: 0.625rem;
+}
+
+.footer nav {
+  display: flex; /* Make nav items flex for better control */
+  justify-content: center; /* Center nav links */
+  gap: 0.5rem; /* Space between links */
+}
+
+.footer a {
+  color: var(--text-color);
+  text-decoration: none;
+  margin: 0; /* Remove margin to prevent offset */
+  padding: 0.125rem 0.5rem; /* Adjust padding for consistency */
+  transition: var(--transition-standard);
+  position: relative;
+}
+
+.footer a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 1px;
+  background-color: var(--text-color);
+  transition: width 0.3s ease;
+}
+
+.footer a:hover::after {
+  width: 100%;
 }
 
 }
