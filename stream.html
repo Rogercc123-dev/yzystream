@@ -8,15 +8,20 @@
     <style>
         .streamer-block {
             margin-bottom: 20px;
+            text-align: center; /* Center the iframe and status message */
         }
         .streamer-iframe {
             border-radius: 24px;
-            width: 100%;
-            aspect-ratio: 16 / 9;
+            max-width: 640px; /* Constrain width */
+            width: 100%; /* Responsive within max-width */
+            aspect-ratio: 16 / 9; /* Maintain 16:9 aspect ratio */
+            display: block; /* Prevent inline spacing issues */
+            margin: 0 auto; /* Center horizontally */
         }
-        .offline-message {
+        .status-message {
             color: #888;
             font-style: italic;
+            margin-top: 8px;
         }
     </style>
 </head>
@@ -33,17 +38,20 @@
 
             <div class="nas-projects-block streamer-block" id="digitalnas">
                 <h3>DigitalNas</h3>
-                <div id="digitalnas-stream"></div>
+                <iframe class="streamer-iframe" src="https://player.twitch.tv/?channel=digitalnas&parent=${window.location.hostname}" allowFullScreen allow="picture-in-picture" frameborder="0" loading="lazy"></iframe>
+                <p id="digitalnas-status" class="status-message"></p>
             </div>
 
             <div class="nas-projects-block streamer-block" id="regiwock">
                 <h3>RegiWock</h3>
-                <div id="regiwock-stream"></div>
+                <iframe class="streamer-iframe" src="https://player.twitch.tv/?channel=regiwock&parent=${window.location.hostname}" allowFullScreen allow="picture-in-picture" frameborder="0" loading="lazy"></iframe>
+                <p id="regiwock-status" class="status-message"></p>
             </div>
 
             <div class="nas-projects-block streamer-block" id="auger96">
                 <h3>Auger96</h3>
-                <div id="auger96-stream"></div>
+                <iframe class="streamer-iframe" src="https://player.twitch.tv/?channel=auger96&parent=${window.location.hostname}" allowFullScreen allow="picture-in-picture" frameborder="0" loading="lazy"></iframe>
+                <p id="auger96-status" class="status-message"></p>
             </div>
         </section>
 
@@ -64,43 +72,36 @@
         const CLIENT_ID = 'YOUR_TWITCH_CLIENT_ID';
         const ACCESS_TOKEN = 'YOUR_TWITCH_ACCESS_TOKEN';
 
-        // Streamer usernames (lowercase for Twitch API)
+        // Streamer usernames and their status element IDs
         const streamers = [
-            { name: 'DigitalNas', id: 'digitalnas-stream' },
-            { name: 'RegiWock', id: 'regiwock-stream' },
-            { name: 'Auger96', id: 'auger96-stream' }
+            { name: 'digitalnas', statusId: 'digitalnas-status' },
+            { name: 'regiwock', statusId: 'regiwock-status' },
+            { name: 'auger96', statusId: 'auger96-status' }
         ];
 
-        // Function to check stream status and embed stream
+        // Function to check stream status and update status message
         async function checkStreamStatus() {
             for (const streamer of streamers) {
                 try {
-                    const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamer.name.toLowerCase()}`, {
+                    const response = await fetch(`https://api.twitch.tv/helix/streams?user_login=${streamer.name}`, {
                         headers: {
                             'Client-ID': CLIENT_ID,
                             'Authorization': `Bearer ${ACCESS_TOKEN}`
                         }
                     });
                     const data = await response.json();
-                    const streamContainer = document.getElementById(streamer.id);
+                    const statusElement = document.getElementById(streamer.statusId);
 
                     if (data.data && data.data.length > 0) {
-                        // Streamer is live
-                        const iframe = document.createElement('iframe');
-                        iframe.src = `https://player.twitch.tv/?channel=${streamer.name}&parent=${window.location.hostname}`;
-                        iframe.className = 'streamer-iframe';
-                        iframe.allowFullscreen = true;
-                        iframe.allow = 'picture-in-picture';
-                        iframe.frameBorder = '0';
-                        iframe.loading = 'lazy';
-                        streamContainer.appendChild(iframe);
+                        statusElement.textContent = `${streamer.name} is live!`;
+                        statusElement.style.color = '#00ff00'; // Green for live
                     } else {
-                        // Streamer is offline
-                        streamContainer.innerHTML = `<p class="offline-message">${streamer.name} is currently offline.</p>`;
+                        statusElement.textContent = `${streamer.name} is currently offline.`;
+                        statusElement.style.color = '#888'; // Gray for offline
                     }
                 } catch (error) {
                     console.error(`Error fetching stream status for ${streamer.name}:`, error);
-                    document.getElementById(streamer.id).innerHTML = `<p class="offline-message">Error loading stream status for ${streamer.name}.</p>`;
+                    document.getElementById(streamer.statusId).textContent = `Error loading status for ${streamer.name}.`;
                 }
             }
         }
@@ -108,3 +109,5 @@
         // Run the check when the page loads
         document.addEventListener('DOMContentLoaded', checkStreamStatus);
     </script>
+</body>
+</html>
